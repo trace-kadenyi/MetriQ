@@ -27,7 +27,9 @@ const LandingPage = () => {
 
   return (
     <main>
-      <h1 className="landingTitle">Site Core Web Vitals / Metrics</h1>
+      <h1 className="landingTitle bg-green-500 text-white p-10 text-center text-xl">
+        Site Core Web Vitals / Metrics
+      </h1>
       <section className="landingPage">
         <div className="button-container">
           <Link
