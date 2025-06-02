@@ -1,5 +1,3 @@
-// import "./index.css";
-
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import LandingPage from "./Pages/LandingPage";
@@ -9,9 +7,13 @@ import "./App.css";
 const App = () => {
   return (
     <>
-      <div className="bg-red-500 text-white p-10 text-center text-xl">
-        If this is blue with white text, Tailwind is working!
+      <div>
+        <h1 style={{ color: "var(--avo-cado-500)" }}>
+          Hello, styled with avocado color!
+        </h1>
       </div>
+      <div class="size-24 rounded-full bg-conic/[in_hsl_longer_hue] from-red-600 to-red-600"></div>
+      <div class="size-24 rounded-full bg-radial-[at_25%_25%] from-white to-zinc-900 to-75%"></div>
       <Router>
         {/* <Navigation /> */}
         <Routes>
