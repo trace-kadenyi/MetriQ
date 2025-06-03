@@ -1,49 +1,18 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import CampaigncircleBg from "../assets/CampaignBtn.avif";
-import WebCircleBg from "../assets/endevioBtn.webp";
+import React from "react";
 
 const LandingPage = () => {
-  const [reports, setReports] = useState([]);
-
-  useEffect(() => {
-    const fetchReports = async () => {
-      try {
-        const response = await fetch(
-          "https://web-vitals-hq-backend.vercel.app/api/report"
-        );
-        const data = await response.json();
-
-        if (data.reports) {
-          setReports(data.reports);
-        }
-      } catch (error) {
-        console.error("Error fetching reports:", error);
-      }
-    };
-
-    fetchReports();
-  }, []);
-
   return (
     <main>
-      <h1 className="landingTitle bg-green-500 text-white p-10 text-center text-xl">
-        Site Core Web Vitals / Metrics
-      </h1>
-      <section className="landingPage">
-        <div className="button-container">
-          <Link
-            to={`/siteurl/${
-              reports.find((report) => {
-                const isEndevio = report.url === "https://endevio.com";
-                return isEndevio;
-              })?._id
-            }`}
-            className="image-button endevio_web"
-          >
-            <img src={WebCircleBg} alt="Site Button" />
-            <span className="button-text">Site URL</span>
-          </Link>
+      <section className="hero_sect h-screen w-full flex justify-center flex-col">
+        <div className="text-white p-4 lg:p-22">
+          <h1 className="text-5xl lg:text-7xl font-bold p-2 leading-16 lg:leading-20">
+            Monitor, Compare & <br /> Understand Your <br />
+            Website's Performance
+          </h1>
+          <p className="text-2xl p-2 leading-10 md:w-3/4 xl:w-1/2">
+            Get real-time and historical Core Web Vials in one beautiful
+            dashboard.
+          </p>
         </div>
       </section>
     </main>
