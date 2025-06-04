@@ -11,7 +11,7 @@ import {
   ChevronsLeftRightEllipsis,
   TrendingUpDown,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { easeOut, motion } from "framer-motion";
 
 import {
   ScrollFadeFunc,
@@ -73,7 +73,7 @@ const LandingPage = () => {
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.1, duration: 0.5, ease: easeOut }}
                 viewport={{ once: true }}
                 className="flex items-start gap-3"
               >
