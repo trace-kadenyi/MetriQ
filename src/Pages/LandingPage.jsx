@@ -17,6 +17,9 @@ import {
   ScrollFadeFunc,
   EaseOutFunc,
   HoverFunc,
+  heroVariants,
+  fadeUp,
+  StepCard,
 } from "../Components/FramerMotion";
 
 const LandingPage = () => {
@@ -27,17 +30,32 @@ const LandingPage = () => {
   return (
     <main>
       {/* hero section */}
-      <section className="hero_sect h-screen w-full flex justify-center flex-col">
-        <div className="text-white p-4 lg:p-22">
-          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold p-2 leading-12 md:leading-20">
+      <section className="hero_sect h-screen w-full flex justify-center flex-col overflow-x-hidden">
+        <motion.div
+          variants={heroVariants}
+          initial="hidden"
+          animate="visible"
+          className="text-white p-4 lg:p-22"
+        >
+          <motion.h1
+            variants={fadeUp}
+            className="text-3xl md:text-5xl lg:text-7xl font-bold p-2 leading-12 md:leading-20"
+          >
             Monitor, Compare & <br /> Understand Your <br />
             Website's Performance
-          </h1>
-          <p className="text-xl md:text-2xl p-2 leading-10 md:w-3/4 xl:w-1/2">
-            Get real-time and historical Core Web Vials in one beautiful
+          </motion.h1>
+          <motion.p
+            variants={fadeUp}
+            className="text-xl md:text-2xl p-2 leading-10 md:w-3/4 xl:w-1/2"
+          >
+            Get real-time and historical Core Web Vitals in one beautiful
             dashboard.
-          </p>
-          <form className="md:w-3/4" onSubmit={(e) => handleSubmit(e)}>
+          </motion.p>
+          <motion.form
+            variants={fadeUp}
+            className="md:w-3/4"
+            onSubmit={(e) => handleSubmit(e)}
+          >
             <input
               type="text"
               placeholder="Enter site URL"
@@ -47,12 +65,13 @@ const LandingPage = () => {
             <button className="px-4 py-2 bg-blue-500 rounded-lg cursor-pointer hover:bg-white hover:text-blue-500 hover:font-semibold my-2">
               Analyze Now
             </button>
-          </form>
-        </div>
+          </motion.form>
+        </motion.div>
       </section>
+
       {/* Why MetricMind */}
       <ScrollFadeFunc>
-        <section className="my-20 text-center">
+        <section className="text-center bg-white py-16">
           <h2 className="text-4xl font-bold my-10 mx-1 leading-snug text-blue-950">
             Why MetricMind?
           </h2>
@@ -90,38 +109,44 @@ const LandingPage = () => {
       </ScrollFadeFunc>
       {/* Process */}
       <ScrollFadeFunc>
-        <section className="my-20 text-center">
-          <h2 className="text-4xl font-bold my-10 mx-1 leading-snug text-blue-950">
+        <section className="py-16 text-center px-4 bg-gradient-to-b from-white to-slate-100">
+          <h2 className="text-4xl font-extrabold mb-16 text-blue-950 leading-tight">
             Simple, Smart, Powerful
           </h2>
-          <div className="max-w-4xl mx-auto p-4 flex flex-wrap sm:flex-nowrap justify-center items-center gap-6 text-center">
-            <HoverFunc className="flex flex-col justify-center items-center w-60">
-              <ChevronsLeftRightEllipsis className="w-16 h-16 sm:w-24 sm:h-24 md:w-40 md:h-40 text-blue-950 border border-green-500 rounded p-2" />
-              <p className="mt-2 text-sm sm:text-base">
-                Enter your website URL
-              </p>
-            </HoverFunc>
-            <MoveRight className="w-6 h-6 sm:rotate-0 rotate-90" />
-            <HoverFunc className="flex flex-col justify-center items-center w-60">
-              <ChartNoAxesCombined className="w-16 h-16 sm:w-24 sm:h-24 md:w-40 md:h-40 text-blue-950 border border-green-500 rounded p-2" />
-              <p className="mt-2 text-sm sm:text-base">
-                We fetch & display your core web vitals
-              </p>
-            </HoverFunc>
-            <MoveRight className="w-6 h-6 sm:rotate-0 rotate-90" />
-            <HoverFunc className="flex flex-col justify-center items-center w-60">
-              <TrendingUpDown className="w-16 h-16 sm:w-24 sm:h-24 md:w-40 md:h-40 text-blue-950 border border-green-500 rounded p-2" />
-              <p className="mt-2 text-sm sm:text-base">
-                Return anytime to compare past results
-              </p>
-            </HoverFunc>
-            <MoveRight className="w-6 h-6 sm:rotate-0 rotate-90 block sm:hidden" />
+
+          <div className="max-w-6xl mx-auto flex flex-wrap justify-center items-stretch gap-8 bg-white rounded-2xl shadow-lg p-10">
+            {[
+              {
+                icon: ChevronsLeftRightEllipsis,
+                text: "Enter your website URL",
+              },
+              {
+                icon: ChartNoAxesCombined,
+                text: "We fetch & display your core web vitals",
+              },
+              {
+                icon: TrendingUpDown,
+                text: "Return anytime to compare past results",
+              },
+            ].map((step, index) => (
+              <React.Fragment key={index}>
+                <StepCard
+                  Icon={step.icon}
+                  stepNumber={index + 1}
+                  text={step.text}
+                />
+                {index < 2 && (
+                  <MoveRight className="w-6 h-6 hidden lg:block mt-14" />
+                )}
+              </React.Fragment>
+            ))}
           </div>
         </section>
       </ScrollFadeFunc>
+
       {/* What you get */}
       <ScrollFadeFunc>
-        <section className="bg-gray-50 py-16">
+        <section className="bg-white py-16">
           <h2 className="text-3xl font-bold text-center mb-8 text-blue-950">
             What You Get
           </h2>
@@ -157,7 +182,7 @@ const LandingPage = () => {
       </ScrollFadeFunc>
       {/* Testimonials */}
       <ScrollFadeFunc>
-        <section className="bg-white py-16">
+        <section className="bg-slate-50 py-16 border-t border-gray-200">
           <h2 className="text-3xl font-bold text-center mb-10 text-blue-950">
             Loved by Early Testers
           </h2>
