@@ -44,3 +44,38 @@ export const HoverFunc = ({ children, className }) => {
     </motion.div>
   );
 };
+
+export const heroVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.2,
+      ease: "easeOut",
+      duration: 0.2,
+    },
+  },
+};
+
+export const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { ease: "easeOut", duration: 0.6 },
+  },
+};
+
+export const StepCard = ({ Icon, stepNumber, text }) => (
+  <HoverFunc className="flex flex-col items-center text-center w-72 p-6 bg-gradient-to-b from-white to-slate-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+    <div className="relative">
+      <Icon className="w-20 h-20 p-4 bg-white border-2 border-blue-100 rounded-full shadow-md" />
+      <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
+        {stepNumber}
+      </div>
+    </div>
+    <p className="mt-4 text-sm font-medium text-gray-600">{text}</p>
+  </HoverFunc>
+);
