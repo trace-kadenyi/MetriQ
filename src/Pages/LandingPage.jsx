@@ -109,7 +109,7 @@ const LandingPage = () => {
       </ScrollFadeFunc>
       {/* Process */}
       <ScrollFadeFunc>
-        <section className="py-16 text-center px-4 bg-gradient-to-b from-white to-slate-100">
+        <section className="pt-16 pb-21 text-center px-4 bg-gradient-to-b from-white to-slate-100">
           <h2 className="text-4xl font-extrabold mb-16 text-blue-950 leading-tight">
             Simple, Smart, Powerful
           </h2>
