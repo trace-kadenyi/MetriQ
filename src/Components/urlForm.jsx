@@ -6,6 +6,7 @@ export default function useUrlForm() {
   const [url, setUrl] = useState("");
   const [isValidFormat, setIsValidFormat] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const validateUrlFormat = (value) => {
     try {
@@ -20,6 +21,7 @@ export default function useUrlForm() {
     const value = e.target.value;
     setUrl(value);
     setIsValidFormat(validateUrlFormat(value));
+    setHasSubmitted(false);
   };
 
   const handleSubmit = async (e) => {
@@ -28,6 +30,8 @@ export default function useUrlForm() {
 
     if (!isValidFormat) return;
 
+    setLoading(true);
+
     try {
       const res = await axios.post("http://localhost:4000/api/url/check", {
         url,
@@ -35,11 +39,14 @@ export default function useUrlForm() {
 
       if (res.data.success) {
         console.log("Made it to the final state of this form");
+        setUrl("");
       } else {
         alert("URL could not be reached. Please check the address.");
       }
     } catch (err) {
       alert("URL could not be reached. Please check the address.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,5 +56,6 @@ export default function useUrlForm() {
     hasSubmitted,
     handleChange,
     handleSubmit,
+    loading,
   };
 }
