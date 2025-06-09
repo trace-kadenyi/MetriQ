@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import axios from "axios";
 import {
   Zap,
   Activity,
@@ -21,12 +22,12 @@ import {
   fadeUp,
   StepCard,
 } from "../Components/FramerMotion";
+import useUrlForm from "../Components/urlForm";
 
 const LandingPage = () => {
-  // handlesubmit func
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  const { url, isValidFormat, hasSubmitted, handleChange, handleSubmit } =
+    useUrlForm();
+
   return (
     <main>
       {/* hero section */}
@@ -52,16 +53,29 @@ const LandingPage = () => {
             dashboard.
           </motion.p>
           <motion.form
-            variants={fadeUp}
+            onSubmit={handleSubmit}
             className="md:w-3/4"
-            onSubmit={(e) => handleSubmit(e)}
+            variants={fadeUp}
           >
             <input
               type="text"
+              value={url}
+              onChange={handleChange}
               placeholder="Enter site URL"
               autoFocus
               className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 my-2 mr-4 hover:border-white hover:ring-2 w-3/4 md:w-1/2"
             />
+
+            {url && (
+              <p
+                className={`text-sm ${
+                  isValidFormat ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {isValidFormat ? "URL format looks good" : "Invalid URL format"}
+              </p>
+            )}
+
             <button className="px-4 py-2 bg-blue-500 rounded-lg cursor-pointer hover:bg-white hover:text-blue-500 hover:font-semibold my-2">
               Analyze Now
             </button>
