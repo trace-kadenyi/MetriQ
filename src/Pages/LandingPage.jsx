@@ -25,8 +25,14 @@ import {
 import useUrlForm from "../Components/urlForm";
 
 const LandingPage = () => {
-  const { url, isValidFormat, hasSubmitted, handleChange, handleSubmit } =
-    useUrlForm();
+  const {
+    url,
+    isValidFormat,
+    hasSubmitted,
+    handleChange,
+    handleSubmit,
+    loading,
+  } = useUrlForm();
 
   return (
     <main>
@@ -66,7 +72,7 @@ const LandingPage = () => {
               className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 my-2 mr-4 hover:border-white hover:ring-2 w-3/4 md:w-1/2"
             />
 
-            {url && (
+            {url && !hasSubmitted && (
               <p
                 className={`text-sm ${
                   isValidFormat ? "text-green-600" : "text-red-600"
@@ -75,9 +81,20 @@ const LandingPage = () => {
                 {isValidFormat ? "URL format looks good" : "Invalid URL format"}
               </p>
             )}
-
-            <button className="px-4 py-2 bg-blue-500 rounded-lg cursor-pointer hover:bg-white hover:text-blue-500 hover:font-semibold my-2">
-              Analyze Now
+            <button
+              type="submit"
+              className={`px-4 py-2 bg-blue-500 rounded-lg my-2 flex items-center justify-center min-w-[120px] ${
+                loading
+                  ? "cursor-default"
+                  : "cursor-pointer hover:bg-white hover:text-blue-500 hover:font-semibold"
+              }`}
+              disabled={loading}
+            >
+              {loading ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                "Analyze Now"
+              )}
             </button>
           </motion.form>
         </motion.div>
