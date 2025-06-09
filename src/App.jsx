@@ -1,29 +1,27 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import LandingPage from "./Pages/LandingPage";
-import Endevio from "./Pages/Endevio";
-import USCampaign from "./Pages/USCampaign";
-import UKCampaign from "./Pages/UKCampaign";
-import Navigation from "./Pages/Navigation";
-import Quivani from "./Pages/Quivani";
-import ChineseEng from "./Pages/ChineseEng";
-import ChineseZH from "./Pages/ChineseZH";
+import SiteURL from "./Pages/SiteURL";
 import "./App.css";
 
 const App = () => {
   return (
-    <Router>
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/endevio/:id" element={<Endevio />} />
-        <Route path="/usCampaign/:id" element={<USCampaign />} />
-        <Route path="/ukCampaign/:id" element={<UKCampaign />} />
-        <Route path="/quivani/:id" element={<Quivani />} />
-        <Route path="/chinese-en-campaign/:id" element={<ChineseEng />} />
-        <Route path="/chinese-zh-campaign/:id" element={<ChineseZH />} />
-      </Routes>
-    </Router>
+    <>
+      {/* <div>
+        <h1 style={{ color: "var(--avo-cado-500)" }}>
+          Hello, styled with avocado color!
+        </h1>
+      </div> */}
+      {/* <div className="size-24 rounded-full bg-conic/[in_hsl_longer_hue] from-red-600 to-red-600"></div>
+      <div className="size-24 rounded-full bg-radial-[at_25%_25%] from-white to-zinc-900 to-75%"></div> */}
+      <Router>
+        {/* <Navigation /> */}
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/siteurl/:id" element={<SiteURL />} />
+        </Routes>
+      </Router>
+    </>
   );
 };
 

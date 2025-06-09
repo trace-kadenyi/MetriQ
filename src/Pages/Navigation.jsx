@@ -6,15 +6,15 @@ const Navigation = () => {
   const navigate = useNavigate();
   return (
     <div className="nav">
-      {/* <img
+      <img
         src={logo}
         alt="Endevio Logo"
         className="logo"
         onClick={() => {
           navigate("/");
         }}
-      /> */}
-      {/* <a href="https://pagespeed.web.dev/" target="_blank" className="vGOvxc">
+      />
+      <a href="https://pagespeed.web.dev/" target="_blank" className="vGOvxc">
         <img
           src="https://www.gstatic.com/pagespeed/insights/ui/logo/favicon_48.png"
           width="24"
@@ -24,7 +24,7 @@ const Navigation = () => {
           data-atf="true"
         />
         <div className="gSBk9c">PageSpeed Insights</div>
-      </a> */}
+      </a>
     </div>
   );
 };
