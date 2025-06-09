@@ -26,6 +26,62 @@ export default function useUrlForm() {
     setHasSubmitted(false);
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setHasSubmitted(true);
+
+  //   if (!isValidFormat) return;
+
+  //   setLoading(true);
+
+  //   try {
+  //     const res = await axios.post("http://localhost:4000/api/url/check", {
+  //       url,
+  //     });
+
+  //     if (res.data.success) {
+  //       console.log("Made it to the final state of this form");
+  //       setUrl("");
+  //       navigate("/results-page");
+  //     } else {
+  //       alert("URL could not be reached. Please check the address.");
+  //     }
+  //   } catch (err) {
+  //     alert("URL could not be reached. Please check the address.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setHasSubmitted(true);
+
+  //   if (!isValidFormat) return;
+
+  //   setLoading(true);
+
+  //   try {
+  //     const res = await axios.post("http://localhost:4000/api/url/check", {
+  //       url,
+  //     });
+
+  //     if (res.data.success || res.data.report) {
+  //       setUrl("");
+  //       navigate(`/results-page?url=${encodeURIComponent(url)}`);
+  //       // console.log("Made it to the final state of this form");
+
+  //       // navigate("/results-page");
+  //     } else {
+  //       alert("URL could not be reached. Please check the address.");
+  //     }
+  //   } catch (err) {
+  //     alert("URL could not be reached. Please check the address.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setHasSubmitted(true);
@@ -35,16 +91,16 @@ export default function useUrlForm() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:4000/api/url/check", {
+      const res = await axios.post("http://localhost:4000/api/url/report", {
         url,
       });
 
-      if (res.data.success) {
-        console.log("Made it to the final state of this form");
-        setUrl("");
-        navigate("/results-page");
+      if (res.data.success && res.data.report) {
+        const savedUrl = res.data.report.url;
+        // Navigate to the results page with the URL as a query param
+        navigate(`/results-page?url=${encodeURIComponent(savedUrl)}`);
       } else {
-        alert("URL could not be reached. Please check the address.");
+        alert("Something went wrong. Report could not be saved.");
       }
     } catch (err) {
       alert("URL could not be reached. Please check the address.");
