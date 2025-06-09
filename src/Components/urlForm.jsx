@@ -1,12 +1,14 @@
 // components/UrlForm.js
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function useUrlForm() {
   const [url, setUrl] = useState("");
   const [isValidFormat, setIsValidFormat] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validateUrlFormat = (value) => {
     try {
@@ -40,6 +42,7 @@ export default function useUrlForm() {
       if (res.data.success) {
         console.log("Made it to the final state of this form");
         setUrl("");
+        navigate("/results-page");
       } else {
         alert("URL could not be reached. Please check the address.");
       }
