@@ -7,6 +7,9 @@ export default function useUrlForm() {
   const [isValidFormat, setIsValidFormat] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [partialResults, setPartialResults] = useState(null);
+
   const navigate = useNavigate();
 
   // validate url
@@ -51,25 +54,44 @@ export default function useUrlForm() {
         return;
       }
 
+      setShowPopup(true);
+
       // Step 2: Generate the report
       let reportRes;
       try {
         reportRes = await axios.post("http://localhost:4000/api/url/report", {
           url,
         });
+        setUrl("");
       } catch (reportErr) {
         alert("Something went wrong while generating the report.");
+        setShowPopup(false);
         return;
       }
 
       if (reportRes.data.success && reportRes.data.report) {
-        const savedUrl = reportRes.data.report.url;
-        navigate(`/results-page?url=${encodeURIComponent(savedUrl)}`);
+        const report = reportRes.data.report;
+        const partial = {
+          mobile: {
+            performance: report.scores?.mobile?.performance,
+            seo: report.scores?.mobile?.seo,
+            accessibility: report.scores?.mobile?.accessibility,
+          },
+          desktop: {
+            performance: report.scores?.desktop?.performance,
+            seo: report.scores?.desktop?.seo,
+            accessibility: report.scores?.desktop?.accessibility,
+          },
+        };
+
+        setPartialResults(partial); // Save partial results
       } else {
-        alert("Something went wrong. Report could not be saved.");
+        alert("Something went wrong.");
+        setShowPopup(false);
       }
     } catch (err) {
       alert("An unexpected error occurred. Please try again.");
+      setShowPopup(false);
     } finally {
       setLoading(false);
     }
@@ -82,5 +104,9 @@ export default function useUrlForm() {
     handleChange,
     handleSubmit,
     loading,
+    setLoading,
+    showPopup,
+    setShowPopup,
+    partialResults,
   };
 }
