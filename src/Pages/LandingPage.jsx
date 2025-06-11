@@ -38,6 +38,7 @@ const LandingPage = () => {
     showPopup,
     setShowPopup,
     partialResults,
+    submittedUrl,
   } = useUrlForm();
 
   const navigate = useNavigate();
@@ -143,7 +144,7 @@ const LandingPage = () => {
         {/* popup */}
         {showPopup && (
           <>
-            Faded Background
+            {/* Faded Background */}
             <div className="absolute inset-0 backdrop-blur-md bg-white/10 z-10"></div>
             {/* Animated Popup */}
             <motion.div
@@ -247,14 +248,10 @@ const LandingPage = () => {
                     onClick={() => {
                       setShowPopup(false);
                       setLoading(false);
-                      const trimmedUrl = url.trim();
-                      if (trimmedUrl) {
-                        navigate(
-                          `/results-page?url=${encodeURIComponent(trimmedUrl)}`
-                        );
-                      } else {
-                        alert("Please enter a valid URL.");
-                      }
+
+                      navigate(
+                        `/results-page?url=${encodeURIComponent(submittedUrl)}`
+                      );
                     }}
                   >
                     View Full Report <ArrowRightCircle className="w-5 h-5" />
