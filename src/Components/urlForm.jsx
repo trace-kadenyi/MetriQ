@@ -9,6 +9,7 @@ export default function useUrlForm() {
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [partialResults, setPartialResults] = useState(null);
+  const [submittedUrl, setSubmittedUrl] = useState("")
 
   const navigate = useNavigate();
 
@@ -54,6 +55,7 @@ export default function useUrlForm() {
         return;
       }
 
+      setSubmittedUrl(url.trim())
       setShowPopup(true);
 
       // Step 2: Generate the report
@@ -108,5 +110,6 @@ export default function useUrlForm() {
     showPopup,
     setShowPopup,
     partialResults,
+    submittedUrl
   };
 }
