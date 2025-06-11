@@ -8,10 +8,11 @@ import {
   TrendingUp,
   SquareKanban,
   MoveRight,
-  MoveDown,
   ChartNoAxesCombined,
   ChevronsLeftRightEllipsis,
   TrendingUpDown,
+  CheckCircle,
+  ArrowRightCircle,
 } from "lucide-react";
 import { easeOut, motion } from "framer-motion";
 
@@ -41,18 +42,37 @@ const LandingPage = () => {
 
   const navigate = useNavigate();
 
+  // render scores
   const renderScore = (label, score) => {
     let color = "text-gray-600";
-    if (score >= 90) color = "text-green-600 font-bold";
-    else if (score >= 70) color = "text-yellow-500 font-semibold";
-    else if (score !== undefined) color = "text-red-500 font-semibold";
+    let ratingText = "N/A";
 
+    if (score >= 90) {
+      color = "text-green-600 font-bold";
+      ratingText = "Good";
+    } else if (score >= 50) {
+      color = "text-yellow-500 font-semibold";
+      ratingText = "Average";
+    } else if (score !== undefined) {
+      color = "text-red-500 font-semibold";
+      ratingText = "Poor";
+    }
     return (
       <p className="mb-1">
         <strong>{label}:</strong>{" "}
-        <span className={`${color}`}>{score ?? "N/A"}</span>
+        <span className={`${color}`}>
+          {score ?? "N/A"}{" "}
+          {score !== undefined && <span className="ml-1">({ratingText})</span>}
+        </span>
       </p>
     );
+  };
+
+  // render device score colours
+  const scoreColour = (score) => {
+    if (score >= 90) return "text-green-600";
+    if (score >= 50) return "text-yellow-500";
+    return "text-red-500";
   };
 
   return (
@@ -120,11 +140,11 @@ const LandingPage = () => {
             </button>
           </motion.form>
         </motion.div>
+        {/* popup */}
         {showPopup && (
           <>
-            {/* Faded Background */}
-            <div className="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
-
+            Faded Background
+            <div className="absolute inset-0 backdrop-blur-md bg-white/10 z-10"></div>
             {/* Animated Popup */}
             <motion.div
               initial={{ opacity: 0, y: -30 }}
@@ -154,7 +174,7 @@ const LandingPage = () => {
                     Generating your PageSpeed report...
                   </h3>
                   <p className="text-sm text-gray-500 mt-1">
-                    Hang tight — this takes a few seconds.
+                    Hang tight — this may take up to 20 seconds.
                   </p>
                 </>
               ) : (
@@ -165,7 +185,8 @@ const LandingPage = () => {
                     transition={{ duration: 0.4 }}
                     className="text-xl font-bold text-blue-950 mb-6"
                   >
-                    🎉 Report Ready!
+                    <CheckCircle className="text-blue-950 w-6 h-6 inline-block mr-2" />
+                    Report Ready
                   </motion.h3>
 
                   <div className="grid grid-cols-2 gap-6 text-sm text-left justify-center">
@@ -175,9 +196,14 @@ const LandingPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
                     >
-                      <h4 className="text-green-600 font-semibold text-lg mb-1">
+                      <h4
+                        className={`font-semibold text-lg mb-1 ${scoreColour(
+                          partialResults.mobile.performance
+                        )}`}
+                      >
                         📱 Mobile
                       </h4>
+                      <hr className="mb-4 border-t-1 border-blue-950" />
                       {renderScore(
                         "Performance",
                         partialResults.mobile?.performance
@@ -195,9 +221,14 @@ const LandingPage = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
                     >
-                      <h4 className="text-green-600 font-semibold text-lg mb-1">
+                      <h4
+                        className={`font-semibold text-lg mb-1 ${scoreColour(
+                          partialResults.desktop.performance
+                        )}`}
+                      >
                         🖥️ Desktop
                       </h4>
+                      <hr className="mb-4 border-t-1 border-blue-950" />
                       {renderScore(
                         "Performance",
                         partialResults.desktop?.performance
@@ -212,13 +243,21 @@ const LandingPage = () => {
 
                   <motion.button
                     whileHover={{ scale: 1.05 }}
-                    className="mt-8 px-5 py-2 bg-blue-500 text-white rounded-full font-semibold shadow-md hover:bg-blue-700 transition duration-300 cursor-pointer"
+                    className="mt-8 px-5 py-2 mx-auto bg-blue-500 text-white rounded-full font-semibold shadow-md hover:bg-blue-700 transition duration-300 cursor-pointer flex items-center justify-center gap-2"
                     onClick={() => {
                       setShowPopup(false);
-                      navigate(`/results-page?url=${encodeURIComponent(url)}`);
+                      setLoading(false);
+                      const trimmedUrl = url.trim();
+                      if (trimmedUrl) {
+                        navigate(
+                          `/results-page?url=${encodeURIComponent(trimmedUrl)}`
+                        );
+                      } else {
+                        alert("Please enter a valid URL.");
+                      }
                     }}
                   >
-                    🚀 View Full Report
+                    View Full Report <ArrowRightCircle className="w-5 h-5" />
                   </motion.button>
                 </>
               )}
