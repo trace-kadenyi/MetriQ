@@ -10,3 +10,9 @@ body {
   background: url("./assets/hero-bg.webp") no-repeat center center fixed;
   background-size: cover;
 }
+
+.circularProgress {
+  width: 80px;
+  border-radius: 50%;
+  background-color: #0d0959;
+}
