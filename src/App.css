@@ -12,7 +12,5 @@ body {
 }
 
 .circularProgress {
-  width: 80px;
-  border-radius: 50%;
-  background-color: #0d0959;
+  font-weight: bold;
 }
