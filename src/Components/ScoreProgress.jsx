@@ -36,7 +36,7 @@ const ScoreProgress = ({ performanceScore, seoScore, accessibilityScore }) => {
               })}
             />
           </div>
-          <p className="text-sm font-medium text-center text-gray-700">
+          <p className="score_title text-center text-gray-700 font-semibold">
             {title}
           </p>
         </div>
