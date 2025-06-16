@@ -1,7 +1,11 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ScoreBlock, MetricsBlock, getStatusTextColor } from "../Components/ResultsBlock";
+import {
+  ScoreBlock,
+  MetricsBlock,
+  getStatusTextColor,
+} from "../Components/ResultsBlock";
 import ScoreProgress from "../Components/ScoreProgress";
 
 const ResultsPage = () => {
@@ -44,8 +48,6 @@ const ResultsPage = () => {
   const seoScore = view === "mobile" ? mobile.seo : desktop.seo;
   const accessibilityScore =
     view === "mobile" ? mobile.accessibility : desktop.accessibility;
-
- 
 
   return (
     <main className="min-h-screen bg-gray-50">
