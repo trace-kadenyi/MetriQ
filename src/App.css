@@ -14,3 +14,7 @@ body {
 .circularProgress {
   font-weight: bold;
 }
+
+.score_title {
+  font-size: 10px;
+}
