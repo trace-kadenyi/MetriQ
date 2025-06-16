@@ -22,7 +22,7 @@ const ScoreProgress = ({ performanceScore, seoScore, accessibilityScore }) => {
     <div className="flex gap-2 items-center mt-6 flex-wrap">
       {items.map(({ title, score }) => (
         <div key={title} className="flex flex-col items-center gap-2 w-24">
-          <div className="w-24 h-24">
+          <div className="w-18 h-18 sm:w-24 sm:h-24">
             <CircularProgressbar
               className="circularProgress"
               value={score}
