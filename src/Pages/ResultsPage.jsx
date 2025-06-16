@@ -4,7 +4,7 @@ import axios from "axios";
 import {
   ScoreBlock,
   MetricsBlock,
-  getStatusTextColor,
+  getStatusColor,
 } from "../Components/ResultsBlock";
 import ScoreProgress from "../Components/ScoreProgress";
 
@@ -92,43 +92,57 @@ const ResultsPage = () => {
           <div>
             <h4 className="underline my-2 text-sm">Core Web Vitals</h4>
             <div className="flex gap-3 flex-col md:flex-row">
+              {/* LCP */}
               <p className="text-sm flex gap-1 md:items-center flex-row md:flex-col md:border-r md:border-gray-200 pr-3">
                 <span className="flex gap-1 items-center">
                   <span
                     className="inline-block w-3 h-3 rounded-full ml-1"
-                    style={getStatusTextColor(report.metrics[view].LCP.status)}
+                    style={getStatusColor(
+                      report.metrics[view]["Largest Contentful Paint"].status,
+                      "style"
+                    )}
                   />
                   <span className="after:content-[':_'] md:after:content-none">
                     LCP
                   </span>
                 </span>
-                <span>{report.metrics[view].LCP.value}</span>
+                <span>
+                  {report.metrics[view]["Largest Contentful Paint"].value}
+                </span>
               </p>
-
+              {/* FID */}
               <p className="text-sm flex gap-1 md:items-center md:flex-col md:border-r md:border-gray-200 pr-3">
                 <span className="flex gap-1 items-center">
                   <span
                     className="inline-block w-3 h-3 rounded-full ml-1"
-                    style={getStatusTextColor(report.metrics[view].FID.status)}
+                    style={getStatusColor(
+                      report.metrics[view]["First Input Delay"].status,
+                      "style"
+                    )}
                   />
                   <span className="after:content-[':_'] md:after:content-none">
                     First Input Delay
                   </span>
                 </span>
-                <span>{report.metrics[view].FID.value}</span>
+                <span>{report.metrics[view]["First Input Delay"].value}</span>
               </p>
-
+              {/* CLS */}
               <p className="text-sm flex gap-1 md:items-center md:flex-col">
                 <span className="flex gap-1 items-center">
                   <span
                     className="inline-block w-3 h-3 rounded-full ml-1"
-                    style={getStatusTextColor(report.metrics[view].CLS.status)}
+                    style={getStatusColor(
+                      report.metrics[view]["Cumulative Layout Shift"].status,
+                      "style"
+                    )}
                   />
                   <span className="after:content-[':_'] md:after:content-none">
                     Cumulative Layout Shift
                   </span>
                 </span>
-                <span>{report.metrics[view].CLS.value}</span>
+                <span>
+                  {report.metrics[view]["Cumulative Layout Shift"].value}
+                </span>
               </p>
             </div>
           </div>
