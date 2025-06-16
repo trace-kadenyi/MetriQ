@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ScoreBlock, MetricsBlock } from "../Components/ResultsBlock";
+import { ScoreBlock, MetricsBlock, getStatusTextColor } from "../Components/ResultsBlock";
 import ScoreProgress from "../Components/ScoreProgress";
 
 const ResultsPage = () => {
@@ -11,6 +11,7 @@ const ResultsPage = () => {
   const [view, setView] = useState("mobile");
 
   useEffect(() => {
+    // fetch report from API
     const fetchReport = async () => {
       try {
         const res = await axios.get(
@@ -44,21 +45,7 @@ const ResultsPage = () => {
   const accessibilityScore =
     view === "mobile" ? mobile.accessibility : desktop.accessibility;
 
-  // Get text color based on status
-  const getStatusTextColor = (status) => {
-    switch (status) {
-      case "Good":
-        return { color: "#28a745" }; // Green for Good
-      case "Needs Improvement":
-        return { color: "#ffc107" }; // Yellow for Needs Improvement
-      case "Poor":
-        return { color: "#dc3545" }; // Red for Poor
-      default:
-        return { color: "#6c757d" }; // Neutral color for default
-    }
-  };
-
-  // let performanceScore = report.scores.performance;
+ 
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -91,80 +78,43 @@ const ResultsPage = () => {
           </div>
         </section>
 
-        {/* Score progress */}
+        {/* Score progress and core web vitals */}
         <section className="mt-10">
-          <ScoreProgress
-            performanceScore={performanceScore}
-            seoScore={seoScore}
-            accessibilityScore={accessibilityScore}
+          <ScoreProgress performanceScore={performanceScore} />
+          <div>
+            <h4>Core Web Vitals</h4>
+            <p className="text-sm flex gap-1 items-center">
+              <span
+                className="inline-block w-3 h-3 rounded-full ml-1"
+                style={getStatusTextColor(report.metrics[view].LCP.status)}
+              />
+              LCP {report.metrics[view].LCP.value}
+            </p>
+            <p className="text-sm flex gap-1 items-center">
+              <span
+                className="inline-block w-3 h-3 rounded-full ml-1"
+                style={getStatusTextColor(report.metrics[view].FID.status)}
+              />
+              FID {report.metrics[view].FID.value}
+            </p>
+            <p className="text-sm flex gap-1 items-center">
+              <span
+                className="inline-block w-3 h-3 rounded-full ml-1"
+                style={getStatusTextColor(report.metrics[view].CLS.status)}
+              />
+              CLS {report.metrics[view].CLS.value}
+            </p>
+          </div>
+        </section>
+        {/* Metrics block */}
+        <section>
+          <MetricsBlock
+            title={`${view === "mobile" ? "Mobile" : "Desktop"} Metrics`}
+            metrics={report.metrics[view]}
           />
         </section>
       </div>
     </main>
-
-    // <main>
-    //   <div className="m-10 p-10 shadow-[0_0_15px_rgba(0,0,0,0.1)]">
-    //     <section className="flex justify-between">
-    //       <h2 className="text 2xl font-bold mb-4">Report for {report.url}</h2>
-    //       <div className="mb-6">
-    //         <button
-    //           className={`px-4 py-2 mr-2 rounded ${
-    //             view === "mobile" ? "bg-blue-600 text-white" : "bg-gray-200"
-    //           }`}
-    //           onClick={() => setView("mobile")}
-    //         >
-    //           Mobile
-    //         </button>
-    //         <button
-    //           className={`px-4 py-2 rounded ${
-    //             view === "desktop" ? "bg-blue-600 text-white" : "bg-gray-200"
-    //           }`}
-    //           onClick={() => setView("desktop")}
-    //         >
-    //           Desktop
-    //         </button>
-    //       </div>
-    //     </section>
-    //     <section>
-    //       <ScoreProgress
-    //         performanceScore={performanceScore}
-    //         seoScore={seoScore}
-    //         accessibilityScore={accessibilityScore}
-    //       />
-    //       <div className="metrics-container">
-    //     {Object.entries(deviceData).map(([key, metric]) => {
-    //       const statusTextColor = getStatusTextColor(metric.status);
-
-    //       return (
-    //         <div key={key} className="metric-box">
-    //           <h3 className="metric-label">{key}</h3>
-    //           <p className="metric-value">{metric.value}</p>
-    //           <p className="metric-status" style={statusTextColor}>
-    //             {metric.status}
-    //           </p>
-    //         </div>
-    //       );
-    //     })}
-    //   </div>
-    //     </section>
-    //     <section>
-    //       <div>
-    //           <ScoreProgress />
-    //       </div>
-    //     </section>
-    //     <section>
-    //       <ScoreBlock
-    //         title={`${view === "mobile" ? "Mobile" : "Desktop"} Scores`}
-    //         scores={report.scores[view]}
-    //       />
-    //       <MetricsBlock
-    //         title={`${view === "mobile" ? "Mobile" : "Desktop"} Metrics`}
-    //         metrics={report.metrics[view]}
-    //       />
-    //     </section>
-    //   </div>
-    //   <div></div>
-    // </main>
   );
 };
 
