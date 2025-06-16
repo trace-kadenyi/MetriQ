@@ -53,12 +53,12 @@ const ResultsPage = () => {
     <main className="min-h-screen bg-gray-50">
       <div className="m-10 p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
         <section className="flex justify-between items-center flex-wrap gap-4">
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="md:text-2xl font-bold text-gray-800">
             Report for {report.url}
           </h2>
           <div className="flex gap-2">
             <button
-              className={`px-4 py-2 rounded-md font-medium ${
+              className={`px-4 py-2 cursor-pointer rounded-md font-medium ${
                 view === "mobile"
                   ? "bg-blue-600 text-white"
                   : "bg-gray-200 text-gray-700"
@@ -68,7 +68,7 @@ const ResultsPage = () => {
               Mobile
             </button>
             <button
-              className={`px-4 py-2 rounded-md font-medium ${
+              className={`px-4 py-2 cursor-pointer rounded-md font-medium ${
                 view === "desktop"
                   ? "bg-blue-600 text-white"
                   : "bg-gray-200 text-gray-700"
@@ -81,33 +81,53 @@ const ResultsPage = () => {
         </section>
 
         {/* Score progress and core web vitals */}
-        <section className="mt-10">
+        <section className="mt-10 gap-3 flex md:items-center justify-between lg:px-20 flex-col md:flex-row">
           <ScoreProgress performanceScore={performanceScore} />
           <div>
-            <h4>Core Web Vitals</h4>
-            <p className="text-sm flex gap-1 items-center">
-              <span
-                className="inline-block w-3 h-3 rounded-full ml-1"
-                style={getStatusTextColor(report.metrics[view].LCP.status)}
-              />
-              LCP {report.metrics[view].LCP.value}
-            </p>
-            <p className="text-sm flex gap-1 items-center">
-              <span
-                className="inline-block w-3 h-3 rounded-full ml-1"
-                style={getStatusTextColor(report.metrics[view].FID.status)}
-              />
-              FID {report.metrics[view].FID.value}
-            </p>
-            <p className="text-sm flex gap-1 items-center">
-              <span
-                className="inline-block w-3 h-3 rounded-full ml-1"
-                style={getStatusTextColor(report.metrics[view].CLS.status)}
-              />
-              CLS {report.metrics[view].CLS.value}
-            </p>
+            <h4 className="underline my-2">Core Web Vitals</h4>
+            <div className="flex gap-3 flex-col md:flex-row justify-start">
+              <p className="text-sm flex gap-1 md:items-center flex-row md:flex-col md:border-r md:border-gray-200 pr-3">
+                <span className="flex gap-1 items-center">
+                  <span
+                    className="inline-block w-3 h-3 rounded-full ml-1"
+                    style={getStatusTextColor(report.metrics[view].LCP.status)}
+                  />
+                  <span className="after:content-[':_'] md:after:content-none">
+                    LCP
+                  </span>
+                </span>
+                <span>{report.metrics[view].LCP.value}</span>
+              </p>
+
+              <p className="text-sm flex gap-1 md:items-center md:flex-col md:border-r md:border-gray-200 pr-3">
+                <span className="flex gap-1 items-center">
+                  <span
+                    className="inline-block w-3 h-3 rounded-full ml-1"
+                    style={getStatusTextColor(report.metrics[view].FID.status)}
+                  />
+                  <span className="after:content-[':_'] md:after:content-none">
+                    First Input
+                  </span>
+                </span>
+                <span>{report.metrics[view].FID.value}</span>
+              </p>
+
+              <p className="text-sm flex gap-1 md:items-center md:flex-col">
+                <span className="flex gap-1 items-center">
+                  <span
+                    className="inline-block w-3 h-3 rounded-full ml-1"
+                    style={getStatusTextColor(report.metrics[view].CLS.status)}
+                  />
+                  <span className="after:content-[':_'] md:after:content-none">
+                    Cumulative Layout Shift
+                  </span>
+                </span>
+                <span>{report.metrics[view].CLS.value}</span>
+              </p>
+            </div>
           </div>
         </section>
+        <hr className="text-gray-200 my-5" />
         {/* Metrics block */}
         <section>
           <MetricsBlock
