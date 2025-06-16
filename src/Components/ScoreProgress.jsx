@@ -1,22 +1,25 @@
-import React from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const ScoreProgress = ({ performanceScore, seoScore, accessibilityScore }) => {
   const getScoreColor = (score) => {
-    if (score >= 90) return "#abbd81";
-    if (score >= 50) return "#f8b26a";
-    return "#e15b64";
+    if (score >= 90) return "#22c55e";
+    if (score >= 50) return "#fb923c";
+    return "#ef4444";
   };
 
-  const items = [
-    { title: "Performance", score: performanceScore },
-    { title: "SEO", score: seoScore },
-    { title: "Accessibility", score: accessibilityScore },
-  ];
+  const items = [];
+
+  if (performanceScore !== undefined)
+    items.push({ title: "Performance", score: performanceScore });
+
+  if (seoScore !== undefined) items.push({ title: "SEO", score: seoScore });
+
+  if (accessibilityScore !== undefined)
+    items.push({ title: "Accessibility", score: accessibilityScore });
 
   return (
-    <div className="flex gap-2 justify-center items-center mt-6 flex-wrap">
+    <div className="flex gap-2 items-center mt-6 flex-wrap">
       {items.map(({ title, score }) => (
         <div key={title} className="flex flex-col items-center gap-2 w-24">
           <div className="w-24 h-24">
@@ -26,9 +29,10 @@ const ScoreProgress = ({ performanceScore, seoScore, accessibilityScore }) => {
               maxValue={100}
               text={`${score}`}
               styles={buildStyles({
-                textColor: "#fff",
+                textColor: getScoreColor(score),
                 pathColor: getScoreColor(score),
                 trailColor: "#d6d6d6",
+                textSize: "30px",
               })}
             />
           </div>
