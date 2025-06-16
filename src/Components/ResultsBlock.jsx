@@ -38,7 +38,7 @@ export const getStatusTextColor = (status) => {
   switch (status) {
     case "good":
       return { backgroundColor: "#22c55e" }; // Green for Good
-    case "Needs Improvement":
+    case "average":
       return { backgroundColor: "#fb923c" }; // Yellow for Needs Improvement
     case "poor":
       return { backgroundColor: "#ef4444" }; // Red for Poor
