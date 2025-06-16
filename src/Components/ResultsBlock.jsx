@@ -1,5 +1,22 @@
 import clsx from "clsx";
 
+// color combinations
+export const getStatusColor = (status, type = "style") => {
+  const colors = {
+    good: { hex: "#22c55e", class: "green-500" },
+    average: { hex: "#fb923c", class: "orange-400" },
+    poor: { hex: "#ef4444", class: "red-500" },
+    default: { hex: "#6c757d", class: "gray-400" },
+  };
+
+  const selected = colors[status] || colors.default;
+
+  if (type === "style") return { backgroundColor: selected.hex };
+  if (type === "bg") return `bg-${selected.class}`;
+  if (type === "text") return `text-${selected.class}`;
+  return "";
+};
+
 // scores
 export const ScoreBlock = ({ title, scores }) => (
   <section className="py-3">
@@ -15,34 +32,19 @@ export const ScoreBlock = ({ title, scores }) => (
 // metrics
 export const MetricsBlock = ({ title, metrics }) => (
   <section className="py-3">
-    <h3 className="font-bold">{title}</h3>
+    <h3 className="font-bold my-2">{title}</h3>
     {Object.entries(metrics).map(([key, metric]) => (
       <p key={key} className="flex gap-2 items-center">
         <span
-          className={clsx("inline-block w-3 h-3 rounded-full ml-1", {
-            "bg-red-500": metric.status === "poor",
-            "bg-orange-400": metric.status === "average",
-            "bg-green-500": metric.status === "good",
-          })}
+          className={clsx(
+            "inline-block w-3 h-3 rounded-full ml-1",
+            getStatusColor(metric.status, "bg")
+          )}
         />
         <span>
-          {key}: {metric.value}{" "}
+          {key}: {metric.value}
         </span>
       </p>
     ))}
   </section>
 );
-
-// Get text color based on status
-export const getStatusTextColor = (status) => {
-  switch (status) {
-    case "good":
-      return { backgroundColor: "#22c55e" }; // Green for Good
-    case "average":
-      return { backgroundColor: "#fb923c" }; // Yellow for Needs Improvement
-    case "poor":
-      return { backgroundColor: "#ef4444" }; // Red for Poor
-    default:
-      return { backgroundColor: "#6c757d" }; // Neutral color for default
-  }
-};
