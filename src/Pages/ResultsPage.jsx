@@ -53,15 +53,21 @@ const ResultsPage = () => {
     <main className="min-h-screen bg-gray-50">
       <div className="m-10 p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
         <section className="flex justify-between items-center flex-wrap gap-4">
-          <h2 className="md:text-2xl font-bold text-gray-800">
-            Report for {report.url}
+          <h2 className="md:text-2xl font-bold text-gray-800 underline">
+            <a
+              href={report.url}
+              target="_blank"
+              className="hover:text-blue-500"
+            >
+              {report.url}
+            </a>
           </h2>
           <div className="flex gap-2">
             <button
               className={`px-4 py-2 cursor-pointer rounded-md font-medium ${
                 view === "mobile"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  ? "bg-blue-600 text-white hover:bg-blue-500"
+                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md"
               }`}
               onClick={() => setView("mobile")}
             >
@@ -70,8 +76,8 @@ const ResultsPage = () => {
             <button
               className={`px-4 py-2 cursor-pointer rounded-md font-medium ${
                 view === "desktop"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  ? "bg-blue-600 text-white hover:bg-blue-500"
+                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md"
               }`}
               onClick={() => setView("desktop")}
             >
@@ -84,8 +90,8 @@ const ResultsPage = () => {
         <section className="mt-10 gap-3 flex md:items-center justify-between lg:px-20 flex-col md:flex-row">
           <ScoreProgress performanceScore={performanceScore} />
           <div>
-            <h4 className="underline my-2">Core Web Vitals</h4>
-            <div className="flex gap-3 flex-col md:flex-row justify-start">
+            <h4 className="underline my-2 text-sm">Core Web Vitals</h4>
+            <div className="flex gap-3 flex-col md:flex-row">
               <p className="text-sm flex gap-1 md:items-center flex-row md:flex-col md:border-r md:border-gray-200 pr-3">
                 <span className="flex gap-1 items-center">
                   <span
@@ -106,7 +112,7 @@ const ResultsPage = () => {
                     style={getStatusTextColor(report.metrics[view].FID.status)}
                   />
                   <span className="after:content-[':_'] md:after:content-none">
-                    First Input
+                    First Input Delay
                   </span>
                 </span>
                 <span>{report.metrics[view].FID.value}</span>
