@@ -1,19 +1,35 @@
 import clsx from "clsx";
 
 // color combinations
+const textClassMap = {
+  good: "text-green-500",
+  average: "text-orange-400",
+  poor: "text-red-500",
+  default: "text-gray-400",
+};
+
+const bgClassMap = {
+  good: "bg-green-500",
+  average: "bg-orange-400",
+  poor: "bg-red-500",
+  default: "bg-gray-400",
+};
+
+const hexMap = {
+  good: "#22c55e",
+  average: "#fb923c",
+  poor: "#ef4444",
+  default: "#6c757d",
+};
+
 export const getStatusColor = (status, type = "style") => {
-  const colors = {
-    good: { hex: "#22c55e", class: "green-500" },
-    average: { hex: "#fb923c", class: "orange-400" },
-    poor: { hex: "#ef4444", class: "red-500" },
-    default: { hex: "#6c757d", class: "gray-400" },
-  };
+  const safeStatus = ["good", "average", "poor"].includes(status)
+    ? status
+    : "default";
 
-  const selected = colors[status] || colors.default;
-
-  if (type === "style") return { backgroundColor: selected.hex };
-  if (type === "bg") return `bg-${selected.class}`;
-  if (type === "text") return `text-${selected.class}`;
+  if (type === "style") return { backgroundColor: hexMap[safeStatus] };
+  if (type === "bg") return bgClassMap[safeStatus];
+  if (type === "text") return textClassMap[safeStatus];
   return "";
 };
 
@@ -31,20 +47,28 @@ export const ScoreBlock = ({ title, scores }) => (
 
 // metrics
 export const MetricsBlock = ({ title, metrics }) => (
-  <section className="py-3">
-    <h3 className="font-bold my-2">{title}</h3>
-    {Object.entries(metrics).map(([key, metric]) => (
-      <p key={key} className="flex gap-2 items-center">
-        <span
-          className={clsx(
-            "inline-block w-3 h-3 rounded-full ml-1",
-            getStatusColor(metric.status, "bg")
-          )}
-        />
-        <span>
-          {key}: {metric.value}
-        </span>
-      </p>
-    ))}
+  <section className="py-3 text-sm">
+    <h3 className="font-semibold my-2 mb-4 lg:text-center">{title}</h3>
+    <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-5 lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:items-center">
+      {Object.entries(metrics).map(([key, metric]) => (
+        <p key={key} className="flex gap-2 items-center">
+          <span
+            className="inline-block w-3 h-3 rounded-full ml-1"
+            style={getStatusColor(metric.status, "style")}
+          />
+          <span>
+            {key}:{"   "}
+            <span
+              className={clsx(
+                "font-semibold",
+                getStatusColor(metric.status, "text")
+              )}
+            >
+              {metric.value}
+            </span>
+          </span>
+        </p>
+      ))}
+    </div>
   </section>
 );
