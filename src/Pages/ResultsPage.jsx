@@ -1,11 +1,12 @@
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import clsx from "clsx";
 import {
   ScoreBlock,
   MetricsBlock,
   getStatusColor,
+  renderVital,
 } from "../Components/ResultsBlock";
 import ScoreProgress from "../Components/ScoreProgress";
 
@@ -36,57 +37,87 @@ const ResultsPage = () => {
     if (url) fetchReport();
   }, [url]);
 
+  // 2. Safely memoize values only when report is available
+  const memoizedData = useMemo(() => {
+    if (!report) return {};
+
+    const {
+      scores: { mobile, desktop },
+      metrics: { mobile: mobileMetrics, desktop: desktopMetrics },
+      suggestions: { mobile: mobileSuggestions, desktop: desktopSuggestions },
+    } = report;
+
+    const isMobile = view === "mobile";
+
+    return {
+      deviceData: isMobile ? mobileMetrics : desktopMetrics,
+      performanceScore: isMobile ? mobile.performance : desktop.performance,
+      seoScore: isMobile ? mobile.seo : desktop.seo,
+      accessibilityScore: isMobile
+        ? mobile.accessibility
+        : desktop.accessibility,
+      bestPracticesScore: isMobile
+        ? mobile.bestPractices
+        : desktop.bestPractices,
+      suggestions: isMobile ? mobileSuggestions : desktopSuggestions,
+    };
+  }, [report, view]);
+
   if (!report) return <p>Loading...</p>;
 
   const {
-    scores: { mobile, desktop },
-    metrics: { mobile: mobileMetrics, desktop: desktopMetrics },
-    suggestions: {
-      mobile: mobileSuggestions,
-      desktop: desktopSuggestions,
-    } = {},
-  } = report;
+    deviceData,
+    performanceScore,
+    seoScore,
+    accessibilityScore,
+    bestPracticesScore,
+    suggestions,
+  } = memoizedData;
 
-  const deviceData = view === "mobile" ? mobileMetrics : desktopMetrics;
-  const performanceScore =
-    view === "mobile" ? mobile.performance : desktop.performance;
-  const seoScore = view === "mobile" ? mobile.seo : desktop.seo;
-  const accessibilityScore =
-    view === "mobile" ? mobile.accessibility : desktop.accessibility;
-  const bestPracticesScore =
-    view === "mobile" ? mobile.bestPractices : desktop.bestPractices;
-  const suggestions =
-    view === "mobile" ? mobileSuggestions : desktopSuggestions;
+  // opportunity status
+  const getOpportunityStatus = (score) => {
+    if (score >= 0.9) return "good";
+    if (score >= 0.5) return "average";
+    return "poor";
+  };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50" role="main">
       <div className="m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
         <section className="flex justify-between items-center flex-wrap gap-4">
-          <h2 className="md:text-2xl font-bold text-gray-800 underline">
+          <h2 className="font-semibold text-lg text-gray-800 underline truncate max-w-[80vw]">
             <a
               href={report.url}
               target="_blank"
-              className="hover:text-blue-500"
+              rel="noopener noreferrer"
+              title={report.url}
+              aria-label={`Open ${report.url} in a new tab`}
+              className="hover:text-orange-400 hover:italic"
             >
               {report.url}
             </a>
           </h2>
-          <div className="flex gap-2">
+
+          <div className="flex gap-2 p-1 rounded-lg bg-gray-100 shadow-inner">
             <button
-              className={`px-4 py-2 cursor-pointer rounded-md font-medium ${
+              aria-label="View mobile report"
+              aria-pressed={view === "mobile"}
+              className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
                 view === "mobile"
-                  ? "bg-blue-600 text-white hover:bg-blue-500"
-                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md"
+                  ? "bg-green-600 text-white hover:cursor-not-allowed"
+                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white"
               }`}
               onClick={() => setView("mobile")}
             >
               Mobile
             </button>
             <button
-              className={`px-4 py-2 cursor-pointer rounded-md font-medium ${
+              aria-label="View desktop report"
+              aria-pressed={view === "desktop"}
+              className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
                 view === "desktop"
-                  ? "bg-blue-600 text-white hover:bg-blue-500"
-                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md"
+                  ? "bg-green-600 text-white hover:cursor-not-allowed"
+                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white"
               }`}
               onClick={() => setView("desktop")}
             >
@@ -96,97 +127,61 @@ const ResultsPage = () => {
         </section>
 
         {/* Score progress and core web vitals */}
-        <section className="mt-10 gap-3 flex md:items-center justify-between lg:px-20 flex-col md:flex-row">
-          <div className="w-24 text-center">
+        <section className="mt-10 gap-3 flex md:items-center justify-between lg:px-20 flex-col md:flex-row p-5 bg-gray-50 rounded-xl shadow-sm space-y-4">
+          <div
+            className="w-24 text-center transition-transform duration-200 hover:scale-[1.02]"
+            role="progressbar"
+            aria-valuenow={performanceScore}
+            aria-valuemin={0}
+            aria-valuemax={100}
+          >
             <ScoreProgress performanceScore={performanceScore} />
           </div>
           <div>
-            <h4 className="underline my-2 text-sm">Core Web Vitals</h4>
+            <h4 className="underline my-2 text-sm font-semibold">
+              Core Web Vitals
+            </h4>
             <div className="flex gap-3 flex-col md:flex-row">
-              {/* LCP */}
-              <p className="text-sm flex gap-1 md:items-center flex-row md:flex-col md:border-r md:border-gray-200 pr-3">
-                <span className="flex gap-1 items-center">
-                  <span
-                    className="inline-block w-3 h-3 rounded-full ml-1"
-                    style={getStatusColor(
-                      deviceData["Largest Contentful Paint"].status,
-                      "style"
-                    )}
-                  />
-                  <span className="after:content-[':_'] md:after:content-none">
-                    LCP
-                  </span>
-                </span>
-                <span>{deviceData["Largest Contentful Paint"].value}</span>
-              </p>
-              {/* FID */}
-              <p className="text-sm flex gap-1 md:items-center md:flex-col md:border-r md:border-gray-200 pr-3">
-                <span className="flex gap-1 items-center">
-                  <span
-                    className="inline-block w-3 h-3 rounded-full ml-1"
-                    style={getStatusColor(
-                      deviceData["First Input Delay"].status,
-                      "style"
-                    )}
-                  />
-                  <span className="after:content-[':_'] md:after:content-none">
-                    First Input Delay
-                  </span>
-                </span>
-                <span>{deviceData["First Input Delay"].value}</span>
-              </p>
-              {/* CLS */}
-              <p className="text-sm flex gap-1 md:items-center md:flex-col">
-                <span className="flex gap-1 items-center">
-                  <span
-                    className="inline-block w-3 h-3 rounded-full ml-1"
-                    style={getStatusColor(
-                      deviceData["Cumulative Layout Shift"].status,
-                      "style"
-                    )}
-                  />
-                  <span className="after:content-[':_'] md:after:content-none">
-                    Cumulative Layout Shift
-                  </span>
-                </span>
-                <span>{deviceData["Cumulative Layout Shift"].value}</span>
-              </p>
+              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100">
+                {renderVital(
+                  "LCP",
+                  "Largest Contentful Paint",
+                  getStatusColor,
+                  deviceData
+                )}
+              </div>
+              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100">
+                {renderVital(
+                  "First Input Delay",
+                  "First Input Delay",
+                  getStatusColor,
+                  deviceData
+                )}
+              </div>
+              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100">
+                {renderVital(
+                  "Cumulative Layout Shift",
+                  "Cumulative Layout Shift",
+                  getStatusColor,
+                  deviceData
+                )}
+              </div>
             </div>
           </div>
         </section>
-        <hr className="text-gray-200 my-5" />
+        {/* <hr className="text-gray-200 my-5" /> */}
         {/* Metrics block */}
-        <section>
+        <section className="bg-white mt-8 p-6 rounded-xl shadow-sm">
           <MetricsBlock title={`METRICS`} metrics={deviceData} />
         </section>
-        <hr className="text-gray-200 my-5" />
-
-        {/* SEO, Accessibility & Best Practices */}
-        <section className="mt-10">
-          <div className="mb-5">
-            <h4 className="font-bold my-4">Diagnostics</h4>
-            <p className="text-sm">
-              More information about the performance of your website. Note that
-              these do not directly affect Performance.
-            </p>
-          </div>
-          <div className="flex flex-col md:flex-row md:justify-between md:px-4">
-            <div className="p-4 md:border-r border-gray-200">
-              <ScoreProgress accessibilityScore={accessibilityScore} />
-            </div>
-            <div className="p-4 md:border-r border-gray-200">
-              <ScoreProgress bestPracticesScore={bestPracticesScore} />
-            </div>
-            <div className="p-4">
-              <ScoreProgress seoScore={seoScore} />
-            </div>
-          </div>
-        </section>
-        <hr className="text-gray-200 my-5" />
+        {/* <hr className="text-gray-200 mt-10" /> */}
 
         {/* Opportunities */}
-        <section className="mt-6">
-          <h4 className="font-bold my-4">
+        <section
+          className="p-2 mt-8 md:p-5"
+          aria-labelledby="opportunities-title"
+        >
+          <h4 id="opportunities-title" className="font-bold my-4">
             Performance Improvement Opportunities
           </h4>
           <p className="text-sm mb-3">
@@ -200,29 +195,24 @@ const ResultsPage = () => {
             {suggestions?.length > 0 ? (
               <ul className="space-y-4">
                 {suggestions.map((item, index) => {
-                  const status =
-                    item.score >= 0.9
-                      ? "good"
-                      : item.score >= 0.5
-                      ? "average"
-                      : "poor";
+                  const status = getOpportunityStatus(item.score);
 
                   return (
                     <li
                       key={index}
-                      className="opportunities_li bg-gray-50 p-4 rounded shadow-sm break-words"
+                      className="opportunities_li bg-gray-50 p-4 rounded shadow-sm break-words hover:shadow-md transition-all border-l-4"
                     >
                       {/* Title with color */}
                       <p
                         className={clsx(
-                          "font-medium font-semibold",
+                          "font-semibold italic",
                           getStatusColor(status, "text")
                         )}
                       >
                         {`${item.title} (${item.displayValue})`}
                       </p>
                       {/* Description */}
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-700 mt-1">
                         {item.description}
                       </p>
                     </li>
@@ -234,6 +224,51 @@ const ResultsPage = () => {
                 No major performance suggestions — your page is doing great!
               </p>
             )}
+          </div>
+        </section>
+        {/* <hr className="text-gray-200 my-5" /> */}
+
+        {/* SEO, Accessibility & Best Practices */}
+        <section className="p-2 mt-8 md:p-5" aria-labelledby="qa-title">
+          <div className="mb-5">
+            <h4 id="qa-title" className="font-bold my-4">
+              Quality Assurance Scores
+            </h4>
+            <p className="text-sm">
+              These scores reflect accessibility, best practices and search
+              engine optimization. While they don't directly impact your
+              performance score, they contribute to a more robust,
+              user-friendly, and trustworthy website experience.
+            </p>
+          </div>
+          <div className="flex flex-col md:flex-row md:justify-between md:px-4 gap-3 px-4">
+            <div
+              className="md:p-4 md:border-r border-gray-200 transition-transform duration-200 hover:scale-[1.02]"
+              role="progressbar"
+              aria-valuenow={accessibilityScore}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            >
+              <ScoreProgress accessibilityScore={accessibilityScore} />
+            </div>
+            <div
+              className="md:p-4 md:border-r border-gray-200 transition-transform duration-200 hover:scale-[1.02]"
+              role="progressbar"
+              aria-valuenow={bestPracticesScore}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            >
+              <ScoreProgress bestPracticesScore={bestPracticesScore} />
+            </div>
+            <div
+              className="md:p-4 transition-transform duration-200 hover:scale-[1.02]"
+              role="progressbar"
+              aria-valuenow={seoScore}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            >
+              <ScoreProgress seoScore={seoScore} />
+            </div>
           </div>
         </section>
       </div>

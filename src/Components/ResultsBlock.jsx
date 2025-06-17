@@ -72,3 +72,19 @@ export const MetricsBlock = ({ title, metrics }) => (
     </div>
   </section>
 );
+
+// render core web vitals
+export const renderVital = (label, key, getStatusColor, deviceData) => (
+  <p className="text-sm flex gap-1 items-center flex-row md:flex-col pr-3">
+    <span className="flex gap-1 items-center">
+      <span
+        className="inline-block w-3 h-3 rounded-full ml-1"
+        style={getStatusColor(deviceData[key].status, "style")}
+      />
+      <span className="after:content-[':_'] md:after:content-none">
+        {label}
+      </span>
+    </span>
+    <span>{deviceData[key].value}</span>
+  </p>
+);

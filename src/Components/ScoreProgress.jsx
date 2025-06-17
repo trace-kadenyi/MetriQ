@@ -47,7 +47,7 @@ const ScoreProgress = ({
       {items.map(({ title, score, description }) => (
         <div
           key={title}
-          className="flex flex-col  gap-2 w-3/4 lg:w-1/2 mx-auto md:items-center"
+          className="flex flex-col  gap-2 lg:w-1/2 mx-auto md:items-center"
         >
           <div className="w-18 h-18 sm:w-24 sm:h-24">
             <CircularProgressbar
