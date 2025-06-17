@@ -1,7 +1,12 @@
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-const ScoreProgress = ({ performanceScore, seoScore, accessibilityScore }) => {
+const ScoreProgress = ({
+  performanceScore,
+  seoScore,
+  accessibilityScore,
+  bestPracticesScore,
+}) => {
   const getScoreColor = (score) => {
     if (score >= 90) return "#22c55e";
     if (score >= 50) return "#fb923c";
@@ -13,15 +18,36 @@ const ScoreProgress = ({ performanceScore, seoScore, accessibilityScore }) => {
   if (performanceScore !== undefined)
     items.push({ title: "Performance", score: performanceScore });
 
-  if (seoScore !== undefined) items.push({ title: "SEO", score: seoScore });
+  if (seoScore !== undefined)
+    items.push({
+      title: "SEO",
+      score: seoScore,
+      description:
+        "These checks ensure your site is following basic search engine optimization.",
+    });
 
   if (accessibilityScore !== undefined)
-    items.push({ title: "Accessibility", score: accessibilityScore });
+    items.push({
+      title: "Accessibility",
+      score: accessibilityScore,
+      description:
+        "These checks highlight opportunities to improve accessibility.",
+    });
+
+  if (bestPracticesScore !== undefined)
+    items.push({
+      title: "Best Practices",
+      score: bestPracticesScore,
+      description: "The checks look at the trust and safety of your site.",
+    });
 
   return (
-    <div className="flex gap-2 items-center mt-6 flex-wrap">
-      {items.map(({ title, score }) => (
-        <div key={title} className="flex flex-col items-center gap-2 w-24">
+    <div className="flex gap-2 mt-6 flex-wrap">
+      {items.map(({ title, score, description }) => (
+        <div
+          key={title}
+          className="flex flex-col items-center gap-2 w-3/4 lg:w-1/2 mx-auto"
+        >
           <div className="w-18 h-18 sm:w-24 sm:h-24">
             <CircularProgressbar
               className="circularProgress"
@@ -39,6 +65,11 @@ const ScoreProgress = ({ performanceScore, seoScore, accessibilityScore }) => {
           <p className="score_title text-center text-gray-700 font-semibold">
             {title}
           </p>
+          {description && (
+            <p className="scores_desc text-gray-700 text-center">
+              {description}
+            </p>
+          )}
         </div>
       ))}
     </div>
