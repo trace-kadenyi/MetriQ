@@ -23,7 +23,7 @@ const ScoreProgress = ({
       title: "SEO",
       score: seoScore,
       description:
-        "These checks ensure your site is following basic search engine optimization.",
+        "Evaluates how well your site adheres to essential search engine optimization guidelines, enhancing visibility and discoverability.",
     });
 
   if (accessibilityScore !== undefined)
@@ -31,14 +31,15 @@ const ScoreProgress = ({
       title: "Accessibility",
       score: accessibilityScore,
       description:
-        "These checks highlight opportunities to improve accessibility.",
+        "Assesses your site's compliance with accessibility standards to ensure it is usable by individuals of all abilities.",
     });
 
   if (bestPracticesScore !== undefined)
     items.push({
       title: "Best Practices",
       score: bestPracticesScore,
-      description: "The checks look at the trust and safety of your site.",
+      description:
+        "Examines critical aspects of site integrity, including security, performance, and adherence to modern web development standards.",
     });
 
   return (
@@ -46,7 +47,7 @@ const ScoreProgress = ({
       {items.map(({ title, score, description }) => (
         <div
           key={title}
-          className="flex flex-col items-center gap-2 w-3/4 lg:w-1/2 mx-auto"
+          className="flex flex-col  gap-2 w-3/4 lg:w-1/2 mx-auto md:items-center"
         >
           <div className="w-18 h-18 sm:w-24 sm:h-24">
             <CircularProgressbar
@@ -62,14 +63,16 @@ const ScoreProgress = ({
               })}
             />
           </div>
-          <p className="score_title text-center text-gray-700 font-semibold">
-            {title}
-          </p>
-          {description && (
-            <p className="scores_desc text-gray-700 text-center">
-              {description}
+          <div>
+            <p className="score_title md:text-center text-gray-700 font-semibold">
+              {title}
             </p>
-          )}
+            {description && (
+              <p className="scores_desc text-gray-700 md:text-center">
+                {description}
+              </p>
+            )}
+          </div>
         </div>
       ))}
     </div>
