@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import clsx from "clsx";
 import {
   ScoreBlock,
   MetricsBlock,
@@ -40,6 +41,10 @@ const ResultsPage = () => {
   const {
     scores: { mobile, desktop },
     metrics: { mobile: mobileMetrics, desktop: desktopMetrics },
+    suggestions: {
+      mobile: mobileSuggestions,
+      desktop: desktopSuggestions,
+    } = {},
   } = report;
 
   const deviceData = view === "mobile" ? mobileMetrics : desktopMetrics;
@@ -50,6 +55,8 @@ const ResultsPage = () => {
     view === "mobile" ? mobile.accessibility : desktop.accessibility;
   const bestPracticesScore =
     view === "mobile" ? mobile.bestPractices : desktop.bestPractices;
+  const suggestions =
+    view === "mobile" ? mobileSuggestions : desktopSuggestions;
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -90,7 +97,7 @@ const ResultsPage = () => {
 
         {/* Score progress and core web vitals */}
         <section className="mt-10 gap-3 flex md:items-center justify-between lg:px-20 flex-col md:flex-row">
-          <div className="w-24">
+          <div className="w-24 text-center">
             <ScoreProgress performanceScore={performanceScore} />
           </div>
           <div>
@@ -102,7 +109,7 @@ const ResultsPage = () => {
                   <span
                     className="inline-block w-3 h-3 rounded-full ml-1"
                     style={getStatusColor(
-                      report.metrics[view]["Largest Contentful Paint"].status,
+                      deviceData["Largest Contentful Paint"].status,
                       "style"
                     )}
                   />
@@ -110,9 +117,7 @@ const ResultsPage = () => {
                     LCP
                   </span>
                 </span>
-                <span>
-                  {report.metrics[view]["Largest Contentful Paint"].value}
-                </span>
+                <span>{deviceData["Largest Contentful Paint"].value}</span>
               </p>
               {/* FID */}
               <p className="text-sm flex gap-1 md:items-center md:flex-col md:border-r md:border-gray-200 pr-3">
@@ -120,7 +125,7 @@ const ResultsPage = () => {
                   <span
                     className="inline-block w-3 h-3 rounded-full ml-1"
                     style={getStatusColor(
-                      report.metrics[view]["First Input Delay"].status,
+                      deviceData["First Input Delay"].status,
                       "style"
                     )}
                   />
@@ -128,7 +133,7 @@ const ResultsPage = () => {
                     First Input Delay
                   </span>
                 </span>
-                <span>{report.metrics[view]["First Input Delay"].value}</span>
+                <span>{deviceData["First Input Delay"].value}</span>
               </p>
               {/* CLS */}
               <p className="text-sm flex gap-1 md:items-center md:flex-col">
@@ -136,7 +141,7 @@ const ResultsPage = () => {
                   <span
                     className="inline-block w-3 h-3 rounded-full ml-1"
                     style={getStatusColor(
-                      report.metrics[view]["Cumulative Layout Shift"].status,
+                      deviceData["Cumulative Layout Shift"].status,
                       "style"
                     )}
                   />
@@ -144,9 +149,7 @@ const ResultsPage = () => {
                     Cumulative Layout Shift
                   </span>
                 </span>
-                <span>
-                  {report.metrics[view]["Cumulative Layout Shift"].value}
-                </span>
+                <span>{deviceData["Cumulative Layout Shift"].value}</span>
               </p>
             </div>
           </div>
@@ -154,7 +157,7 @@ const ResultsPage = () => {
         <hr className="text-gray-200 my-5" />
         {/* Metrics block */}
         <section>
-          <MetricsBlock title={`METRICS`} metrics={report.metrics[view]} />
+          <MetricsBlock title={`METRICS`} metrics={deviceData} />
         </section>
         <hr className="text-gray-200 my-5" />
 
@@ -177,6 +180,60 @@ const ResultsPage = () => {
             <div className="p-4">
               <ScoreProgress seoScore={seoScore} />
             </div>
+          </div>
+        </section>
+        <hr className="text-gray-200 my-5" />
+
+        {/* Opportunities */}
+        <section className="mt-6">
+          <h4 className="font-bold my-4">
+            Performance Improvement Opportunities
+          </h4>
+          <p className="text-sm mb-3">
+            Below are actionable suggestions generated from your page's
+            performance audit. Addressing these can significantly reduce load
+            time, improve interactivity, and enhance the overall user experience
+            for both desktop and mobile visitors.
+          </p>
+
+          <div className="mt-6">
+            {suggestions?.length > 0 ? (
+              <ul className="space-y-4">
+                {suggestions.map((item, index) => {
+                  const status =
+                    item.score >= 0.9
+                      ? "good"
+                      : item.score >= 0.5
+                      ? "average"
+                      : "poor";
+
+                  return (
+                    <li
+                      key={index}
+                      className="opportunities_li bg-gray-50 p-4 rounded shadow-sm break-words"
+                    >
+                      {/* Title with color */}
+                      <p
+                        className={clsx(
+                          "font-medium font-semibold",
+                          getStatusColor(status, "text")
+                        )}
+                      >
+                        {`${item.title} (${item.displayValue})`}
+                      </p>
+                      {/* Description */}
+                      <p className="text-xs text-gray-500">
+                        {item.description}
+                      </p>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="text-green-600 bg-green-50 border border-green-200 rounded px-4 py-3">
+                No major performance suggestions — your page is doing great!
+              </p>
+            )}
           </div>
         </section>
       </div>
