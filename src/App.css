@@ -19,3 +19,7 @@ body {
 .scores_desc {
   font-size: 10px;
 }
+
+.opportunities_li p {
+  font-size: 14px;
+}
