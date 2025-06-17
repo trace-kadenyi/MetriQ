@@ -48,10 +48,12 @@ const ResultsPage = () => {
   const seoScore = view === "mobile" ? mobile.seo : desktop.seo;
   const accessibilityScore =
     view === "mobile" ? mobile.accessibility : desktop.accessibility;
+  const bestPracticesScore =
+    view === "mobile" ? mobile.bestPractices : desktop.bestPractices;
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="m-10 p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
+      <div className="m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
         <section className="flex justify-between items-center flex-wrap gap-4">
           <h2 className="md:text-2xl font-bold text-gray-800 underline">
             <a
@@ -88,7 +90,9 @@ const ResultsPage = () => {
 
         {/* Score progress and core web vitals */}
         <section className="mt-10 gap-3 flex md:items-center justify-between lg:px-20 flex-col md:flex-row">
-          <ScoreProgress performanceScore={performanceScore} />
+          <div className="w-24">
+            <ScoreProgress performanceScore={performanceScore} />
+          </div>
           <div>
             <h4 className="underline my-2 text-sm">Core Web Vitals</h4>
             <div className="flex gap-3 flex-col md:flex-row">
@@ -150,10 +154,30 @@ const ResultsPage = () => {
         <hr className="text-gray-200 my-5" />
         {/* Metrics block */}
         <section>
-          <MetricsBlock
-            title={`${view === "mobile" ? "Mobile" : "Desktop"} Metrics`}
-            metrics={report.metrics[view]}
-          />
+          <MetricsBlock title={`METRICS`} metrics={report.metrics[view]} />
+        </section>
+        <hr className="text-gray-200 my-5" />
+
+        {/* SEO, Accessibility & Best Practices */}
+        <section className="mt-10">
+          <div className="mb-5">
+            <h4 className="font-bold my-4">Diagnostics</h4>
+            <p className="text-sm">
+              More information about the performance of your website. Note that
+              these do not directly affect Performance.
+            </p>
+          </div>
+          <div className="flex flex-col md:flex-row md:justify-between md:px-4">
+            <div className="p-4 md:border-r border-gray-200">
+              <ScoreProgress accessibilityScore={accessibilityScore} />
+            </div>
+            <div className="p-4 md:border-r border-gray-200">
+              <ScoreProgress bestPracticesScore={bestPracticesScore} />
+            </div>
+            <div className="p-4">
+              <ScoreProgress seoScore={seoScore} />
+            </div>
+          </div>
         </section>
       </div>
     </main>

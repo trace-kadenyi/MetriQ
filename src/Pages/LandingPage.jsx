@@ -214,6 +214,10 @@ const LandingPage = () => {
                         "Accessibility",
                         partialResults.mobile?.accessibility
                       )}
+                      {renderScore(
+                        "Best Practices",
+                        partialResults.mobile?.bestPractices
+                      )}
                     </motion.div>
 
                     {/* Desktop Results */}
@@ -238,6 +242,10 @@ const LandingPage = () => {
                       {renderScore(
                         "Accessibility",
                         partialResults.desktop?.accessibility
+                      )}
+                       {renderScore(
+                        "Best Practices",
+                        partialResults.desktop?.bestPractices
                       )}
                     </motion.div>
                   </div>
