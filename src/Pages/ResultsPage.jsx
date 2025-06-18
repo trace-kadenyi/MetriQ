@@ -9,6 +9,7 @@ import {
   renderVital,
 } from "../Components/ResultsBlock";
 import ScoreProgress from "../Components/ScoreProgress";
+import preloader from "../assets/preloader_gif.gif";
 
 const ResultsPage = () => {
   const [searchParams] = useSearchParams();
@@ -63,7 +64,12 @@ const ResultsPage = () => {
     };
   }, [report, view]);
 
-  if (!report) return <p>Loading...</p>;
+  if (!report)
+    return (
+      <div className="preloader_div flex justify-center items-center h-screen bg-gray-50">
+        <img src={preloader} alt="preloader" className="" />
+      </div>
+    );
 
   const {
     deviceData,
