@@ -87,18 +87,19 @@ export default function useUrlForm() {
 
       if (reportRes.data.success && reportRes.data.report) {
         const report = reportRes.data.report;
+        const latestReport = report.reports?.at(-1);
         const partial = {
           mobile: {
-            performance: report.scores?.mobile?.performance,
-            seo: report.scores?.mobile?.seo,
-            accessibility: report.scores?.mobile?.accessibility,
-            bestPractices: report.scores?.mobile?.bestPractices,
+            performance: latestReport?.scores?.mobile?.performance,
+            seo: latestReport?.scores?.mobile?.seo,
+            accessibility: latestReport?.scores?.mobile?.accessibility,
+            bestPractices: latestReport?.scores?.mobile?.bestPractices,
           },
           desktop: {
-            performance: report.scores?.desktop?.performance,
-            seo: report.scores?.desktop?.seo,
-            accessibility: report.scores?.desktop?.accessibility,
-            bestPractices: report.scores?.desktop?.bestPractices,
+            performance: latestReport?.scores?.desktop?.performance,
+            seo: latestReport?.scores?.desktop?.seo,
+            accessibility: latestReport?.scores?.desktop?.accessibility,
+            bestPractices: latestReport?.scores?.desktop?.bestPractices,
           },
         };
 

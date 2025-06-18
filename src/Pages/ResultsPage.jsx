@@ -17,6 +17,7 @@ const ResultsPage = () => {
   const [searchParams] = useSearchParams();
   const url = searchParams.get("url");
   const [report, setReport] = useState(null);
+  const [latestReport, setLatestReport] = useState(null);
   const [view, setView] = useState("mobile");
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const ResultsPage = () => {
         );
         if (res.data.success) {
           setReport(res.data.report);
+          setLatestReport(res.data.report.reports?.at(-1));
         } else {
           toast.error("No report found for this URL.");
         }
@@ -48,7 +50,7 @@ const ResultsPage = () => {
       scores: { mobile, desktop },
       metrics: { mobile: mobileMetrics, desktop: desktopMetrics },
       suggestions: { mobile: mobileSuggestions, desktop: desktopSuggestions },
-    } = report;
+    } = latestReport;
 
     const isMobile = view === "mobile";
 
@@ -64,9 +66,9 @@ const ResultsPage = () => {
         : desktop.bestPractices,
       suggestions: isMobile ? mobileSuggestions : desktopSuggestions,
     };
-  }, [report, view]);
+  }, [latestReport, view]);
 
-  if (!report)
+  if (!latestReport)
     return (
       <div className="preloader_div flex justify-center items-center h-screen bg-gray-50">
         <img src={preloader} alt="preloader" className="" />
@@ -113,7 +115,7 @@ const ResultsPage = () => {
               className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
                 view === "mobile"
                   ? "bg-green-600 text-white hover:cursor-not-allowed"
-                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white"
+                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer"
               }`}
               onClick={() => setView("mobile")}
             >
@@ -125,7 +127,7 @@ const ResultsPage = () => {
               className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
                 view === "desktop"
                   ? "bg-green-600 text-white hover:cursor-not-allowed"
-                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white"
+                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer"
               }`}
               onClick={() => setView("desktop")}
             >
@@ -150,7 +152,7 @@ const ResultsPage = () => {
               Core Web Vitals
             </h4>
             <div className="flex gap-3 flex-col md:flex-row">
-              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100">
+              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
                 {renderVital(
                   "LCP",
                   "Largest Contentful Paint",
@@ -158,7 +160,7 @@ const ResultsPage = () => {
                   deviceData
                 )}
               </div>
-              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100">
+              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
                 {renderVital(
                   "First Input Delay",
                   "First Input Delay",
@@ -166,7 +168,7 @@ const ResultsPage = () => {
                   deviceData
                 )}
               </div>
-              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100">
+              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
                 {renderVital(
                   "Cumulative Layout Shift",
                   "Cumulative Layout Shift",
