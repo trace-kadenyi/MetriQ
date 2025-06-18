@@ -25,6 +25,8 @@ import {
   StepCard,
 } from "../Components/FramerMotion";
 import useUrlForm from "../Components/urlForm";
+import gearsGif from "../assets/gears.gif";
+import { div } from "motion/react-client";
 
 const LandingPage = () => {
   const {
@@ -39,6 +41,7 @@ const LandingPage = () => {
     setShowPopup,
     partialResults,
     submittedUrl,
+    showLongWaitMessage,
   } = useUrlForm();
 
   const navigate = useNavigate();
@@ -168,15 +171,41 @@ const LandingPage = () => {
               {/* Spinner or Results */}
               {!partialResults ? (
                 <>
-                  <div className="mb-4">
-                    <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                  </div>
-                  <h3 className="text-base font-medium">
-                    Generating your PageSpeed report...
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Hang tight — this may take up to 20 seconds.
-                  </p>
+                  {!showLongWaitMessage && (
+                    <div>
+                      <div className="mb-4">
+                        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                      </div>
+
+                      <h3 className="text-base font-medium">
+                        Generating your PageSpeed report...
+                      </h3>
+
+                      <p className="text-sm text-gray-500 mt-1">
+                        Hang tight — this may take up to 20 seconds.
+                      </p>
+                    </div>
+                  )}
+                  {/* Appears when it take more than 20s */}
+                  {showLongWaitMessage && (
+                    <div className="flex flex-col items-center mt-6 text-sm text-gray-700 max-w-md mx-auto text-center">
+                      <img
+                        src={gearsGif}
+                        alt="Analyzing site"
+                        className="w-12 h-12 mb-3"
+                      />
+
+                      <p className="italic text-gray-600 font-medium mb-2">
+                        Please hang tight — the report is still being generated.
+                      </p>
+
+                      <p className="text-red-600 font-semibold leading-relaxed">
+                        This may take longer than usual because the website has
+                        a large number of resources or complex scripts that
+                        require deeper analysis.
+                      </p>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>
@@ -243,7 +272,7 @@ const LandingPage = () => {
                         "Accessibility",
                         partialResults.desktop?.accessibility
                       )}
-                       {renderScore(
+                      {renderScore(
                         "Best Practices",
                         partialResults.desktop?.bestPractices
                       )}

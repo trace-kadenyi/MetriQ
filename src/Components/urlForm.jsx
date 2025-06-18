@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -11,6 +11,9 @@ export default function useUrlForm() {
   const [showPopup, setShowPopup] = useState(false);
   const [partialResults, setPartialResults] = useState(null);
   const [submittedUrl, setSubmittedUrl] = useState("");
+  const [showLongWaitMessage, setShowLongWaitMessage] = useState(false);
+
+  let timeoutId = useRef(null);
 
   const navigate = useNavigate();
 
@@ -34,6 +37,8 @@ export default function useUrlForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setHasSubmitted(true);
+    setShowLongWaitMessage(false);
+    clearTimeout(timeoutId.current);
 
     if (!isValidFormat) return;
 
@@ -59,6 +64,11 @@ export default function useUrlForm() {
       setSubmittedUrl(url.trim());
       setShowPopup(true);
 
+      // START timeout for 20s message
+      timeoutId.current = setTimeout(() => {
+        setShowLongWaitMessage(true);
+      }, 20000);
+
       // Step 2: Generate the report
       let reportRes;
       try {
@@ -71,6 +81,7 @@ export default function useUrlForm() {
           "Something went wrong while generating the report. Please try again."
         );
         setShowPopup(false);
+        clearTimeout(timeoutId.current);
         return;
       }
 
@@ -95,10 +106,12 @@ export default function useUrlForm() {
       } else {
         toast.error("Ooops! Something went wrong.");
         setShowPopup(false);
+        clearTimeout(timeoutId.current);
       }
     } catch (err) {
       toast.error("An unexpected error occurred. Please try again.");
       setShowPopup(false);
+      clearTimeout(timeoutId.current);
     } finally {
       setLoading(false);
     }
@@ -116,5 +129,6 @@ export default function useUrlForm() {
     setShowPopup,
     partialResults,
     submittedUrl,
+    showLongWaitMessage,
   };
 }
