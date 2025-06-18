@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import clsx from "clsx";
@@ -19,6 +19,8 @@ const ResultsPage = () => {
   const [report, setReport] = useState(null);
   const [latestReport, setLatestReport] = useState(null);
   const [view, setView] = useState("mobile");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // fetch report from API
@@ -111,11 +113,11 @@ const ResultsPage = () => {
             </h2>
             {/* previous reports */}
             <button
-              onClick={() =>
-                (window.location.href = `/history?url=${encodeURIComponent(
-                  report.url
-                )}`)
-              }
+              onClick={() => {
+                navigate(
+                  `/previous-reports?url=${encodeURIComponent(report.url)}`
+                );
+              }}
               className="bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer px-5 py-2 mt-2"
             >
               View Previous Reports
