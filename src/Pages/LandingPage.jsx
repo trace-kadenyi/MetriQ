@@ -25,8 +25,7 @@ import {
   StepCard,
 } from "../Components/FramerMotion";
 import useUrlForm from "../Components/urlForm";
-import gearsGif from "../assets/gears.gif";
-import { div } from "motion/react-client";
+import preloaderGif from "../assets/preloader_gif.gif";
 
 const LandingPage = () => {
   const {
@@ -190,7 +189,7 @@ const LandingPage = () => {
                   {showLongWaitMessage && (
                     <div className="flex flex-col items-center mt-6 text-sm text-gray-700 max-w-md mx-auto text-center">
                       <img
-                        src={gearsGif}
+                        src={preloaderGif}
                         alt="Analyzing site"
                         className="w-12 h-12 mb-3"
                       />
