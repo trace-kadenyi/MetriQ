@@ -2,6 +2,8 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import clsx from "clsx";
+import toast from "react-hot-toast";
+
 import {
   ScoreBlock,
   MetricsBlock,
@@ -27,11 +29,11 @@ const ResultsPage = () => {
         if (res.data.success) {
           setReport(res.data.report);
         } else {
-          alert("No report found for this URL.");
+          toast.error("No report found for this URL.");
         }
       } catch (err) {
         console.error("Error fetching report:", err);
-        alert("Could not load the report.");
+        toast.error("An unexepected error occurred. Plesae try again later.");
       }
     };
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function useUrlForm() {
   const [url, setUrl] = useState("");
@@ -46,12 +47,12 @@ export default function useUrlForm() {
           url,
         });
       } catch (checkErr) {
-        alert("URL could not be reached. Please check the address.");
+        toast.error("URL could not be reached. Please check the address.");
         return;
       }
 
       if (!checkRes.data.success) {
-        alert("URL is not reachable or invalid.");
+        toast.error("URL is not reachable or invalid.");
         return;
       }
 
@@ -66,7 +67,9 @@ export default function useUrlForm() {
         });
         setUrl("");
       } catch (reportErr) {
-        alert("Something went wrong while generating the report.");
+        toast.error(
+          "Something went wrong while generating the report. Please try again."
+        );
         setShowPopup(false);
         return;
       }
@@ -90,11 +93,11 @@ export default function useUrlForm() {
 
         setPartialResults(partial); // Save partial results
       } else {
-        alert("Something went wrong.");
+        toast.error("Ooops! Something went wrong.");
         setShowPopup(false);
       }
     } catch (err) {
-      alert("An unexpected error occurred. Please try again.");
+      toast.error("An unexpected error occurred. Please try again.");
       setShowPopup(false);
     } finally {
       setLoading(false);
