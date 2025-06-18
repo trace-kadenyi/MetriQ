@@ -9,7 +9,7 @@ export default function useUrlForm() {
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [partialResults, setPartialResults] = useState(null);
-  const [submittedUrl, setSubmittedUrl] = useState("")
+  const [submittedUrl, setSubmittedUrl] = useState("");
 
   const navigate = useNavigate();
 
@@ -55,7 +55,7 @@ export default function useUrlForm() {
         return;
       }
 
-      setSubmittedUrl(url.trim())
+      setSubmittedUrl(url.trim());
       setShowPopup(true);
 
       // Step 2: Generate the report
@@ -78,11 +78,13 @@ export default function useUrlForm() {
             performance: report.scores?.mobile?.performance,
             seo: report.scores?.mobile?.seo,
             accessibility: report.scores?.mobile?.accessibility,
+            bestPractices: report.scores?.mobile?.bestPractices,
           },
           desktop: {
             performance: report.scores?.desktop?.performance,
             seo: report.scores?.desktop?.seo,
             accessibility: report.scores?.desktop?.accessibility,
+            bestPractices: report.scores?.desktop?.bestPractices,
           },
         };
 
@@ -110,6 +112,6 @@ export default function useUrlForm() {
     showPopup,
     setShowPopup,
     partialResults,
-    submittedUrl
+    submittedUrl,
   };
 }

@@ -1,3 +1,39 @@
+import clsx from "clsx";
+
+// color combinations
+const textClassMap = {
+  good: "text-green-500",
+  average: "text-orange-400",
+  poor: "text-red-500",
+  default: "text-gray-400",
+};
+
+const bgClassMap = {
+  good: "bg-green-500",
+  average: "bg-orange-400",
+  poor: "bg-red-500",
+  default: "bg-gray-400",
+};
+
+const hexMap = {
+  good: "#22c55e",
+  average: "#fb923c",
+  poor: "#ef4444",
+  default: "#6c757d",
+};
+
+export const getStatusColor = (status, type = "style") => {
+  const safeStatus = ["good", "average", "poor"].includes(status)
+    ? status
+    : "default";
+
+  if (type === "style") return { backgroundColor: hexMap[safeStatus] };
+  if (type === "bg") return bgClassMap[safeStatus];
+  if (type === "text") return textClassMap[safeStatus];
+  return "";
+};
+
+// scores
 export const ScoreBlock = ({ title, scores }) => (
   <section className="py-3">
     <h3 className="font-bold">{title}</h3>
@@ -9,25 +45,46 @@ export const ScoreBlock = ({ title, scores }) => (
   </section>
 );
 
+// metrics
 export const MetricsBlock = ({ title, metrics }) => (
-  <section className="py-3">
-    <h3 className="font-bold">{title}</h3>
-    {Object.entries(metrics).map(([key, metric]) => (
-      <p key={key}>
-        {key}: {metric.value}{" "}
-        <span
-          style={{
-            color:
-              metric.status === "poor"
-                ? "red"
-                : metric.status === "average"
-                ? "orange"
-                : "green",
-          }}
-        >
-          ({metric.status})
-        </span>
-      </p>
-    ))}
+  <section className="py-3 text-sm">
+    <h3 className="font-semibold my-2 mb-4 lg:text-center">{title}</h3>
+    <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-5 lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:items-center">
+      {Object.entries(metrics).map(([key, metric]) => (
+        <p key={key} className="flex gap-2 items-center">
+          <span
+            className="inline-block w-3 h-3 rounded-full ml-1"
+            style={getStatusColor(metric.status, "style")}
+          />
+          <span>
+            {key}:{"   "}
+            <span
+              className={clsx(
+                "font-semibold",
+                getStatusColor(metric.status, "text")
+              )}
+            >
+              {metric.value}
+            </span>
+          </span>
+        </p>
+      ))}
+    </div>
   </section>
+);
+
+// render core web vitals
+export const renderVital = (label, key, getStatusColor, deviceData) => (
+  <p className="text-sm flex gap-1 items-center flex-row md:flex-col pr-3">
+    <span className="flex gap-1 items-center">
+      <span
+        className="inline-block w-3 h-3 rounded-full ml-1"
+        style={getStatusColor(deviceData[key].status, "style")}
+      />
+      <span className="after:content-[':_'] md:after:content-none">
+        {label}
+      </span>
+    </span>
+    <span>{deviceData[key].value}</span>
+  </p>
 );

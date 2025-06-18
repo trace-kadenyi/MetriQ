@@ -10,3 +10,16 @@ body {
   background: url("./assets/hero-bg.webp") no-repeat center center fixed;
   background-size: cover;
 }
+
+.circularProgress {
+  font-weight: bold;
+}
+
+.score_title,
+.scores_desc {
+  font-size: 10px;
+}
+
+.opportunities_li p {
+  font-size: 14px;
+}
