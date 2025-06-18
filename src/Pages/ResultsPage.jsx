@@ -92,47 +92,60 @@ const ResultsPage = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50" role="main">
+    <main className="min-h-screen bg-gray-50 relative" role="main">
       <div className="m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
-        <section className="flex justify-between items-center flex-wrap gap-4">
-          <h2 className="font-semibold text-lg text-gray-800 underline truncate max-w-[80vw]">
-            <a
-              href={report.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={report.url}
-              aria-label={`Open ${report.url} in a new tab`}
-              className="hover:text-orange-400 hover:italic"
-            >
-              {report.url}
-            </a>
-          </h2>
-
-          <div className="flex gap-2 p-1 rounded-lg bg-gray-100 shadow-inner">
+        <section className="sticky top-0 z-[50] bg-gray-100 border-b border-gray-300 shadow-sm">
+          <div className="flex flex-col lg:flex-row md:justify-center lg:justify-between items-center gap-4 px-6 py-3">
+            {/* url */}
+            <h2 className="font-semibold text-lg text-gray-800 underline truncate max-w-[80vw]">
+              <a
+                href={report.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={report.url}
+                aria-label={`Open ${report.url} in a new tab`}
+                className="hover:text-orange-400 hover:italic"
+              >
+                {report.url}
+              </a>
+            </h2>
+            {/* previous reports */}
             <button
-              aria-label="View mobile report"
-              aria-pressed={view === "mobile"}
-              className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                view === "mobile"
-                  ? "bg-green-600 text-white hover:cursor-not-allowed"
-                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer"
-              }`}
-              onClick={() => setView("mobile")}
+              onClick={() =>
+                (window.location.href = `/history?url=${encodeURIComponent(
+                  report.url
+                )}`)
+              }
+              className="bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer px-5 py-2 mt-2"
             >
-              Mobile
+              View Previous Reports
             </button>
-            <button
-              aria-label="View desktop report"
-              aria-pressed={view === "desktop"}
-              className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                view === "desktop"
-                  ? "bg-green-600 text-white hover:cursor-not-allowed"
-                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer"
-              }`}
-              onClick={() => setView("desktop")}
-            >
-              Desktop
-            </button>
+            <div className="flex gap-2 p-1 rounded-lg bg-gray-100 shadow-inner position-fixed">
+              <button
+                aria-label="View mobile report"
+                aria-pressed={view === "mobile"}
+                className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+                  view === "mobile"
+                    ? "bg-green-600 text-white hover:cursor-not-allowed"
+                    : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer"
+                }`}
+                onClick={() => setView("mobile")}
+              >
+                Mobile
+              </button>
+              <button
+                aria-label="View desktop report"
+                aria-pressed={view === "desktop"}
+                className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+                  view === "desktop"
+                    ? "bg-green-600 text-white hover:cursor-not-allowed"
+                    : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer"
+                }`}
+                onClick={() => setView("desktop")}
+              >
+                Desktop
+              </button>
+            </div>
           </div>
         </section>
 
