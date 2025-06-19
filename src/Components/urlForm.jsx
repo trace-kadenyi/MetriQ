@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function useUrlForm() {
@@ -14,8 +13,6 @@ export default function useUrlForm() {
   const [showLongWaitMessage, setShowLongWaitMessage] = useState(false);
 
   let timeoutId = useRef(null);
-
-  const navigate = useNavigate();
 
   // validate url
   const validateUrlFormat = (value) => {
@@ -67,7 +64,7 @@ export default function useUrlForm() {
       // START timeout for 20s message
       timeoutId.current = setTimeout(() => {
         setShowLongWaitMessage(true);
-      }, 20000);
+      }, 30000);
 
       // Step 2: Generate the report
       let reportRes;
