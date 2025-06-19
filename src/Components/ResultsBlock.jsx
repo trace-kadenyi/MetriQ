@@ -88,3 +88,16 @@ export const renderVital = (label, key, getStatusColor, deviceData) => (
     <span>{deviceData[key].value}</span>
   </p>
 );
+
+// render device score colours
+export const scoreColour = (score) => {
+  if (score >= 90) return "text-green-500";
+  if (score >= 50) return "text-orange-400";
+  return "text-red-500";
+};
+
+export const borderColour = (score) => {
+  if (score >= 90) return "border-green-500";
+  if (score >= 50) return "border-orange-400";
+  return "border-red-500";
+};
