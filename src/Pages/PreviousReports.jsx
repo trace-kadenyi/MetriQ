@@ -3,12 +3,14 @@ import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import clsx from "clsx";
 
 import errorGif from "../assets/error.gif";
 import {
   MetricsBlock,
   scoreColour,
   borderColour,
+  ErrorTemp,
 } from "../Components/ResultsBlock";
 import ScoreProgress from "../Components/ScoreProgress";
 import preloader from "../assets/preloader_gif.gif";
@@ -75,6 +77,7 @@ const PreviousReports = () => {
       : [];
   }, [prevReports]);
 
+  // toggle accordion
   const toggleAccordion = (i) => {
     setOpenIndex(openIndex === i ? null : i);
   };
@@ -87,8 +90,9 @@ const PreviousReports = () => {
       </div>
     );
 
+  // Report section template
   const ReportSection = ({ label, icon, scores, metrics }) => (
-    <div className="p-4 bg-white rounded-xl shadow-inner">
+    <div className="p-2 sm:p-4 bg-white rounded-xl shadow-inner">
       <h4
         className={`font-semibold text-lg mb-1 ${scoreColour(
           scores.performance
@@ -131,98 +135,106 @@ const PreviousReports = () => {
   );
 
   return (
-    <main className="p-6">
+    <main className="min-h-screen bg-gray-50 relative" role="main">
+      {/* error message */}
       {errorOccurred ? (
-        <section className="p-6 h-screen bg-gray-100 flex justify-center items-center">
-          <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
-            <img
-              src={errorGif}
-              alt="No data found"
-              className="w-32 h-32 mx-auto"
-            />
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">
-              No reports found for this URL
-            </h2>
-            <p className="text-sm text-gray-600 mb-6">
-              We couldn’t find any past reports for:
-              <span className="block mt-1 text-gray-500 italic break-words">
-                {url}
-              </span>
-            </p>
-            <button
-              onClick={() => navigate("/")}
-              className="px-5 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
-            >
-              Back to Home
-            </button>
-          </div>
-        </section>
+        <ErrorTemp url={url} errorGif={errorGif} />
       ) : (
-        <section>
-          <h2 className="text-xl font-bold mb-4 text-gray-800">
-            Previous Reports
-          </h2>
-          <div className="mt-6 space-y-6">
-            {memoizedData.map((report, index) => (
-              <div
-                key={index}
-                className="w-full bg-white shadow-sm hover:shadow-md rounded-2xl border border-gray-100 transition-all"
+        // main content
+        <div className="m-2 sm:m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
+          <section>
+            <h2 className="font-semibold text-lg text-gray-800 underline truncate max-w-[80vw] my-4">
+              Showing reports for:{" "}
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={url}
+                aria-label={`Open ${url} in a new tab`}
+                className="hover:text-orange-400 hover:italic"
               >
-                {/* Accordion Header */}
-                <button
-                  onClick={() => toggleAccordion(index)}
-                  className="w-full px-6 py-3 bg-gradient-to-r from-blue-50 to-gray-100 border-b border-gray-200 rounded-t-2xl flex flex-col sm:justify-between sm:items-center sm:flex-row gap-2 focus:outline-none cursor-pointer"
-                >
-                  <p className="text-sm font-semibold text-blue-950 tracking-wide">
-                    🕒 Generated on
-                  </p>
-                  <p className="text-sm font-semibold text-gray-800 italic">
-                    {report.createdAt}
-                  </p>
-                  <span className="ml-2 text-lg text-gray-600">
-                    {openIndex === index ? "▲" : "▼"}
-                  </span>
-                </button>
+                {url}
+              </a>
+            </h2>
 
-                <AnimatePresence initial={false}>
-                  {openIndex === index && (
-                    <motion.div
-                      layout
-                      key="content"
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 70,
-                        damping: 18,
-                      }}
-                      className="overflow-hidden"
+            <div className="mt-6 space-y-6">
+              {memoizedData.map((report, index) => (
+                <div
+                  key={index}
+                  className={clsx("w-full rounded-2xl border transition-all", {
+                    "bg-white shadow-md border-green-100": openIndex === index,
+                    "bg-white shadow-sm hover:shadow-md border-gray-100":
+                      openIndex !== index,
+                  })}
+                >
+                  {/* Accordion Header */}
+                  <button
+                    onClick={() => toggleAccordion(index)}
+                    className={clsx(
+                      "w-full px-6 py-3 border-b rounded-t-2xl flex flex-col sm:justify-between sm:items-center sm:flex-row gap-2 focus:outline-none cursor-pointer transition-all duration-200 transform hover:scale-[1.01] hover:-translate-y-0.5 hover:shadow-lg",
+                      openIndex === index
+                        ? "bg-gradient-to-r from-green-50 via-orange-50 to-blue-100 border-green-300 shadow-md text-blue-950 font-semibold"
+                        : "bg-gradient-to-r from-blue-50 to-gray-100 border-gray-200 text-gray-800"
+                    )}
+                  >
+                    <p className="text-sm font-semibold text-blue-950 tracking-wide">
+                      🕒 Generated on
+                    </p>
+                    <p
+                      className={clsx(
+                        "text-sm italic font-medium",
+                        openIndex === index
+                          ? scoreColour(report.scores.mobile.performance || 0)
+                          : "text-gray-800"
+                      )}
                     >
-                      {/* Content wrapper: keep border radius + padding here */}
-                      <div className="px-6 pb-6 pt-4 rounded-b-2xl bg-white">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <ReportSection
-                            label="Mobile"
-                            icon="📱"
-                            scores={report.scores.mobile}
-                            metrics={report.metrics.mobile}
-                          />
-                          <ReportSection
-                            label="Desktop"
-                            icon="🖥️"
-                            scores={report.scores.desktop}
-                            metrics={report.metrics.desktop}
-                          />
+                      {report.createdAt}
+                    </p>
+
+                    <span className="ml-2 text-lg text-gray-600">
+                      {openIndex === index ? "▲" : "▼"}
+                    </span>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {openIndex === index && (
+                      <motion.div
+                        layout
+                        key="content"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 70,
+                          damping: 18,
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-6 pb-6 pt-4 rounded-b-2xl bg-white">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <ReportSection
+                              label="Mobile"
+                              icon="📱"
+                              scores={report.scores.mobile}
+                              metrics={report.metrics.mobile}
+                            />
+                            <ReportSection
+                              label="Desktop"
+                              icon="🖥️"
+                              scores={report.scores.desktop}
+                              metrics={report.metrics.desktop}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
-        </section>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
       )}
     </main>
   );
