@@ -31,7 +31,10 @@ const PreviousReports = () => {
           `http://localhost:4000/api/url/report?url=${encodeURIComponent(url)}`
         );
         if (res.data.success) {
-          setPrevReports(res.data.report.reports);
+          const sortedReports = res.data.report.reports.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+          setPrevReports(sortedReports);
         } else {
           toast.error(`No reports found for ${url}`);
           setErrorOccurred(true);
@@ -51,16 +54,17 @@ const PreviousReports = () => {
   const memoizedData = useMemo(() => {
     return Array.isArray(prevReports)
       ? prevReports.map((report) => {
-          const formattedDate = new Date(report.createdAt)
-            .toLocaleString("en-US", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-              hour: "numeric",
-              minute: "2-digit",
-              hour12: true,
-            })
-            .replace(",", " at");
+          const formattedDate = `${new Date(
+            report.createdAt
+          ).toLocaleDateString("en-US", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })} at ${new Date(report.createdAt).toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          })}`;
 
           return {
             createdAt: formattedDate,
@@ -167,7 +171,7 @@ const PreviousReports = () => {
                 {/* Accordion Header */}
                 <button
                   onClick={() => toggleAccordion(index)}
-                  className="w-full px-6 py-3 bg-gradient-to-r from-blue-50 to-gray-100 border-b border-gray-200 rounded-t-2xl flex flex-col sm:justify-between sm:items-center sm:flex-row gap-2 focus:outline-none"
+                  className="w-full px-6 py-3 bg-gradient-to-r from-blue-50 to-gray-100 border-b border-gray-200 rounded-t-2xl flex flex-col sm:justify-between sm:items-center sm:flex-row gap-2 focus:outline-none cursor-pointer"
                 >
                   <p className="text-sm font-semibold text-blue-950 tracking-wide">
                     🕒 Generated on
