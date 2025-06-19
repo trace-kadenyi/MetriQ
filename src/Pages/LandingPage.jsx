@@ -15,6 +15,7 @@ import {
   ArrowRightCircle,
 } from "lucide-react";
 import { easeOut, motion } from "framer-motion";
+import clsx from "clsx";
 
 import {
   ScrollFadeFunc,
@@ -25,6 +26,13 @@ import {
   StepCard,
 } from "../Components/FramerMotion";
 import useUrlForm from "../Components/urlForm";
+import preloaderGif from "../assets/preloader_gif.gif";
+import {
+  scoreColour,
+  borderColour,
+  getStatusColor,
+  getScoreStatus,
+} from "../Components/ResultsBlock";
 
 const LandingPage = () => {
   const {
@@ -39,41 +47,26 @@ const LandingPage = () => {
     setShowPopup,
     partialResults,
     submittedUrl,
+    showLongWaitMessage,
   } = useUrlForm();
 
   const navigate = useNavigate();
 
   // render scores
   const renderScore = (label, score) => {
-    let color = "text-gray-600";
-    let ratingText = "N/A";
+    const status = getScoreStatus(score);
+    const colorClass = getStatusColor(status, "text");
+    const ratingText = status.charAt(0).toUpperCase() + status.slice(1); // e.g. "Good", "Average", "Poor"
 
-    if (score >= 90) {
-      color = "text-green-600 font-bold";
-      ratingText = "Good";
-    } else if (score >= 50) {
-      color = "text-yellow-500 font-semibold";
-      ratingText = "Average";
-    } else if (score !== undefined) {
-      color = "text-red-500 font-semibold";
-      ratingText = "Poor";
-    }
     return (
       <p className="mb-1">
         <strong>{label}:</strong>{" "}
-        <span className={`${color}`}>
+        <span className={clsx("font-semibold", colorClass)}>
           {score ?? "N/A"}{" "}
           {score !== undefined && <span className="ml-1">({ratingText})</span>}
         </span>
       </p>
     );
-  };
-
-  // render device score colours
-  const scoreColour = (score) => {
-    if (score >= 90) return "text-green-600";
-    if (score >= 50) return "text-yellow-500";
-    return "text-red-500";
   };
 
   return (
@@ -159,7 +152,7 @@ const LandingPage = () => {
                   setShowPopup(false);
                   setLoading(false);
                 }}
-                className="absolute top-4 right-5 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+                className="absolute top-4 right-5 text-gray-400 hover:text-red-600 text-2xl font-bold"
                 aria-label="Close popup"
               >
                 &times;
@@ -168,15 +161,33 @@ const LandingPage = () => {
               {/* Spinner or Results */}
               {!partialResults ? (
                 <>
-                  <div className="mb-4">
-                    <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                  <div className="my-2 mx-auto flex justify-center">
+                    <img
+                      src={preloaderGif}
+                      alt="Analyzing site"
+                      className="w-12 h-12"
+                    />
                   </div>
                   <h3 className="text-base font-medium">
                     Generating your PageSpeed report...
                   </h3>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Hang tight — this may take up to 20 seconds.
-                  </p>
+                  {!showLongWaitMessage && (
+                    <div>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Hang tight — this may take up to 30 seconds.
+                      </p>
+                    </div>
+                  )}
+                  {/* Appears when it take more than 20s */}
+                  {showLongWaitMessage && (
+                    <div className="mt-3 text-sm max-w-md mx-auto text-center">
+                      <p className="text-red-600 font-semibold leading-relaxed">
+                        Note that this may take longer than usual because the
+                        website has a large number of resources or complex
+                        scripts that require deeper analysis.
+                      </p>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>
@@ -204,7 +215,11 @@ const LandingPage = () => {
                       >
                         📱 Mobile
                       </h4>
-                      <hr className="mb-4 border-t-1 border-blue-950" />
+                      <hr
+                        className={`mb-4 border-t-2 ${borderColour(
+                          partialResults.mobile.performance
+                        )}`}
+                      />{" "}
                       {renderScore(
                         "Performance",
                         partialResults.mobile?.performance
@@ -233,7 +248,11 @@ const LandingPage = () => {
                       >
                         🖥️ Desktop
                       </h4>
-                      <hr className="mb-4 border-t-1 border-blue-950" />
+                      <hr
+                        className={`mb-4 border-t-2 ${borderColour(
+                          partialResults.desktop.performance
+                        )}`}
+                      />{" "}
                       {renderScore(
                         "Performance",
                         partialResults.desktop?.performance
@@ -243,7 +262,7 @@ const LandingPage = () => {
                         "Accessibility",
                         partialResults.desktop?.accessibility
                       )}
-                       {renderScore(
+                      {renderScore(
                         "Best Practices",
                         partialResults.desktop?.bestPractices
                       )}

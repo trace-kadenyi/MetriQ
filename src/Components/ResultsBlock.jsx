@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
 // color combinations
 const textClassMap = {
@@ -33,7 +34,7 @@ export const getStatusColor = (status, type = "style") => {
   return "";
 };
 
-// scores
+// handle scores
 export const ScoreBlock = ({ title, scores }) => (
   <section className="py-3">
     <h3 className="font-bold">{title}</h3>
@@ -45,7 +46,7 @@ export const ScoreBlock = ({ title, scores }) => (
   </section>
 );
 
-// metrics
+// handle metrics
 export const MetricsBlock = ({ title, metrics }) => (
   <section className="py-3 text-sm">
     <h3 className="font-semibold my-2 mb-4 lg:text-center">{title}</h3>
@@ -88,3 +89,57 @@ export const renderVital = (label, key, getStatusColor, deviceData) => (
     <span>{deviceData[key].value}</span>
   </p>
 );
+
+// render device score colours
+export const scoreColour = (score) => {
+  if (score >= 90) return "text-green-500";
+  if (score >= 50) return "text-orange-400";
+  return "text-red-500";
+};
+
+export const borderColour = (score) => {
+  if (score >= 90) return "border-green-500";
+  if (score >= 50) return "border-orange-400";
+  return "border-red-500";
+};
+
+export const getScoreStatus = (score) => {
+  if (score == null) return "default";
+  if (score >= 90) return "good";
+  if (score >= 50) return "average";
+  return "poor";
+};
+
+// opportunity status
+export const getOpportunityStatus = (score) => {
+  if (score >= 0.9) return "good";
+  if (score >= 0.5) return "average";
+  return "poor";
+};
+
+export const ErrorTemp = ({ url, errorGif }) => {
+  const navigate = useNavigate();
+
+  return (
+    <section className="p-6 h-screen bg-gray-100 flex justify-center items-center">
+      <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
+        <img src={errorGif} alt="No data found" className="w-32 h-32 mx-auto" />
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">
+          No reports found for this URL
+        </h2>
+        <p className="text-sm text-gray-600 mb-6">
+          We couldn’t find any past reports for:
+          <span className="block mt-1 text-gray-500 italic break-words">
+            {url}
+          </span>
+        </p>
+        <button
+          onClick={() => navigate("/")}
+          className="px-5 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
+        >
+          Back to Home
+        </button>
+      </div>
+    </section>
+  );
+};

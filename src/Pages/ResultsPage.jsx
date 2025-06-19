@@ -1,12 +1,14 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import clsx from "clsx";
+import toast from "react-hot-toast";
+
 import {
-  ScoreBlock,
   MetricsBlock,
   getStatusColor,
   renderVital,
+  getOpportunityStatus,
 } from "../Components/ResultsBlock";
 import ScoreProgress from "../Components/ScoreProgress";
 import preloader from "../assets/preloader_gif.gif";
@@ -15,7 +17,10 @@ const ResultsPage = () => {
   const [searchParams] = useSearchParams();
   const url = searchParams.get("url");
   const [report, setReport] = useState(null);
+  const [latestReport, setLatestReport] = useState(null);
   const [view, setView] = useState("mobile");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // fetch report from API
@@ -26,12 +31,13 @@ const ResultsPage = () => {
         );
         if (res.data.success) {
           setReport(res.data.report);
+          setLatestReport(res.data.report.reports?.at(-1));
         } else {
-          alert("No report found for this URL.");
+          toast.error("No report found for this URL.");
         }
       } catch (err) {
         console.error("Error fetching report:", err);
-        alert("Could not load the report.");
+        toast.error("An unexepected error occurred. Plesae try again later.");
       }
     };
 
@@ -46,7 +52,7 @@ const ResultsPage = () => {
       scores: { mobile, desktop },
       metrics: { mobile: mobileMetrics, desktop: desktopMetrics },
       suggestions: { mobile: mobileSuggestions, desktop: desktopSuggestions },
-    } = report;
+    } = latestReport;
 
     const isMobile = view === "mobile";
 
@@ -62,9 +68,9 @@ const ResultsPage = () => {
         : desktop.bestPractices,
       suggestions: isMobile ? mobileSuggestions : desktopSuggestions,
     };
-  }, [report, view]);
+  }, [latestReport, view]);
 
-  if (!report)
+  if (!latestReport)
     return (
       <div className="preloader_div flex justify-center items-center h-screen bg-gray-50">
         <img src={preloader} alt="preloader" className="" />
@@ -80,55 +86,61 @@ const ResultsPage = () => {
     suggestions,
   } = memoizedData;
 
-  // opportunity status
-  const getOpportunityStatus = (score) => {
-    if (score >= 0.9) return "good";
-    if (score >= 0.5) return "average";
-    return "poor";
-  };
-
   return (
-    <main className="min-h-screen bg-gray-50" role="main">
+    <main className="min-h-screen bg-gray-50 relative" role="main">
       <div className="m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
-        <section className="flex justify-between items-center flex-wrap gap-4">
-          <h2 className="font-semibold text-lg text-gray-800 underline truncate max-w-[80vw]">
-            <a
-              href={report.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={report.url}
-              aria-label={`Open ${report.url} in a new tab`}
-              className="hover:text-orange-400 hover:italic"
-            >
-              {report.url}
-            </a>
-          </h2>
-
-          <div className="flex gap-2 p-1 rounded-lg bg-gray-100 shadow-inner">
+        <section className="sticky top-0 z-[50] bg-gray-100 border-b border-gray-300 shadow-sm">
+          <div className="flex flex-col lg:flex-row md:justify-center lg:justify-between items-center gap-4 px-6 py-3">
+            {/* url */}
+            <h2 className="font-semibold text-lg text-gray-800 underline truncate max-w-[80vw]">
+              <a
+                href={report.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={report.url}
+                aria-label={`Open ${report.url} in a new tab`}
+                className="hover:text-orange-400 hover:italic"
+              >
+                {report.url}
+              </a>
+            </h2>
+            {/* previous reports */}
             <button
-              aria-label="View mobile report"
-              aria-pressed={view === "mobile"}
-              className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                view === "mobile"
-                  ? "bg-green-600 text-white hover:cursor-not-allowed"
-                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white"
-              }`}
-              onClick={() => setView("mobile")}
+              onClick={() => {
+                navigate(
+                  `/previous-reports?url=${encodeURIComponent(report.url)}`
+                );
+              }}
+              className="bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer px-5 py-2 mt-2"
             >
-              Mobile
+              View Previous Reports
             </button>
-            <button
-              aria-label="View desktop report"
-              aria-pressed={view === "desktop"}
-              className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                view === "desktop"
-                  ? "bg-green-600 text-white hover:cursor-not-allowed"
-                  : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white"
-              }`}
-              onClick={() => setView("desktop")}
-            >
-              Desktop
-            </button>
+            <div className="flex gap-2 p-1 rounded-lg bg-gray-100 shadow-inner position-fixed">
+              <button
+                aria-label="View mobile report"
+                aria-pressed={view === "mobile"}
+                className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+                  view === "mobile"
+                    ? "bg-green-600 text-white hover:cursor-not-allowed"
+                    : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer"
+                }`}
+                onClick={() => setView("mobile")}
+              >
+                Mobile
+              </button>
+              <button
+                aria-label="View desktop report"
+                aria-pressed={view === "desktop"}
+                className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+                  view === "desktop"
+                    ? "bg-green-600 text-white hover:cursor-not-allowed"
+                    : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer"
+                }`}
+                onClick={() => setView("desktop")}
+              >
+                Desktop
+              </button>
+            </div>
           </div>
         </section>
 
@@ -148,7 +160,7 @@ const ResultsPage = () => {
               Core Web Vitals
             </h4>
             <div className="flex gap-3 flex-col md:flex-row">
-              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100">
+              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
                 {renderVital(
                   "LCP",
                   "Largest Contentful Paint",
@@ -156,7 +168,7 @@ const ResultsPage = () => {
                   deviceData
                 )}
               </div>
-              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100">
+              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
                 {renderVital(
                   "First Input Delay",
                   "First Input Delay",
@@ -164,7 +176,7 @@ const ResultsPage = () => {
                   deviceData
                 )}
               </div>
-              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100">
+              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
                 {renderVital(
                   "Cumulative Layout Shift",
                   "Cumulative Layout Shift",

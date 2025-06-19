@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function useUrlForm() {
   const [url, setUrl] = useState("");
@@ -10,8 +10,9 @@ export default function useUrlForm() {
   const [showPopup, setShowPopup] = useState(false);
   const [partialResults, setPartialResults] = useState(null);
   const [submittedUrl, setSubmittedUrl] = useState("");
+  const [showLongWaitMessage, setShowLongWaitMessage] = useState(false);
 
-  const navigate = useNavigate();
+  let timeoutId = useRef(null);
 
   // validate url
   const validateUrlFormat = (value) => {
@@ -33,6 +34,8 @@ export default function useUrlForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setHasSubmitted(true);
+    setShowLongWaitMessage(false);
+    clearTimeout(timeoutId.current);
 
     if (!isValidFormat) return;
 
@@ -46,17 +49,22 @@ export default function useUrlForm() {
           url,
         });
       } catch (checkErr) {
-        alert("URL could not be reached. Please check the address.");
+        toast.error("URL could not be reached. Please check the address.");
         return;
       }
 
       if (!checkRes.data.success) {
-        alert("URL is not reachable or invalid.");
+        toast.error("URL is not reachable or invalid.");
         return;
       }
 
       setSubmittedUrl(url.trim());
       setShowPopup(true);
+
+      // START timeout for 20s message
+      timeoutId.current = setTimeout(() => {
+        setShowLongWaitMessage(true);
+      }, 30000);
 
       // Step 2: Generate the report
       let reportRes;
@@ -66,36 +74,42 @@ export default function useUrlForm() {
         });
         setUrl("");
       } catch (reportErr) {
-        alert("Something went wrong while generating the report.");
+        toast.error(
+          "Something went wrong while generating the report. Please try again."
+        );
         setShowPopup(false);
+        clearTimeout(timeoutId.current);
         return;
       }
 
       if (reportRes.data.success && reportRes.data.report) {
         const report = reportRes.data.report;
+        const latestReport = report.reports?.at(-1);
         const partial = {
           mobile: {
-            performance: report.scores?.mobile?.performance,
-            seo: report.scores?.mobile?.seo,
-            accessibility: report.scores?.mobile?.accessibility,
-            bestPractices: report.scores?.mobile?.bestPractices,
+            performance: latestReport?.scores?.mobile?.performance,
+            seo: latestReport?.scores?.mobile?.seo,
+            accessibility: latestReport?.scores?.mobile?.accessibility,
+            bestPractices: latestReport?.scores?.mobile?.bestPractices,
           },
           desktop: {
-            performance: report.scores?.desktop?.performance,
-            seo: report.scores?.desktop?.seo,
-            accessibility: report.scores?.desktop?.accessibility,
-            bestPractices: report.scores?.desktop?.bestPractices,
+            performance: latestReport?.scores?.desktop?.performance,
+            seo: latestReport?.scores?.desktop?.seo,
+            accessibility: latestReport?.scores?.desktop?.accessibility,
+            bestPractices: latestReport?.scores?.desktop?.bestPractices,
           },
         };
 
         setPartialResults(partial); // Save partial results
       } else {
-        alert("Something went wrong.");
+        toast.error("Ooops! Something went wrong.");
         setShowPopup(false);
+        clearTimeout(timeoutId.current);
       }
     } catch (err) {
-      alert("An unexpected error occurred. Please try again.");
+      toast.error("An unexpected error occurred. Please try again.");
       setShowPopup(false);
+      clearTimeout(timeoutId.current);
     } finally {
       setLoading(false);
     }
@@ -113,5 +127,6 @@ export default function useUrlForm() {
     setShowPopup,
     partialResults,
     submittedUrl,
+    showLongWaitMessage,
   };
 }

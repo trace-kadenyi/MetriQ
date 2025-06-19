@@ -1,11 +1,15 @@
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import clsx from "clsx";
 
 const ScoreProgress = ({
   performanceScore,
   seoScore,
   accessibilityScore,
   bestPracticesScore,
+  showDescriptions = true,
+  progressWrapperClassName = "",
+  wrapperAlign = "md:items-center",
 }) => {
   const getScoreColor = (score) => {
     if (score >= 90) return "#22c55e";
@@ -47,9 +51,14 @@ const ScoreProgress = ({
       {items.map(({ title, score, description }) => (
         <div
           key={title}
-          className="flex flex-col  gap-2 lg:w-1/2 mx-auto md:items-center"
+          className={clsx("flex flex-col gap-2 lg:w-1/2 mx-auto", wrapperAlign)}
         >
-          <div className="w-18 h-18 sm:w-24 sm:h-24">
+          <div
+            className={clsx(
+              !progressWrapperClassName && "w-18 h-18 sm:w-24 sm:h-24",
+              progressWrapperClassName
+            )}
+          >
             <CircularProgressbar
               className="circularProgress"
               value={score}
@@ -67,7 +76,7 @@ const ScoreProgress = ({
             <p className="score_title md:text-center text-gray-700 font-semibold">
               {title}
             </p>
-            {description && (
+            {showDescriptions && description && (
               <p className="scores_desc text-gray-700 md:text-center">
                 {description}
               </p>
