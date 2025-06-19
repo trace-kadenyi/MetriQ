@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
 // color combinations
 const textClassMap = {
@@ -114,4 +115,31 @@ export const getOpportunityStatus = (score) => {
   if (score >= 0.9) return "good";
   if (score >= 0.5) return "average";
   return "poor";
+};
+
+export const ErrorTemp = ({ url, errorGif }) => {
+  const navigate = useNavigate();
+
+  return (
+    <section className="p-6 h-screen bg-gray-100 flex justify-center items-center">
+      <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
+        <img src={errorGif} alt="No data found" className="w-32 h-32 mx-auto" />
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">
+          No reports found for this URL
+        </h2>
+        <p className="text-sm text-gray-600 mb-6">
+          We couldn’t find any past reports for:
+          <span className="block mt-1 text-gray-500 italic break-words">
+            {url}
+          </span>
+        </p>
+        <button
+          onClick={() => navigate("/")}
+          className="px-5 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
+        >
+          Back to Home
+        </button>
+      </div>
+    </section>
+  );
 };
