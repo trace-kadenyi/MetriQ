@@ -143,7 +143,7 @@ const PreviousReports = () => {
         // main content
         <div className="m-2 sm:m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
           <section>
-            <h2 className="font-semibold text-lg text-gray-800 underline truncate max-w-[80vw] my-4">
+            <h2 className="font-semibold text-lg text-gray-800 underline max-w-[80vw] my-4 break-words">
               Showing reports for:{" "}
               <a
                 href={url}
@@ -156,6 +156,25 @@ const PreviousReports = () => {
                 {url}
               </a>
             </h2>
+            <p className="text-sm text-gray-700 py-3 rounded-lg mb-6 leading-relaxed">
+              These are the{" "}
+              <span className="font-semibold text-blue-500">
+                most recent performance reports
+              </span>{" "}
+              for{" "}
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-blue-500 hover:text-orange-500"
+              >
+                {url}
+              </a>
+              .<br className="hidden sm:block" />
+              Up to{" "}
+              <span className="font-semibold text-blue-500">5 reports</span> are
+              saved per site. Click any card below to view full details.
+            </p>
 
             <div className="mt-6 space-y-6">
               {memoizedData.map((report, index) => (
