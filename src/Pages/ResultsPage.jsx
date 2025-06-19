@@ -5,10 +5,10 @@ import clsx from "clsx";
 import toast from "react-hot-toast";
 
 import {
-  ScoreBlock,
   MetricsBlock,
   getStatusColor,
   renderVital,
+  getOpportunityStatus,
 } from "../Components/ResultsBlock";
 import ScoreProgress from "../Components/ScoreProgress";
 import preloader from "../assets/preloader_gif.gif";
@@ -85,13 +85,6 @@ const ResultsPage = () => {
     bestPracticesScore,
     suggestions,
   } = memoizedData;
-
-  // opportunity status
-  const getOpportunityStatus = (score) => {
-    if (score >= 0.9) return "good";
-    if (score >= 0.5) return "average";
-    return "poor";
-  };
 
   return (
     <main className="min-h-screen bg-gray-50 relative" role="main">

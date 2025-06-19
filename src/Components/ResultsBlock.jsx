@@ -33,7 +33,7 @@ export const getStatusColor = (status, type = "style") => {
   return "";
 };
 
-// scores
+// handle scores
 export const ScoreBlock = ({ title, scores }) => (
   <section className="py-3">
     <h3 className="font-bold">{title}</h3>
@@ -45,7 +45,7 @@ export const ScoreBlock = ({ title, scores }) => (
   </section>
 );
 
-// metrics
+// handle metrics
 export const MetricsBlock = ({ title, metrics }) => (
   <section className="py-3 text-sm">
     <h3 className="font-semibold my-2 mb-4 lg:text-center">{title}</h3>
@@ -100,4 +100,18 @@ export const borderColour = (score) => {
   if (score >= 90) return "border-green-500";
   if (score >= 50) return "border-orange-400";
   return "border-red-500";
+};
+
+export const getScoreStatus = (score) => {
+  if (score == null) return "default";
+  if (score >= 90) return "good";
+  if (score >= 50) return "average";
+  return "poor";
+};
+
+// opportunity status
+export const getOpportunityStatus = (score) => {
+  if (score >= 0.9) return "good";
+  if (score >= 0.5) return "average";
+  return "poor";
 };
