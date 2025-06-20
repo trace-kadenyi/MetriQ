@@ -20,6 +20,9 @@ const PreviousReports = () => {
   const [errorOccurred, setErrorOccurred] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openIndex, setOpenIndex] = useState(null);
+  const [aiSummary, setAiSummary] = useState("");
+  const [generatingSummary, setGeneratingSummary] = useState(false);
+
   const [searchParams] = useSearchParams();
   const url = searchParams.get("url");
   const navigate = useNavigate();
@@ -76,6 +79,49 @@ const PreviousReports = () => {
         })
       : [];
   }, [prevReports]);
+
+  const generateSummaryInput = () => {
+    return memoizedData
+      .map((report, index) => {
+        return `Report ${index + 1} (${report.createdAt})
+Mobile - Performance: ${report.scores.mobile.performance}, SEO: ${
+          report.scores.mobile.seo
+        }, Best Practices: ${
+          report.scores.mobile.bestPractices
+        }, Accessibility: ${report.scores.mobile.accessibility}
+Metrics - LCP: ${report.metrics.mobile.lcp}, TBT: ${
+          report.metrics.mobile.tbt
+        }, CLS: ${report.metrics.mobile.cls}
+
+Desktop - Performance: ${report.scores.desktop.performance}, SEO: ${
+          report.scores.desktop.seo
+        }, Best Practices: ${
+          report.scores.desktop.bestPractices
+        }, Accessibility: ${report.scores.desktop.accessibility}
+Metrics - LCP: ${report.metrics.desktop.lcp}, TBT: ${
+          report.metrics.desktop.tbt
+        }, CLS: ${report.metrics.desktop.cls}`;
+      })
+      .join("\n\n");
+  };
+
+  const handleAISummary = async () => {
+    setGeneratingSummary(true);
+    try {
+      const inputText = generateSummaryInput();
+
+      const res = await axios.post("http://localhost:4000/api/summarize", {
+        inputText,
+      });
+
+      setAiSummary(res.data.summary);
+    } catch (err) {
+      console.error("AI summarization failed:", err);
+      toast.error("Failed to generate AI summary");
+    } finally {
+      setGeneratingSummary(false);
+    }
+  };
 
   // toggle accordion
   const toggleAccordion = (i) => {
@@ -175,6 +221,32 @@ const PreviousReports = () => {
               <span className="font-semibold text-blue-500">5 reports</span> are
               saved per site. Click any card below to view full details.
             </p>
+
+            {/* Generate AI Summary */}
+            <button
+              onClick={handleAISummary}
+              disabled={generatingSummary}
+              className="bg-gradient-to-r from-blue-600 to-green-500 text-white px-4 py-2 rounded shadow hover:opacity-90 disabled:opacity-60"
+            >
+              🧠 Generate AI Summary
+            </button>
+
+            {generatingSummary && (
+              <p className="text-sm text-gray-600 mt-2 italic">
+                Generating summary...
+              </p>
+            )}
+
+            {aiSummary && (
+              <div className="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded shadow">
+                <h4 className="text-md font-bold text-yellow-700 mb-2">
+                  AI Summary
+                </h4>
+                <p className="text-sm text-gray-800 whitespace-pre-wrap">
+                  {aiSummary}
+                </p>
+              </div>
+            )}
 
             <div className="mt-6 space-y-6">
               {memoizedData.map((report, index) => (
