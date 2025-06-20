@@ -17,12 +17,13 @@ import preloader from "../assets/preloader_gif.gif";
 
 const PreviousReports = () => {
   const [prevReports, setPrevReports] = useState([]);
+  const [unsortedAiReports, setUnsortedAiReports] = useState([]);
   const [errorOccurred, setErrorOccurred] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openIndex, setOpenIndex] = useState(null);
   const [aiSummary, setAiSummary] = useState("");
   const [generatingSummary, setGeneratingSummary] = useState(false);
-
+  const [showSummary, setShowSummary] = useState(false);
   const [searchParams] = useSearchParams();
   const url = searchParams.get("url");
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const PreviousReports = () => {
   useEffect(() => {
     const fetchPrevReports = async () => {
       setLoading(true);
+      setAiSummary("");
       try {
         const res = await axios.get(
           `http://localhost:4000/api/url/report?url=${encodeURIComponent(url)}`
@@ -40,6 +42,7 @@ const PreviousReports = () => {
             (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
           );
           setPrevReports(sortedReports);
+          setUnsortedAiReports(res.data.report.reports);
         } else {
           toast.error(`No reports found for ${url}`);
           setErrorOccurred(true);
@@ -80,32 +83,58 @@ const PreviousReports = () => {
       : [];
   }, [prevReports]);
 
-  const generateSummaryInput = () => {
-    return memoizedData
-      .map((report, index) => {
-        return `Report ${index + 1} (${report.createdAt})
-Mobile - Performance: ${report.scores.mobile.performance}, SEO: ${
-          report.scores.mobile.seo
-        }, Best Practices: ${
-          report.scores.mobile.bestPractices
-        }, Accessibility: ${report.scores.mobile.accessibility}
-Metrics - LCP: ${report.metrics.mobile.lcp}, TBT: ${
-          report.metrics.mobile.tbt
-        }, CLS: ${report.metrics.mobile.cls}
+  // generate summary input text
 
-Desktop - Performance: ${report.scores.desktop.performance}, SEO: ${
-          report.scores.desktop.seo
-        }, Best Practices: ${
-          report.scores.desktop.bestPractices
-        }, Accessibility: ${report.scores.desktop.accessibility}
-Metrics - LCP: ${report.metrics.desktop.lcp}, TBT: ${
-          report.metrics.desktop.tbt
-        }, CLS: ${report.metrics.desktop.cls}`;
+  const generateSummaryInput = () => {
+    return [...unsortedAiReports] // clone to avoid mutating state
+      .reverse() // most recent first
+      .map((report, index) => {
+        const m = report.metrics.mobile;
+        const d = report.metrics.desktop;
+        const formattedDate = new Date(report.createdAt).toLocaleDateString(
+          "en-US",
+          { day: "numeric", month: "long", year: "numeric" }
+        );
+
+        return `Report ${index + 1} (${formattedDate})
+
+Mobile Scores:
+- Performance: ${report.scores.mobile.performance}
+- SEO: ${report.scores.mobile.seo}
+- Best Practices: ${report.scores.mobile.bestPractices}
+- Accessibility: ${report.scores.mobile.accessibility}
+
+Mobile Metrics:
+- Largest Contentful Paint: ${m["Largest Contentful Paint"]?.value || "N/A"}
+- First Contentful Paint: ${m["First Contentful Paint"]?.value || "N/A"}
+- First Input Delay: ${m["First Input Delay"]?.value || "N/A"}
+- Cumulative Layout Shift: ${m["Cumulative Layout Shift"]?.value || "N/A"}
+- Speed Index: ${m["Speed Index"]?.value || "N/A"}
+- Total Blocking Time: ${m["Total Blocking Time"]?.value || "N/A"}
+
+Desktop Scores:
+- Performance: ${report.scores.desktop.performance}
+- SEO: ${report.scores.desktop.seo}
+- Best Practices: ${report.scores.desktop.bestPractices}
+- Accessibility: ${report.scores.desktop.accessibility}
+
+Desktop Metrics:
+- Largest Contentful Paint: ${d["Largest Contentful Paint"]?.value || "N/A"}
+- First Contentful Paint: ${d["First Contentful Paint"]?.value || "N/A"}
+- First Input Delay: ${d["First Input Delay"]?.value || "N/A"}
+- Cumulative Layout Shift: ${d["Cumulative Layout Shift"]?.value || "N/A"}
+- Speed Index: ${d["Speed Index"]?.value || "N/A"}
+- Total Blocking Time: ${d["Total Blocking Time"]?.value || "N/A"}`;
       })
       .join("\n\n");
   };
 
+  // AI summary trigger
   const handleAISummary = async () => {
+    if (aiSummary && showSummary) {
+      setShowSummary(false);
+      return;
+    }
     setGeneratingSummary(true);
     try {
       const inputText = generateSummaryInput();
@@ -115,6 +144,7 @@ Metrics - LCP: ${report.metrics.desktop.lcp}, TBT: ${
       });
 
       setAiSummary(res.data.summary);
+      setShowSummary(true);
     } catch (err) {
       console.error("AI summarization failed:", err);
       toast.error("Failed to generate AI summary");
@@ -222,33 +252,56 @@ Metrics - LCP: ${report.metrics.desktop.lcp}, TBT: ${
               saved per site. Click any card below to view full details.
             </p>
 
-            {/* Generate AI Summary */}
-            <button
-              onClick={handleAISummary}
-              disabled={generatingSummary}
-              className="bg-gradient-to-r from-blue-600 to-green-500 text-white px-4 py-2 rounded shadow hover:opacity-90 disabled:opacity-60"
-            >
-              🧠 Generate AI Summary
-            </button>
-
-            {generatingSummary && (
-              <p className="text-sm text-gray-600 mt-2 italic">
-                Generating summary...
-              </p>
-            )}
-
-            {aiSummary && (
-              <div className="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded shadow">
-                <h4 className="text-md font-bold text-yellow-700 mb-2">
-                  AI Summary
-                </h4>
-                <p className="text-sm text-gray-800 whitespace-pre-wrap">
-                  {aiSummary}
-                </p>
-              </div>
-            )}
-
             <div className="mt-6 space-y-6">
+              {/* Generate AI Summary */}
+              <button
+                onClick={handleAISummary}
+                disabled={generatingSummary}
+                className="bg-gradient-to-r from-blue-600 to-green-500 text-white px-4 py-2 rounded shadow hover:opacity-90 disabled:opacity-60 cursor-pointer flex items-center gap-2"
+              >
+                {generatingSummary ? (
+                  <>
+                    <svg
+                      className="w-5 h-5 animate-spin text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                      ></path>
+                    </svg>
+                    Generating...
+                  </>
+                ) : aiSummary && showSummary ? (
+                  "🙈 Hide AI Analysis"
+                ) : (
+                  "🧠 Generate AI Analysis"
+                )}
+              </button>
+
+              {aiSummary && showSummary && (
+                <div className="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded shadow">
+                  <h4 className="text-md font-bold text-yellow-700 mb-2">
+                    AI ANALYSIS
+                  </h4>
+                  <p className="text-sm text-gray-800 whitespace-pre-wrap">
+                    {aiSummary}
+                  </p>
+                </div>
+              )}
+
+              {/* previous reports */}
               {memoizedData.map((report, index) => (
                 <div
                   key={index}
