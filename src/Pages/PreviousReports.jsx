@@ -132,10 +132,11 @@ Desktop Metrics:
 
   // AI summary trigger
   const handleAISummary = async () => {
-    if (aiSummary && showSummary) {
-      setShowSummary(false);
+    if (aiSummary) {
+      setShowSummary((prev) => !prev);
       return;
     }
+
     setGeneratingSummary(true);
     try {
       const inputText = generateSummaryInput();
