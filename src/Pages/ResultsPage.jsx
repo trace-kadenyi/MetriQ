@@ -70,13 +70,6 @@ const ResultsPage = () => {
     };
   }, [latestReport, view]);
 
-  if (!latestReport)
-    return (
-      <div className="preloader_div flex justify-center items-center h-screen bg-gray-50">
-        <img src={preloader} alt="preloader" className="" />
-      </div>
-    );
-
   const {
     deviceData,
     performanceScore,
@@ -85,6 +78,14 @@ const ResultsPage = () => {
     bestPracticesScore,
     suggestions,
   } = memoizedData;
+
+  // preloader
+  if (!latestReport)
+    return (
+      <div className="preloader_div flex justify-center items-center h-screen bg-gray-50">
+        <img src={preloader} alt="preloader" className="" />
+      </div>
+    );
 
   return (
     <main className="min-h-screen bg-gray-50 relative" role="main">
@@ -113,7 +114,7 @@ const ResultsPage = () => {
               }}
               className="bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer px-5 py-2 mt-2"
             >
-              View Previous Reports
+              View All Reports
             </button>
             <div className="flex gap-2 p-1 rounded-lg bg-gray-100 shadow-inner position-fixed">
               <button
