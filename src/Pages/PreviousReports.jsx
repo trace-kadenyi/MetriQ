@@ -16,6 +16,7 @@ import {
 import MarkdownRenderer from "../Components/MarkdownRenderer";
 import AISummaryButton from "../Components/AiSummaryButton";
 import Accordion from "../Components/Accordion";
+import { useFetchReports } from "../hooks/fetchPrevReports";
 
 const PreviousReports = () => {
   const [prevReports, setPrevReports] = useState([]);
@@ -29,33 +30,16 @@ const PreviousReports = () => {
   const url = searchParams.get("url");
 
   // fetch previous reports
+  const fetchReports = useFetchReports(
+    url,
+    setLoading,
+    setAiSummary,
+    setPrevReports,
+    setUnsortedAiReports,
+    setErrorOccurred
+  );
   useEffect(() => {
-    const fetchPrevReports = async () => {
-      setLoading(true);
-      setAiSummary("");
-      try {
-        const res = await axios.get(
-          `http://localhost:4000/api/url/report?url=${encodeURIComponent(url)}`
-        );
-        if (res.data.success) {
-          const sortedReports = res.data.report.reports.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-          );
-          setPrevReports(sortedReports);
-          setUnsortedAiReports(res.data.report.reports);
-        } else {
-          toast.error(`No reports found for ${url}`);
-          setErrorOccurred(true);
-        }
-      } catch (err) {
-        console.error("Error fetching reports: ", err);
-        setErrorOccurred(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (url) fetchPrevReports();
+    if (url) fetchReports();
   }, [url]);
 
   // memoize data
@@ -167,7 +151,7 @@ const PreviousReports = () => {
                   <motion.article
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                     className="prose prose-sm sm:prose lg:prose-lg prose-orange prose-li:marker:text-orange-400 text-gray-800 max-w-none"
                   >
                     <MarkdownRenderer content={aiSummary} />
