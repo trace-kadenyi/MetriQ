@@ -169,7 +169,7 @@ const LandingPage = () => {
                     />
                   </div>
                   <h3 className="text-base font-medium">
-                    Generating your PageSpeed report...
+                    Generating your PageSpeed Insights report...
                   </h3>
                   {!showLongWaitMessage && (
                     <div>
