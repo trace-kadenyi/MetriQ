@@ -1,20 +1,20 @@
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
 
 import errorGif from "../assets/error.gif";
-import {
-  MetricsBlock,
-  scoreColour,
-  borderColour,
-  ErrorTemp,
-} from "../Components/ResultsBlock";
-import ScoreProgress from "../Components/ScoreProgress";
+import { scoreColour, ErrorTemp } from "../Components/ResultsBlock";
 import preloader from "../assets/preloader_gif.gif";
+import {
+  generateSummaryInput,
+  ReportSection,
+} from "../Components/PrevResultsBlock";
+import MarkdownRenderer from "../Components/MarkdownRenderer";
+import AISummaryButton from "../Components/AiSummaryButton";
 
 const PreviousReports = () => {
   const [prevReports, setPrevReports] = useState([]);
@@ -27,7 +27,6 @@ const PreviousReports = () => {
   const [showSummary, setShowSummary] = useState(false);
   const [searchParams] = useSearchParams();
   const url = searchParams.get("url");
-  const navigate = useNavigate();
 
   // fetch previous reports
   useEffect(() => {
@@ -84,52 +83,6 @@ const PreviousReports = () => {
       : [];
   }, [prevReports]);
 
-  // generate summary input text
-
-  const generateSummaryInput = () => {
-    return [...unsortedAiReports] // clone to avoid mutating state
-      .reverse() // most recent first
-      .map((report, index) => {
-        const m = report.metrics.mobile;
-        const d = report.metrics.desktop;
-        const formattedDate = new Date(report.createdAt).toLocaleDateString(
-          "en-US",
-          { day: "numeric", month: "long", year: "numeric" }
-        );
-
-        return `Report ${index + 1} (${formattedDate})
-
-Mobile Scores:
-- Performance: ${report.scores.mobile.performance}
-- SEO: ${report.scores.mobile.seo}
-- Best Practices: ${report.scores.mobile.bestPractices}
-- Accessibility: ${report.scores.mobile.accessibility}
-
-Mobile Metrics:
-- Largest Contentful Paint: ${m["Largest Contentful Paint"]?.value || "N/A"}
-- First Contentful Paint: ${m["First Contentful Paint"]?.value || "N/A"}
-- First Input Delay: ${m["First Input Delay"]?.value || "N/A"}
-- Cumulative Layout Shift: ${m["Cumulative Layout Shift"]?.value || "N/A"}
-- Speed Index: ${m["Speed Index"]?.value || "N/A"}
-- Total Blocking Time: ${m["Total Blocking Time"]?.value || "N/A"}
-
-Desktop Scores:
-- Performance: ${report.scores.desktop.performance}
-- SEO: ${report.scores.desktop.seo}
-- Best Practices: ${report.scores.desktop.bestPractices}
-- Accessibility: ${report.scores.desktop.accessibility}
-
-Desktop Metrics:
-- Largest Contentful Paint: ${d["Largest Contentful Paint"]?.value || "N/A"}
-- First Contentful Paint: ${d["First Contentful Paint"]?.value || "N/A"}
-- First Input Delay: ${d["First Input Delay"]?.value || "N/A"}
-- Cumulative Layout Shift: ${d["Cumulative Layout Shift"]?.value || "N/A"}
-- Speed Index: ${d["Speed Index"]?.value || "N/A"}
-- Total Blocking Time: ${d["Total Blocking Time"]?.value || "N/A"}`;
-      })
-      .join("\n\n");
-  };
-
   // AI summary trigger
   const handleAISummary = async () => {
     if (aiSummary) {
@@ -139,7 +92,7 @@ Desktop Metrics:
 
     setGeneratingSummary(true);
     try {
-      const inputText = generateSummaryInput();
+      const inputText = generateSummaryInput(unsortedAiReports);
 
       const res = await axios.post("http://localhost:4000/api/summarize", {
         inputText,
@@ -167,50 +120,6 @@ Desktop Metrics:
         <img src={preloader} alt="preloader" className="" />
       </div>
     );
-
-  // Report section template
-  const ReportSection = ({ label, icon, scores, metrics }) => (
-    <div className="p-2 sm:p-4 bg-white rounded-xl shadow-inner">
-      <h4
-        className={`font-semibold text-lg mb-1 ${scoreColour(
-          scores.performance
-        )}`}
-      >
-        {icon} {label}
-      </h4>
-      <hr className={`mb-4 border-t-2 ${borderColour(scores.performance)}`} />{" "}
-      <div className="flex gap-3 md:gap-5 flex-wrap justify-center  border-red-500 px-3">
-        <div className="flex">
-          <ScoreProgress
-            performanceScore={scores.performance}
-            progressWrapperClassName="w-14 h-14 sm:w-20 sm:h-20"
-            wrapperAlign="items-center"
-          />
-        </div>
-        <ScoreProgress
-          seoScore={scores.seo}
-          showDescriptions={false}
-          progressWrapperClassName="w-14 h-14 sm:w-20 sm:h-20"
-          wrapperAlign="items-center"
-        />
-        <ScoreProgress
-          bestPracticesScore={scores.bestPractices}
-          showDescriptions={false}
-          progressWrapperClassName="w-14 h-14 sm:w-20 sm:h-20"
-          wrapperAlign="items-center"
-        />
-        <ScoreProgress
-          accessibilityScore={scores.accessibility}
-          showDescriptions={false}
-          progressWrapperClassName="w-14 h-14 sm:w-20 sm:h-20"
-          wrapperAlign="items-center"
-        />
-      </div>
-      <div className="bg-white mt-2 px-6 py-2 rounded-xl shadow-sm">
-        <MetricsBlock title="METRICS" metrics={metrics} />
-      </div>
-    </div>
-  );
 
   return (
     <main className="min-h-screen bg-gray-50 relative" role="main">
@@ -256,41 +165,13 @@ Desktop Metrics:
 
             <div className="mt-6 space-y-6">
               {/* Generate AI Summary */}
-              <button
+              <AISummaryButton
                 onClick={handleAISummary}
                 disabled={generatingSummary}
-                className="bg-gradient-to-r from-blue-600 to-green-500 text-white px-4 py-2 rounded shadow hover:opacity-90 disabled:opacity-60 cursor-pointer flex items-center gap-2"
-              >
-                {generatingSummary ? (
-                  <>
-                    <svg
-                      className="w-5 h-5 animate-spin text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                      ></path>
-                    </svg>
-                    Generating...
-                  </>
-                ) : aiSummary && showSummary ? (
-                  "🙈 Hide AI Analysis"
-                ) : (
-                  "🧠 Generate AI Analysis"
-                )}
-              </button>
+                aiSummary={aiSummary}
+                showSummary={showSummary}
+                generatingSummary={generatingSummary}
+              />
               {aiSummary && showSummary && (
                 <div className="mt-6 p-6 bg-gradient-to-br from-blue-50 to-gray-100 border-l-4 border-orange-400 rounded-xl shadow space-y-4">
                   <motion.article
@@ -299,82 +180,7 @@ Desktop Metrics:
                     transition={{ duration: 0.4, ease: "easeOut" }}
                     className="prose prose-sm sm:prose lg:prose-lg prose-orange prose-li:marker:text-orange-400 text-gray-800 max-w-none"
                   >
-                    <ReactMarkdown
-                      components={{
-                        h2({ children }) {
-                          return (
-                            <h2 className="text-xl font-semibold text-gray-900 mt-10 mb-5 underline underline-offset-4">
-                              {children}
-                            </h2>
-                          );
-                        },
-                        h3({ children }) {
-                          return (
-                            <h3 className="text-lg font-semibold text-gray-800 mt-8 mb-4 underline underline-offset-4">
-                              {children}
-                            </h3>
-                          );
-                        },
-                        h4({ children }) {
-                          return (
-                            <h3 className="font-semibold text-gray-800 mt-8 mb-4">
-                              {children}
-                            </h3>
-                          );
-                        },
-                        p({ children }) {
-                          return (
-                            <p className="my-4 text-black leading-relaxed">
-                              {children}
-                            </p>
-                          );
-                        },
-                        ul({ children }) {
-                          return (
-                            <ul className="my-4 list-disc pl-6 text-black">
-                              {children}
-                            </ul>
-                          );
-                        },
-                        ol({ children }) {
-                          return (
-                            <ol className="my-4 list-decimal pl-6 text-black">
-                              {children}
-                            </ol>
-                          );
-                        },
-                        li({ children }) {
-                          return <li className="mb-2">{children}</li>;
-                        },
-                        strong({ children }) {
-                          return (
-                            <strong className="font-semibold text-gray-800">
-                              {children}
-                            </strong>
-                          );
-                        },
-                        em({ children }) {
-                          return (
-                            <em className="font-semibold text-gray-800 italic">
-                              {children}
-                            </em>
-                          );
-                        },
-                        code({ inline, children }) {
-                          return inline ? (
-                            <code className="bg-gray-100 rounded px-1 text-red-500 text-sm">
-                              {children}
-                            </code>
-                          ) : (
-                            <pre className="bg-gray-800 text-white p-4 rounded overflow-x-auto text-sm my-6">
-                              <code>{children}</code>
-                            </pre>
-                          );
-                        },
-                      }}
-                    >
-                      {aiSummary}
-                    </ReactMarkdown>
+                    <MarkdownRenderer content={aiSummary} />
                   </motion.article>
                 </div>
               )}
