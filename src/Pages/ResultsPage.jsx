@@ -9,6 +9,7 @@ import {
   getStatusColor,
   renderVital,
   getOpportunityStatus,
+  Loader,
 } from "../Components/ResultsBlock";
 import ScoreProgress from "../Components/ScoreProgress";
 import preloader from "../assets/preloader_gif.gif";
@@ -80,12 +81,7 @@ const ResultsPage = () => {
   } = memoizedData;
 
   // preloader
-  if (!latestReport)
-    return (
-      <div className="preloader_div flex justify-center items-center h-screen bg-gray-50">
-        <img src={preloader} alt="preloader" className="" />
-      </div>
-    );
+  if (!latestReport) return <Loader src={preloader} />;
 
   return (
     <main className="min-h-screen bg-gray-50 relative" role="main">

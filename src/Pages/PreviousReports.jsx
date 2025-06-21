@@ -7,7 +7,7 @@ import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
 
 import errorGif from "../assets/error.gif";
-import { scoreColour, ErrorTemp } from "../Components/ResultsBlock";
+import { scoreColour, ErrorTemp, Loader } from "../Components/ResultsBlock";
 import preloader from "../assets/preloader_gif.gif";
 import {
   generateSummaryInput,
@@ -15,13 +15,14 @@ import {
 } from "../Components/PrevResultsBlock";
 import MarkdownRenderer from "../Components/MarkdownRenderer";
 import AISummaryButton from "../Components/AiSummaryButton";
+import Accordion from "../Components/Accordion";
+import { useFetchReports } from "../hooks/fetchPrevReports";
 
 const PreviousReports = () => {
   const [prevReports, setPrevReports] = useState([]);
   const [unsortedAiReports, setUnsortedAiReports] = useState([]);
   const [errorOccurred, setErrorOccurred] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [openIndex, setOpenIndex] = useState(null);
   const [aiSummary, setAiSummary] = useState("");
   const [generatingSummary, setGeneratingSummary] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
@@ -29,33 +30,16 @@ const PreviousReports = () => {
   const url = searchParams.get("url");
 
   // fetch previous reports
+  const fetchReports = useFetchReports(
+    url,
+    setLoading,
+    setAiSummary,
+    setPrevReports,
+    setUnsortedAiReports,
+    setErrorOccurred
+  );
   useEffect(() => {
-    const fetchPrevReports = async () => {
-      setLoading(true);
-      setAiSummary("");
-      try {
-        const res = await axios.get(
-          `http://localhost:4000/api/url/report?url=${encodeURIComponent(url)}`
-        );
-        if (res.data.success) {
-          const sortedReports = res.data.report.reports.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-          );
-          setPrevReports(sortedReports);
-          setUnsortedAiReports(res.data.report.reports);
-        } else {
-          toast.error(`No reports found for ${url}`);
-          setErrorOccurred(true);
-        }
-      } catch (err) {
-        console.error("Error fetching reports: ", err);
-        setErrorOccurred(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (url) fetchPrevReports();
+    if (url) fetchReports();
   }, [url]);
 
   // memoize data
@@ -108,18 +92,8 @@ const PreviousReports = () => {
     }
   };
 
-  // toggle accordion
-  const toggleAccordion = (i) => {
-    setOpenIndex(openIndex === i ? null : i);
-  };
-
   // loading
-  if (loading)
-    return (
-      <div className="preloader_div flex justify-center items-center h-screen bg-gray-50">
-        <img src={preloader} alt="preloader" className="" />
-      </div>
-    );
+  if (loading) return <Loader src={preloader} />;
 
   return (
     <main className="min-h-screen bg-gray-50 relative" role="main">
@@ -177,7 +151,7 @@ const PreviousReports = () => {
                   <motion.article
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                     className="prose prose-sm sm:prose lg:prose-lg prose-orange prose-li:marker:text-orange-400 text-gray-800 max-w-none"
                   >
                     <MarkdownRenderer content={aiSummary} />
@@ -186,80 +160,45 @@ const PreviousReports = () => {
               )}
 
               {/* previous reports */}
-              {memoizedData.map((report, index) => (
-                <div
-                  key={index}
-                  className={clsx("w-full rounded-2xl border transition-all", {
-                    "bg-white shadow-md border-green-100": openIndex === index,
-                    "bg-white shadow-sm hover:shadow-md border-gray-100":
-                      openIndex !== index,
-                  })}
-                >
-                  {/* Accordion Header */}
-                  <button
-                    onClick={() => toggleAccordion(index)}
-                    className={clsx(
-                      "w-full px-6 py-3 border-b rounded-t-2xl flex flex-col sm:justify-between sm:items-center sm:flex-row gap-2 focus:outline-none cursor-pointer transition-all duration-200 transform hover:scale-[1.01] hover:-translate-y-0.5 hover:shadow-lg",
-                      openIndex === index
-                        ? "bg-gradient-to-r from-green-50 via-orange-50 to-blue-100 border-green-300 shadow-md text-blue-950 font-semibold"
-                        : "bg-gradient-to-r from-blue-50 to-gray-100 border-gray-200 text-gray-800"
-                    )}
-                  >
+              <Accordion
+                items={memoizedData}
+                renderTitle={(report, index, isOpen) => (
+                  <>
                     <p className="text-sm font-semibold text-blue-950 tracking-wide">
                       🕒 Generated on
                     </p>
                     <p
                       className={clsx(
                         "text-sm italic font-medium",
-                        openIndex === index
+                        isOpen
                           ? scoreColour(report.scores.mobile.performance || 0)
                           : "text-gray-800"
                       )}
                     >
                       {report.createdAt}
                     </p>
-
                     <span className="ml-2 text-lg text-gray-600">
-                      {openIndex === index ? "▲" : "▼"}
+                      {isOpen ? "▲" : "▼"}
                     </span>
-                  </button>
-
-                  <AnimatePresence initial={false}>
-                    {openIndex === index && (
-                      <motion.div
-                        layout
-                        key="content"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 70,
-                          damping: 18,
-                        }}
-                        className="overflow-hidden"
-                      >
-                        <div className="px-6 pb-6 pt-4 rounded-b-2xl bg-white">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <ReportSection
-                              label="Mobile"
-                              icon="📱"
-                              scores={report.scores.mobile}
-                              metrics={report.metrics.mobile}
-                            />
-                            <ReportSection
-                              label="Desktop"
-                              icon="🖥️"
-                              scores={report.scores.desktop}
-                              metrics={report.metrics.desktop}
-                            />
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
+                  </>
+                )}
+                renderContent={(report) => (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <ReportSection
+                      label="Mobile"
+                      icon="📱"
+                      scores={report.scores.mobile}
+                      metrics={report.metrics.mobile}
+                    />
+                    <ReportSection
+                      label="Desktop"
+                      icon="🖥️"
+                      scores={report.scores.desktop}
+                      metrics={report.metrics.desktop}
+                    />
+                  </div>
+                )}
+              />
             </div>
           </section>
         </div>

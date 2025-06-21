@@ -143,3 +143,14 @@ export const ErrorTemp = ({ url, errorGif }) => {
     </section>
   );
 };
+
+// preloader
+export const Loader = ({ src, alt = "Loading...", fullScreen = true }) => (
+  <div
+    className={`preloader_div flex justify-center items-center ${
+      fullScreen ? "h-screen" : "h-full"
+    } bg-gray-50`}
+  >
+    <img src={src} alt={alt} />
+  </div>
+);
