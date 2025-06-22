@@ -23,6 +23,7 @@ const hexMap = {
   default: "#6c757d",
 };
 
+// get status color
 export const getStatusColor = (status, type = "style") => {
   const safeStatus = ["good", "average", "poor"].includes(status)
     ? status
@@ -117,6 +118,7 @@ export const getOpportunityStatus = (score) => {
   return "poor";
 };
 
+// Error template
 export const ErrorTemp = ({ url, errorGif }) => {
   const navigate = useNavigate();
 
@@ -144,7 +146,7 @@ export const ErrorTemp = ({ url, errorGif }) => {
   );
 };
 
-// preloader
+// preloader template
 export const Loader = ({ src, alt = "Loading...", fullScreen = true }) => (
   <div
     className={`preloader_div flex justify-center items-center ${
