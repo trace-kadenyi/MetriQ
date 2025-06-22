@@ -17,6 +17,7 @@ import MarkdownRenderer from "../Components/MarkdownRenderer";
 import AISummaryButton from "../Components/AiSummaryButton";
 import Accordion from "../Components/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
+import { formatReports } from "../../utils/formatReports";
 
 const PreviousReports = () => {
   const [prevReports, setPrevReports] = useState([]);
@@ -43,29 +44,7 @@ const PreviousReports = () => {
   }, [url]);
 
   // memoize data
-  const memoizedData = useMemo(() => {
-    return Array.isArray(prevReports)
-      ? prevReports.map((report) => {
-          const formattedDate = `${new Date(
-            report.createdAt
-          ).toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })} at ${new Date(report.createdAt).toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          })}`;
-
-          return {
-            createdAt: formattedDate,
-            scores: report.scores,
-            metrics: report.metrics,
-          };
-        })
-      : [];
-  }, [prevReports]);
+  const memoizedData = useMemo(() => formatReports(prevReports), [prevReports]);
 
   // AI summary trigger
   const handleAISummary = async () => {
