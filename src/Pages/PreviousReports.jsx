@@ -90,7 +90,7 @@ const PreviousReports = () => {
                 rel="noopener noreferrer"
                 title={url}
                 aria-label={`Open ${url} in a new tab`}
-                className="hover:text-orange-400 hover:italic"
+                className="hover:text-orange-400"
               >
                 {url}
               </a>

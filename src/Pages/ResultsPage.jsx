@@ -80,7 +80,7 @@ const ResultsPage = () => {
                 rel="noopener noreferrer"
                 title={report.url}
                 aria-label={`Open ${report.url} in a new tab`}
-                className="hover:text-orange-400 hover:italic"
+                className="hover:text-orange-400"
               >
                 {report.url}
               </a>
