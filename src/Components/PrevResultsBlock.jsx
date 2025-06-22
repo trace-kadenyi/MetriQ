@@ -5,8 +5,9 @@ import {
   borderColour,
 } from "../Components/ResultsBlock";
 
+// generate summary input
 export const generateSummaryInput = (unsortedAiReports) => {
-  return [...unsortedAiReports] // clone to avoid mutating state
+  return [...unsortedAiReports]
     .reverse() // most recent first
     .map((report, index) => {
       const m = report.metrics.mobile;

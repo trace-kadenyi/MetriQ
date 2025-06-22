@@ -2,9 +2,8 @@ import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import clsx from "clsx";
-import ReactMarkdown from "react-markdown";
 
 import errorGif from "../assets/error.gif";
 import { scoreColour, ErrorTemp, Loader } from "../Components/ResultsBlock";
@@ -43,7 +42,7 @@ const PreviousReports = () => {
     if (url) fetchReports();
   }, [url]);
 
-  // memoize data
+  // memoize data/formatted reports
   const memoizedData = useMemo(() => formatReports(prevReports), [prevReports]);
 
   // AI summary trigger
