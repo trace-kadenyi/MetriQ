@@ -17,7 +17,11 @@ import AISummaryButton from "../Components/AiSummaryButton";
 import Accordion from "../Components/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../../utils/formatReports";
-import MetricChartWithToggles from "../Components/MetricChartWithToggles";
+import MetricChartWithToggles, {
+  safeDate,
+  parseMetric,
+} from "../Components/MetricChartWithToggles";
+import { chartReportsData } from "../../utils/chartReportsData";
 
 const PreviousReports = () => {
   const [prevReports, setPrevReports] = useState([]);
@@ -71,57 +75,11 @@ const PreviousReports = () => {
     }
   };
 
-  const safeDate = (rawDate) => {
-    if (!rawDate || typeof rawDate !== "string") return null;
-
-    // Extract the part before " at"
-    const datePart = rawDate.split(" at")[0];
-
-    const parsed = Date.parse(datePart);
-    return isNaN(parsed) ? null : new Date(parsed);
-  };
-
-  const parseMetric = (val) => {
-  if (typeof val === "number") return val;
-  if (typeof val === "string") {
-    const num = parseFloat(val.replace(/[^\d.]/g, ""));
-    return isNaN(num) ? null : num;
-  }
-  return null;
-};
-
-  // chart data
-const chartData = useMemo(() => {
-  return memoizedData.map((report) => {
-    const m = report.metrics.mobile;
-    const d = report.metrics.desktop;
-
-    return {
-      date: safeDate(report.createdAt),
-
-      // Scores
-      mobilePerformance: report.scores.mobile.performance,
-      desktopPerformance: report.scores.desktop.performance,
-      mobileSEO: report.scores.mobile.seo,
-      desktopSEO: report.scores.desktop.seo,
-      mobileBP: report.scores.mobile.bestPractices,
-      desktopBP: report.scores.desktop.bestPractices,
-      mobileAccessibility: report.scores.mobile.accessibility,
-      desktopAccessibility: report.scores.desktop.accessibility,
-
-      // Core Web Vitals
-      mobileLCP: parseMetric(m["Largest Contentful Paint"]?.value),
-      desktopLCP: parseMetric(d["Largest Contentful Paint"]?.value),
-      mobileFID: parseMetric(m["First Input Delay"]?.value),
-      desktopFID: parseMetric(d["First Input Delay"]?.value),
-      mobileCLS: parseMetric(m["Cumulative Layout Shift"]?.value),
-      desktopCLS: parseMetric(d["Cumulative Layout Shift"]?.value),
-    };
-  });
-}, [memoizedData]);
-
-
-  console.log(chartData);
+  // Chart data
+  const chartData = useMemo(
+    () => chartReportsData(memoizedData, safeDate, parseMetric),
+    [memoizedData]
+  );
 
   // loading
   if (loading) return <Loader src={preloader} />;
@@ -233,7 +191,7 @@ const chartData = useMemo(() => {
             </div>
           </section>
           <section>
-          {/* Performance Chart */}
+            {/* Performance Chart */}
             <MetricChartWithToggles
               title="Scores: Performance, Accessibility, Best Practices, SEO"
               data={chartData}
@@ -270,7 +228,7 @@ const chartData = useMemo(() => {
             />
             {/* Core Web Vitals Chart */}
             <MetricChartWithToggles
-              title="Core Web Vitals: LCP, FID, CLS"
+              title="Core Web Vitals: Largest Contentful Paint (LCP), First Input Delay (FID), Cumulative Layout Shift (CLS)"
               data={chartData}
               lines={[
                 { key: "mobileLCP", label: "LCP", device: "mobile" },
