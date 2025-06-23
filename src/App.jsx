@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import LandingPage from "./Pages/LandingPage";
 import ResultsPage from "./Pages/ResultsPage";
 import PreviousReports from "./Pages/PreviousReports";
+import Charts from "./Pages/Charts";
 import "./App.css";
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/results-page" element={<ResultsPage />} />
           <Route path="/previous-reports" element={<PreviousReports />} />
+          <Route path="/charts" element={<Charts />} />
         </Routes>
       </Router>
     </>
