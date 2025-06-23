@@ -12,7 +12,7 @@ import {
   metricDescriptions,
   benchmarkLines,
   colors,
-} from "../../config/chartConfig";
+} from "../config/chartConfig";
 
 export default function MetricChartWithToggles({ title, lines, data }) {
   const [visibleLines, setVisibleLines] = useState(() =>

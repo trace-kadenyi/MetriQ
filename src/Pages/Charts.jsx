@@ -6,9 +6,9 @@ import errorGif from "../assets/error.gif";
 import { ErrorTemp, Loader } from "../Components/ResultsBlock";
 import preloader from "../assets/preloader_gif.gif";
 import { useFetchReports } from "../hooks/fetchPrevReports";
-import { formatReports } from "../../utils/formatReports";
+import { formatReports } from "../utils/formatReports";
 import MetricChartWithToggles from "../Components/MetricChartWithToggles";
-import { chartReportsData, safeDate, parseMetric } from "../../utils/chartReportsData";
+import { chartReportsData, safeDate, parseMetric } from "../utils/chartReportsData";
 
 const Charts = () => {
   const [prevReports, setPrevReports] = useState([]);

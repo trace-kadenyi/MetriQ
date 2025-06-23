@@ -16,7 +16,7 @@ import MarkdownRenderer from "../Components/MarkdownRenderer";
 import AISummaryButton from "../Components/AiSummaryButton";
 import Accordion from "../Components/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
-import { formatReports } from "../../utils/formatReports";
+import { formatReports } from "../utils/formatReports";
 
 const Reports = () => {
   const [prevReports, setPrevReports] = useState([]);
