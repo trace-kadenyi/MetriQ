@@ -8,37 +8,11 @@ import {
   ReferenceLine,
 } from "recharts";
 import { useState } from "react";
-
-const metricDescriptions = {
-  mobilePerformance: "Mobile performance score (0–100)",
-  desktopPerformance: "Desktop performance score (0–100)",
-  mobileSEO: "Mobile SEO score",
-  desktopSEO: "Desktop SEO score",
-  mobileAccessibility: "Mobile accessibility score",
-  desktopAccessibility: "Desktop accessibility score",
-  mobileBP: "Mobile best practices score",
-  desktopBP: "Desktop best practices score",
-  mobileLCP: "Largest Contentful Paint on mobile (ideal < 2.5s)",
-  desktopLCP: "Largest Contentful Paint on desktop (ideal < 2.5s)",
-  mobileFID: "First Input Delay on mobile (ideal < 100ms)",
-  desktopFID: "First Input Delay on desktop (ideal < 100ms)",
-  mobileCLS: "Cumulative Layout Shift on mobile (ideal < 0.1)",
-  desktopCLS: "Cumulative Layout Shift on desktop (ideal < 0.1)",
-};
-
-const benchmarkLines = {
-  mobileLCP: 2.5,
-  desktopLCP: 2.5,
-  mobileFID: 100,
-  desktopFID: 100,
-  mobileCLS: 0.1,
-  desktopCLS: 0.1,
-};
-
-const colors = {
-  mobile: "#f97316", // orange
-  desktop: "#16a34a", // green
-};
+import {
+  metricDescriptions,
+  benchmarkLines,
+  colors,
+} from "../../config/chartConfig";
 
 export default function MetricChartWithToggles({ title, lines, data }) {
   const [visibleLines, setVisibleLines] = useState(() =>
@@ -204,25 +178,3 @@ export default function MetricChartWithToggles({ title, lines, data }) {
     </div>
   );
 }
-// safe date
-export const safeDate = (rawDate) => {
-  if (!rawDate || typeof rawDate !== "string") return null;
-
-  // Split date and time at ' at '
-  const [datePart, timePart] = rawDate.split(" at");
-  if (!datePart || !timePart) return null;
-
-  const cleaned = `${datePart.trim()} ${timePart.trim()}`;
-  const parsed = new Date(cleaned);
-  return isNaN(parsed.getTime()) ? null : parsed;
-};
-
-// parse metric
-export const parseMetric = (val) => {
-  if (typeof val === "number") return val;
-  if (typeof val === "string") {
-    const num = parseFloat(val.replace(/[^\d.]/g, ""));
-    return isNaN(num) ? null : num;
-  }
-  return null;
-};
