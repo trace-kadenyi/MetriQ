@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import clsx from "clsx";
 
@@ -16,14 +16,9 @@ import MarkdownRenderer from "../Components/MarkdownRenderer";
 import AISummaryButton from "../Components/AiSummaryButton";
 import Accordion from "../Components/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
-import { formatReports } from "../../utils/formatReports";
-import MetricChartWithToggles, {
-  safeDate,
-  parseMetric,
-} from "../Components/MetricChartWithToggles";
-import { chartReportsData } from "../../utils/chartReportsData";
+import { formatReports } from "../utils/formatReports";
 
-const PreviousReports = () => {
+const Reports = () => {
   const [prevReports, setPrevReports] = useState([]);
   const [unsortedAiReports, setUnsortedAiReports] = useState([]);
   const [errorOccurred, setErrorOccurred] = useState(false);
@@ -33,16 +28,17 @@ const PreviousReports = () => {
   const [showSummary, setShowSummary] = useState(false);
   const [searchParams] = useSearchParams();
   const url = searchParams.get("url");
+  const navigate = useNavigate();
 
   // fetch previous reports
-  const fetchReports = useFetchReports(
+  const fetchReports = useFetchReports({
     url,
     setLoading,
     setAiSummary,
     setPrevReports,
     setUnsortedAiReports,
-    setErrorOccurred
-  );
+    setErrorOccurred,
+  });
   useEffect(() => {
     if (url) fetchReports();
   }, [url]);
@@ -75,12 +71,6 @@ const PreviousReports = () => {
     }
   };
 
-  // Chart data
-  const chartData = useMemo(
-    () => chartReportsData(memoizedData, safeDate, parseMetric),
-    [memoizedData]
-  );
-
   // loading
   if (loading) return <Loader src={preloader} />;
 
@@ -107,23 +97,35 @@ const PreviousReports = () => {
               </a>
             </h2>
             <p className="text-sm text-gray-700 py-3 rounded-lg mb-6 leading-relaxed">
-              These are the{" "}
+              Below are the{" "}
               <span className="font-semibold text-blue-500">
-                most recent performance reports
+                latest performance reports
               </span>{" "}
               for{" "}
               <a
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline text-blue-500 hover:text-orange-500"
+                className="font-semibold hover:text-orange-500"
               >
                 {url}
               </a>
-              .<br className="hidden sm:block" />
-              Up to{" "}
-              <span className="font-semibold text-blue-500">5 reports</span> are
-              saved per site. Click any card below to view full details.
+              . We automatically store up to{" "}
+              <span className="font-semibold text-blue-500">
+                five of your most recent scans
+              </span>{" "}
+              for quick reference and comparison. Each report captures detailed
+              metrics across mobile and desktop, so you can easily track
+              progress, identify trends, and pinpoint areas for improvement.{" "}
+              <br className="hidden sm:block" />
+              Click any card below to explore a full breakdown of its results.
+              You can also dive into the full technical details by expanding
+              each report—or generate an{" "}
+              <span className="font-semibold text-blue-500">
+                AI-powered analysis
+              </span>{" "}
+              for a concise, intelligent overview of what’s working well and
+              what needs improvement.
             </p>
 
             <div className="mt-6 space-y-6">
@@ -191,54 +193,25 @@ const PreviousReports = () => {
             </div>
           </section>
           <section>
-            {/* Performance Chart */}
-            <MetricChartWithToggles
-              title="Scores: Performance, Accessibility, Best Practices, SEO"
-              data={chartData}
-              lines={[
-                {
-                  key: "mobilePerformance",
-                  label: "Performance",
-                  device: "mobile",
-                },
-                {
-                  key: "desktopPerformance",
-                  label: "Performance",
-                  device: "desktop",
-                },
-                { key: "mobileSEO", label: "SEO", device: "mobile" },
-                { key: "desktopSEO", label: "SEO", device: "desktop" },
-                { key: "mobileBP", label: "Best Practices", device: "mobile" },
-                {
-                  key: "desktopBP",
-                  label: "Best Practices",
-                  device: "desktop",
-                },
-                {
-                  key: "mobileAccessibility",
-                  label: "Accessibility",
-                  device: "mobile",
-                },
-                {
-                  key: "desktopAccessibility",
-                  label: "Accessibility",
-                  device: "desktop",
-                },
-              ]}
-            />
-            {/* Core Web Vitals Chart */}
-            <MetricChartWithToggles
-              title="Core Web Vitals: Largest Contentful Paint (LCP), First Input Delay (FID), Cumulative Layout Shift (CLS)"
-              data={chartData}
-              lines={[
-                { key: "mobileLCP", label: "LCP", device: "mobile" },
-                { key: "desktopLCP", label: "LCP", device: "desktop" },
-                { key: "mobileFID", label: "FID", device: "mobile" },
-                { key: "desktopFID", label: "FID", device: "desktop" },
-                { key: "mobileCLS", label: "CLS", device: "mobile" },
-                { key: "desktopCLS", label: "CLS", device: "desktop" },
-              ]}
-            />
+            <motion.button
+              onClick={() => {
+                navigate(`/charts?url=${encodeURIComponent(url)}`);
+              }}
+              whileHover={{
+                boxShadow: [
+                  "0 0 0px #fb923c",
+                  "0 0 8px #fb923c",
+                  "0 0 12px #fb923c",
+                  "0 0 20px #fb923c",
+                  "0 0 0px #fb923c",
+                ],
+                scale: [1, 1.15, 1],
+                transition: { duration: 0.8, ease: "easeInOut" },
+              }}
+              className="min-w-[12rem] sm:min-w-[14rem] md:min-w-[16rem] bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded shadow-md text-sm font-semibold mx-auto my-10 flex justify-center items-center gap-2 cursor-pointer"
+            >
+              Chart My Results
+            </motion.button>
           </section>
         </div>
       )}
@@ -246,4 +219,4 @@ const PreviousReports = () => {
   );
 };
 
-export default PreviousReports;
+export default Reports;

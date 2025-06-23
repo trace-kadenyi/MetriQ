@@ -12,8 +12,10 @@ import {
 } from "../Components/ResultsBlock";
 import ScoreProgress from "../Components/ScoreProgress";
 import preloader from "../assets/preloader_gif.gif";
+import { useMemoizedReport } from "../hooks/useMemoizedReport";
+import DeviceToggle from "../Components/DeviceToggle";
 
-const ResultsPage = () => {
+const Report = () => {
   const [searchParams] = useSearchParams();
   const url = searchParams.get("url");
   const [report, setReport] = useState(null);
@@ -30,30 +32,7 @@ const ResultsPage = () => {
   }, [url]);
 
   // 2. Safely memoize values only when report is available
-  const memoizedData = useMemo(() => {
-    if (!report) return {};
-
-    const {
-      scores: { mobile, desktop },
-      metrics: { mobile: mobileMetrics, desktop: desktopMetrics },
-      suggestions: { mobile: mobileSuggestions, desktop: desktopSuggestions },
-    } = latestReport;
-
-    const isMobile = view === "mobile";
-
-    return {
-      deviceData: isMobile ? mobileMetrics : desktopMetrics,
-      performanceScore: isMobile ? mobile.performance : desktop.performance,
-      seoScore: isMobile ? mobile.seo : desktop.seo,
-      accessibilityScore: isMobile
-        ? mobile.accessibility
-        : desktop.accessibility,
-      bestPracticesScore: isMobile
-        ? mobile.bestPractices
-        : desktop.bestPractices,
-      suggestions: isMobile ? mobileSuggestions : desktopSuggestions,
-    };
-  }, [latestReport, view]);
+  const memoizedData = useMemoizedReport(report, latestReport, view);
 
   const {
     deviceData,
@@ -89,39 +68,14 @@ const ResultsPage = () => {
             <button
               onClick={() => {
                 navigate(
-                  `/previous-reports?url=${encodeURIComponent(report.url)}`
+                  `/reports?url=${encodeURIComponent(report.url)}`
                 );
               }}
               className="bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer px-5 py-2 mt-2"
             >
               View All Reports
             </button>
-            <div className="flex gap-2 p-1 rounded-lg bg-gray-100 shadow-inner position-fixed">
-              <button
-                aria-label="View mobile report"
-                aria-pressed={view === "mobile"}
-                className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                  view === "mobile"
-                    ? "bg-green-600 text-white hover:cursor-not-allowed"
-                    : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer"
-                }`}
-                onClick={() => setView("mobile")}
-              >
-                Mobile
-              </button>
-              <button
-                aria-label="View desktop report"
-                aria-pressed={view === "desktop"}
-                className={`px-4 py-2 rounded-md font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                  view === "desktop"
-                    ? "bg-green-600 text-white hover:cursor-not-allowed"
-                    : "bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer"
-                }`}
-                onClick={() => setView("desktop")}
-              >
-                Desktop
-              </button>
-            </div>
+            <DeviceToggle view={view} setView={setView} />
           </div>
         </section>
 
@@ -275,4 +229,4 @@ const ResultsPage = () => {
   );
 };
 
-export default ResultsPage;
+export default Report;

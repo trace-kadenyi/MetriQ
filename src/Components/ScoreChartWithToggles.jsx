@@ -10,11 +10,11 @@ import {
 import { useState } from "react";
 import {
   metricDescriptions,
-  benchmarkLines,
   colors,
+  scorePoorThresholds,
 } from "../config/chartConfig";
 
-export default function MetricChartWithToggles({ title, lines, data }) {
+export default function ScoreChartWithToggles({ title, quality, lines, data }) {
   const [visibleLines, setVisibleLines] = useState(() =>
     lines.map((line) => line.key)
   );
@@ -27,17 +27,14 @@ export default function MetricChartWithToggles({ title, lines, data }) {
 
   return (
     <div className="my-6 text-sm">
-      <h3 className="font-semibold text-gray-800 underline uppercase hidden">
-        {title}
-      </h3>
-
+      <h3 className="font-semibold text-gray-800 uppercase mb-1">{title}</h3>
+      <p className="text-sm text-gray-700 rounded-lg mb-6 leading-relaxed italic">
+        <span className="font-semibold">{quality}</span>
+      </p>
       {/* Toggle Checkboxes */}
       <div className="flex flex-wrap gap-4 mb-4">
         {lines.map(({ key, label, device }) => (
-          <label
-            key={key}
-            className="relative flex items-center cursor-pointer"
-          >
+          <label key={key} className="flex items-center cursor-pointer">
             <input
               type="checkbox"
               checked={visibleLines.includes(key)}
@@ -115,7 +112,7 @@ export default function MetricChartWithToggles({ title, lines, data }) {
         </button>
       </div>
 
-      {/* Chart */}
+      {/* chart */}
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <XAxis
@@ -129,7 +126,7 @@ export default function MetricChartWithToggles({ title, lines, data }) {
                 : ""
             }
           />
-          <YAxis />
+          <YAxis domain={[0, 100]} />
           <Tooltip
             formatter={(value, name) => [
               value,
@@ -137,10 +134,10 @@ export default function MetricChartWithToggles({ title, lines, data }) {
                 lines.find((l) => l.key === name)?.label ||
                 name,
             ]}
-            labelClassName="text-xs"
             contentStyle={{ fontSize: "0.8rem" }}
           />
 
+          {/* Chart lines */}
           {lines.map(
             ({ key, label, device }) =>
               visibleLines.includes(key) && (
@@ -155,18 +152,20 @@ export default function MetricChartWithToggles({ title, lines, data }) {
                 />
               )
           )}
+
+          {/* Poor threshold marker */}
           {lines.map(
             ({ key }) =>
               visibleLines.includes(key) &&
-              benchmarkLines[key] !== undefined && (
+              scorePoorThresholds[key] !== undefined && (
                 <ReferenceLine
-                  key={`ref-${key}`}
-                  y={benchmarkLines[key]}
-                  stroke="gray"
-                  strokeDasharray="4"
+                  key={`threshold-${key}`}
+                  y={scorePoorThresholds[key]}
+                  stroke="#dc2626"
+                  strokeDasharray="4 4"
                   label={{
                     position: "right",
-                    value: `Benchmark: ${benchmarkLines[key]}`,
+                    value: `⚠ Threshold: ${scorePoorThresholds[key]}`,
                     fill: "#dc2626",
                     fontSize: 10,
                   }}
