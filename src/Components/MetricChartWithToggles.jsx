@@ -54,7 +54,7 @@ export default function MetricChartWithToggles({ title, lines, data }) {
 
   return (
     <div className="my-10 text-sm">
-      <h3 className="font-bold text-gray-800 mb-4 underline uppercase">
+      <h3 className="font-semibold text-gray-800 mb-4 underline uppercase">
         {title}
       </h3>
 
@@ -104,7 +104,6 @@ export default function MetricChartWithToggles({ title, lines, data }) {
             contentStyle={{ fontSize: "0.8rem" }}
           />
 
-          <Legend />
           {lines.map(
             ({ key, label, device }) =>
               visibleLines.includes(key) && (
