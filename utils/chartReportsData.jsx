@@ -1,5 +1,5 @@
 export const chartReportsData = (reports, safeDate, parseMetric) => {
-  return reports.map((report) => {
+  return [...reports].reverse().map((report) => {
     const m = report.metrics.mobile;
     const d = report.metrics.desktop;
 
