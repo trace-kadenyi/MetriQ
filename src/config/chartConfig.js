@@ -28,3 +28,14 @@ export const colors = {
   mobile: "#f97316", // orange
   desktop: "#16a34a", // green
 };
+
+export const scorePoorThresholds = {
+  mobilePerformance: 50,
+  desktopPerformance: 50,
+  mobileSEO: 50,
+  desktopSEO: 50,
+  mobileAccessibility: 50,
+  desktopAccessibility: 50,
+  mobileBP: 50,
+  desktopBP: 50,
+};
