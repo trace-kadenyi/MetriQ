@@ -1,14 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-
 import errorGif from "../assets/error.gif";
 import { ErrorTemp, Loader } from "../Components/ResultsBlock";
 import preloader from "../assets/preloader_gif.gif";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../utils/formatReports";
-import MetricChartWithToggles from "../Components/MetricChartWithToggles";
-import { chartReportsData, safeDate, parseMetric } from "../utils/chartReportsData";
+import ScoreChartWithToggles from "../Components/ScoreChartWithToggles";
+import {
+  chartReportsData,
+  safeDate,
+  parseMetric,
+} from "../utils/chartReportsData";
+import CoreVitalChart from "../Components/CoreVitalChart";
 
 const Charts = () => {
   const [prevReports, setPrevReports] = useState([]);
@@ -71,7 +75,7 @@ const Charts = () => {
           </section>
           {/* Scores section */}
           <section className="mb-12">
-            <h2 className="text-md font-semibold text-gray-800 mb-2">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">
               Lighthouse Category Scores
             </h2>
             <p className="text-sm text-gray-700 py-3 rounded-lg mb-6 leading-relaxed">
@@ -79,10 +83,12 @@ const Charts = () => {
               categories:
               <strong> Performance</strong>, <strong>Accessibility</strong>,{" "}
               <strong>Best Practices</strong>, and <strong>SEO</strong>. Toggle
-              each line on or off using the checkboxes to focus on specific metrics across devices.
+              each line on or off using the checkboxes to focus on specific
+              metrics across devices.
             </p>
-            <MetricChartWithToggles
+            <ScoreChartWithToggles
               title="Scores: Performance, Accessibility, Best Practices, SEO"
+              quality="Good score: > 50"
               data={chartData}
               lines={[
                 {
@@ -118,7 +124,7 @@ const Charts = () => {
           </section>
           {/* Core Web Vitals Section */}
           <section className="mb-12">
-            <h2 className="text-md font-semibold text-gray-800 mb-2">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">
               Core Web Vitals (CWV)
             </h2>
             <p className="text-sm text-gray-700 py-3 rounded-lg mb-6 leading-relaxed">
@@ -129,14 +135,41 @@ const Charts = () => {
               essential for user experience and are part of Google's ranking
               signals.
             </p>
-            <MetricChartWithToggles
-              title="Core Web Vitals: Largest Contentful Paint (LCP), First Input Delay (FID), Cumulative Layout Shift (CLS)"
+
+            <CoreVitalChart
+              title="Largest Contentful Paint (LCP)"
+              description="Measures how long it takes for the largest visible content (e.g. image or heading) to appear on screen."
+              quality="Good: ≤ 2.5 seconds"
+              unit="ms"
+              yDomain={[0, 5]}
               data={chartData}
               lines={[
                 { key: "mobileLCP", label: "LCP", device: "mobile" },
                 { key: "desktopLCP", label: "LCP", device: "desktop" },
+              ]}
+            />
+
+            <CoreVitalChart
+              title="First Input Delay (FID)"
+              description="Measures the time from when a user first interacts with your page (click/tap/keypress) to when the browser responds."
+              quality="Good: ≤ 100 milliseconds"
+              unit="ms"
+              yDomain={[0, 300]}
+              data={chartData}
+              lines={[
                 { key: "mobileFID", label: "FID", device: "mobile" },
                 { key: "desktopFID", label: "FID", device: "desktop" },
+              ]}
+            />
+
+            <CoreVitalChart
+              title="Cumulative Layout Shift (CLS)"
+              description="Measures unexpected visual shifts of content during page load."
+              quality="Good: ≤ 0.1"
+              unit=""
+              yDomain={[0, 0.3]}
+              data={chartData}
+              lines={[
                 { key: "mobileCLS", label: "CLS", device: "mobile" },
                 { key: "desktopCLS", label: "CLS", device: "desktop" },
               ]}
