@@ -17,6 +17,11 @@ import AISummaryButton from "../Components/AiSummaryButton";
 import Accordion from "../Components/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../../utils/formatReports";
+import MetricChartWithToggles, {
+  safeDate,
+  parseMetric,
+} from "../Components/MetricChartWithToggles";
+import { chartReportsData } from "../../utils/chartReportsData";
 
 const PreviousReports = () => {
   const [prevReports, setPrevReports] = useState([]);
@@ -69,6 +74,12 @@ const PreviousReports = () => {
       setGeneratingSummary(false);
     }
   };
+
+  // Chart data
+  const chartData = useMemo(
+    () => chartReportsData(memoizedData, safeDate, parseMetric),
+    [memoizedData]
+  );
 
   // loading
   if (loading) return <Loader src={preloader} />;
@@ -178,6 +189,56 @@ const PreviousReports = () => {
                 )}
               />
             </div>
+          </section>
+          <section>
+            {/* Performance Chart */}
+            <MetricChartWithToggles
+              title="Scores: Performance, Accessibility, Best Practices, SEO"
+              data={chartData}
+              lines={[
+                {
+                  key: "mobilePerformance",
+                  label: "Performance",
+                  device: "mobile",
+                },
+                {
+                  key: "desktopPerformance",
+                  label: "Performance",
+                  device: "desktop",
+                },
+                { key: "mobileSEO", label: "SEO", device: "mobile" },
+                { key: "desktopSEO", label: "SEO", device: "desktop" },
+                { key: "mobileBP", label: "Best Practices", device: "mobile" },
+                {
+                  key: "desktopBP",
+                  label: "Best Practices",
+                  device: "desktop",
+                },
+                {
+                  key: "mobileAccessibility",
+                  label: "Accessibility",
+                  device: "mobile",
+                },
+                {
+                  key: "desktopAccessibility",
+                  label: "Accessibility",
+                  device: "desktop",
+                },
+              ]}
+            />
+            {/* Core Web Vitals Chart */}
+            <MetricChartWithToggles
+              title="Core Web Vitals: Largest Contentful Paint (LCP), First Input Delay (FID), Cumulative Layout Shift (CLS)"
+              data={chartData}
+              lines={[
+                { key: "mobileLCP", label: "LCP", device: "mobile" },
+                { key: "desktopLCP", label: "LCP", device: "desktop" },
+                { key: "mobileFID", label: "FID", device: "mobile" },
+                { key: "desktopFID", label: "FID", device: "desktop" },
+                { key: "mobileCLS", label: "CLS", device: "mobile" },
+                { key: "desktopCLS", label: "CLS", device: "desktop" },
+              ]}
+            />
           </section>
         </div>
       )}
