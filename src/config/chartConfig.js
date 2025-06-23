@@ -25,8 +25,8 @@ export const benchmarkLines = {
 };
 
 export const colors = {
-  mobile: "#f97316", // orange
-  desktop: "#16a34a", // green
+  mobile: "#fb923c", // orange
+  desktop: "#22c55e", // green
 };
 
 export const scorePoorThresholds = {
