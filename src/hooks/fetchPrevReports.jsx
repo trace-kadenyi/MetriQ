@@ -2,14 +2,14 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const useFetchReports = (
- { url,
+export const useFetchReports = ({
+  url,
   setLoading,
   setAiSummary,
   setPrevReports,
   setUnsortedAiReports,
-  setErrorOccurred}
-) => {
+  setErrorOccurred,
+}) => {
   const fetchReports = async () => {
     setLoading?.(true);
     setAiSummary?.("");
