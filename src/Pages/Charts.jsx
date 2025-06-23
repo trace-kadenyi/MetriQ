@@ -1,31 +1,17 @@
-import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
-import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
-import { motion } from "framer-motion";
-import clsx from "clsx";
+
 
 import errorGif from "../assets/error.gif";
-import { scoreColour, ErrorTemp, Loader } from "../Components/ResultsBlock";
+import { ErrorTemp, Loader } from "../Components/ResultsBlock";
 import preloader from "../assets/preloader_gif.gif";
-import {
-  generateSummaryInput,
-  ReportSection,
-} from "../Components/PrevResultsBlock";
-import MarkdownRenderer from "../Components/MarkdownRenderer";
-import AISummaryButton from "../Components/AiSummaryButton";
-import Accordion from "../Components/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../../utils/formatReports";
-import MetricChartWithToggles, {
-  safeDate,
-  parseMetric,
-} from "../Components/MetricChartWithToggles";
-import { chartReportsData } from "../../utils/chartReportsData";
+import MetricChartWithToggles from "../Components/MetricChartWithToggles";
+import { chartReportsData, safeDate, parseMetric } from "../../utils/chartReportsData";
 
 const Charts = () => {
   const [prevReports, setPrevReports] = useState([]);
-  const [unsortedAiReports, setUnsortedAiReports] = useState([]);
   const [errorOccurred, setErrorOccurred] = useState(false);
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
@@ -36,7 +22,6 @@ const Charts = () => {
     url,
     setLoading,
     setPrevReports,
-    setUnsortedAiReports,
     setErrorOccurred,
   });
   useEffect(() => {
