@@ -17,6 +17,7 @@ import AISummaryButton from "../Components/AiSummaryButton";
 import Accordion from "../Components/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../../utils/formatReports";
+import MetricChartWithToggles from "../Components/MetricChartWithToggles";
 
 const PreviousReports = () => {
   const [prevReports, setPrevReports] = useState([]);
@@ -69,6 +70,58 @@ const PreviousReports = () => {
       setGeneratingSummary(false);
     }
   };
+
+  const safeDate = (rawDate) => {
+    if (!rawDate || typeof rawDate !== "string") return null;
+
+    // Extract the part before " at"
+    const datePart = rawDate.split(" at")[0];
+
+    const parsed = Date.parse(datePart);
+    return isNaN(parsed) ? null : new Date(parsed);
+  };
+
+  const parseMetric = (val) => {
+  if (typeof val === "number") return val;
+  if (typeof val === "string") {
+    const num = parseFloat(val.replace(/[^\d.]/g, ""));
+    return isNaN(num) ? null : num;
+  }
+  return null;
+};
+
+  // chart data
+const chartData = useMemo(() => {
+  return memoizedData.map((report) => {
+    const m = report.metrics.mobile;
+    const d = report.metrics.desktop;
+
+    return {
+      date: safeDate(report.createdAt),
+
+      // Scores
+      mobilePerformance: report.scores.mobile.performance,
+      desktopPerformance: report.scores.desktop.performance,
+      mobileSEO: report.scores.mobile.seo,
+      desktopSEO: report.scores.desktop.seo,
+      mobileBP: report.scores.mobile.bestPractices,
+      desktopBP: report.scores.desktop.bestPractices,
+      mobileAccessibility: report.scores.mobile.accessibility,
+      desktopAccessibility: report.scores.desktop.accessibility,
+
+      // Core Web Vitals
+      mobileLCP: parseMetric(m["Largest Contentful Paint"]?.value),
+      desktopLCP: parseMetric(d["Largest Contentful Paint"]?.value),
+      mobileFID: parseMetric(m["First Input Delay"]?.value),
+      desktopFID: parseMetric(d["First Input Delay"]?.value),
+      mobileCLS: parseMetric(m["Cumulative Layout Shift"]?.value),
+      desktopCLS: parseMetric(d["Cumulative Layout Shift"]?.value),
+    };
+  });
+}, [memoizedData]);
+
+
+  console.log(chartData);
 
   // loading
   if (loading) return <Loader src={preloader} />;
@@ -178,6 +231,56 @@ const PreviousReports = () => {
                 )}
               />
             </div>
+          </section>
+          <section>
+          {/* Performance Chart */}
+            <MetricChartWithToggles
+              title="Scores: Performance, Accessibility, Best Practices, SEO"
+              data={chartData}
+              lines={[
+                {
+                  key: "mobilePerformance",
+                  label: "Performance",
+                  device: "mobile",
+                },
+                {
+                  key: "desktopPerformance",
+                  label: "Performance",
+                  device: "desktop",
+                },
+                { key: "mobileSEO", label: "SEO", device: "mobile" },
+                { key: "desktopSEO", label: "SEO", device: "desktop" },
+                { key: "mobileBP", label: "Best Practices", device: "mobile" },
+                {
+                  key: "desktopBP",
+                  label: "Best Practices",
+                  device: "desktop",
+                },
+                {
+                  key: "mobileAccessibility",
+                  label: "Accessibility",
+                  device: "mobile",
+                },
+                {
+                  key: "desktopAccessibility",
+                  label: "Accessibility",
+                  device: "desktop",
+                },
+              ]}
+            />
+            {/* Core Web Vitals Chart */}
+            <MetricChartWithToggles
+              title="Core Web Vitals: LCP, FID, CLS"
+              data={chartData}
+              lines={[
+                { key: "mobileLCP", label: "LCP", device: "mobile" },
+                { key: "desktopLCP", label: "LCP", device: "desktop" },
+                { key: "mobileFID", label: "FID", device: "mobile" },
+                { key: "desktopFID", label: "FID", device: "desktop" },
+                { key: "mobileCLS", label: "CLS", device: "mobile" },
+                { key: "desktopCLS", label: "CLS", device: "desktop" },
+              ]}
+            />
           </section>
         </div>
       )}
