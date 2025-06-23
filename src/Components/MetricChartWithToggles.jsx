@@ -52,29 +52,52 @@ export default function MetricChartWithToggles({ title, lines, data }) {
   };
 
   return (
-    <div className="my-10 text-sm">
-      <h3 className="font-semibold text-gray-800 mb-4 underline uppercase">
+    <div className="my-6 text-sm">
+      <h3 className="font-semibold text-gray-800 underline uppercase hidden">
         {title}
       </h3>
 
       {/* Toggle Checkboxes */}
       <div className="flex flex-wrap gap-4 mb-4">
         {lines.map(({ key, label, device }) => (
-          <label key={key} className="flex items-center gap-2 font-semibold">
+          <label className="relative flex items-center cursor-pointer">
             <input
               type="checkbox"
               checked={visibleLines.includes(key)}
               onChange={() => handleToggle(key)}
-              className="accent-orange-500"
+              className="sr-only peer"
             />
-            <span
-              title={metricDescriptions[key]}
-              className="text-gray-700 cursor-help font-semibold"
-            >
+            <div className="w-4 h-4 rounded-sm border-2 border-orange-500 peer-checked:bg-orange-500 peer-checked:flex peer-checked:items-center peer-checked:justify-center">
+              <svg
+                className="w-3 h-3 text-white"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <span className="ml-2 text-gray-700 text-sm font-medium">
               {label} ({device})
             </span>
           </label>
         ))}
+      </div>
+      {/* Custom Legend */}
+      <div className="flex items-center gap-4 mb-2 ml-1">
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full bg-[#fb923c] inline-block" />
+          <span className="text-sm text-orange-400 font-medium">Mobile</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full bg-[#22c55e] inline-block" />
+          <span className="text-sm text-green-500 font-medium">Desktop</span>
+        </div>
       </div>
 
       {/* Chart */}
