@@ -24,7 +24,7 @@ import {
   fadeUp,
   StepCard,
 } from "../Components/FramerMotion";
-import useUrlForm from "../Components/urlForm";
+import useUrlForm from "../hooks/urlForm";
 import preloaderGif from "../assets/preloader_gif.gif";
 import {
   scoreColour,
