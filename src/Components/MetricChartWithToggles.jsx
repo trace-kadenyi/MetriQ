@@ -44,7 +44,7 @@ export default function MetricChartWithToggles({ title, lines, data }) {
               onChange={() => handleToggle(key)}
               className="sr-only peer"
             />
-            <div className="w-4 h-4 rounded-sm border-2 border-orange-400 peer-checked:bg-orange-400 peer-checked:flex peer-checked:items-center peer-checked:justify-center">
+            <div className="w-4 h-4 rounded-sm border-2 border-orange-500 peer-checked:bg-orange-500 peer-checked:flex peer-checked:items-center peer-checked:justify-center">
               <svg
                 className="w-3 h-3 text-white"
                 fill="none"
@@ -82,7 +82,7 @@ export default function MetricChartWithToggles({ title, lines, data }) {
                 : [...new Set([...prev, ...mobileKeys])]
             );
           }}
-          className="px-3 py-1 bg-orange-400 text-white text-xs rounded hover:bg-orange-500 transition"
+          className="px-3 py-1 bg-orange-500 text-white text-xs rounded hover:bg-orange-600 transition"
         >
           {lines.every(
             (l) => l.device !== "mobile" || visibleLines.includes(l.key)
@@ -105,7 +105,7 @@ export default function MetricChartWithToggles({ title, lines, data }) {
                 : [...new Set([...prev, ...desktopKeys])]
             );
           }}
-          className="px-3 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600 transition"
+          className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition"
         >
           {lines.every(
             (l) => l.device !== "desktop" || visibleLines.includes(l.key)
