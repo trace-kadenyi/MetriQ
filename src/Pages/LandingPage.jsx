@@ -276,7 +276,7 @@ const LandingPage = () => {
                       setLoading(false);
 
                       navigate(
-                        `/results-page?url=${encodeURIComponent(submittedUrl)}`
+                        `/report?url=${encodeURIComponent(submittedUrl)}`
                       );
                     }}
                   >
