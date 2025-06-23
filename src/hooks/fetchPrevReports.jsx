@@ -3,16 +3,16 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export const useFetchReports = (
-  url,
+ { url,
   setLoading,
   setAiSummary,
   setPrevReports,
   setUnsortedAiReports,
-  setErrorOccurred
+  setErrorOccurred}
 ) => {
   const fetchReports = async () => {
-    setLoading(true);
-    setAiSummary("");
+    setLoading?.(true);
+    setAiSummary?.("");
 
     try {
       const res = await axios.get(
@@ -23,17 +23,17 @@ export const useFetchReports = (
         const sorted = res.data.report.reports.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setPrevReports(sorted);
-        setUnsortedAiReports(res.data.report.reports);
+        setPrevReports?.(sorted);
+        setUnsortedAiReports?.(res.data.report.reports);
       } else {
         toast.error(`No reports found for ${url}`);
-        setErrorOccurred(true);
+        setErrorOccurred?.(true);
       }
     } catch (err) {
       console.error("Error fetching reports: ", err);
-      setErrorOccurred(true);
+      setErrorOccurred?.(true);
     } finally {
-      setLoading(false);
+      setLoading?.(false);
     }
   };
 
