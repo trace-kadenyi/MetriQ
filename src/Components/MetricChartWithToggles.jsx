@@ -140,3 +140,25 @@ export default function MetricChartWithToggles({ title, lines, data }) {
     </div>
   );
 }
+// safe date
+export const safeDate = (rawDate) => {
+  if (!rawDate || typeof rawDate !== "string") return null;
+
+  // Split date and time at ' at '
+  const [datePart, timePart] = rawDate.split(" at");
+  if (!datePart || !timePart) return null;
+
+  const cleaned = `${datePart.trim()} ${timePart.trim()}`;
+  const parsed = new Date(cleaned);
+  return isNaN(parsed.getTime()) ? null : parsed;
+};
+
+// parse metric
+export const parseMetric = (val) => {
+  if (typeof val === "number") return val;
+  if (typeof val === "string") {
+    const num = parseFloat(val.replace(/[^\d.]/g, ""));
+    return isNaN(num) ? null : num;
+  }
+  return null;
+};
