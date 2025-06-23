@@ -36,8 +36,8 @@ const benchmarkLines = {
 };
 
 const colors = {
-  mobile: "#fb923c", // orange
-  desktop: "#22c55e", // green
+  mobile: "#f97316", // orange
+  desktop: "#16a34a", // green
 };
 
 export default function MetricChartWithToggles({ title, lines, data }) {
@@ -60,14 +60,17 @@ export default function MetricChartWithToggles({ title, lines, data }) {
       {/* Toggle Checkboxes */}
       <div className="flex flex-wrap gap-4 mb-4">
         {lines.map(({ key, label, device }) => (
-          <label className="relative flex items-center cursor-pointer">
+          <label
+            key={key}
+            className="relative flex items-center cursor-pointer"
+          >
             <input
               type="checkbox"
               checked={visibleLines.includes(key)}
               onChange={() => handleToggle(key)}
               className="sr-only peer"
             />
-            <div className="w-4 h-4 rounded-sm border-2 border-orange-500 peer-checked:bg-orange-500 peer-checked:flex peer-checked:items-center peer-checked:justify-center">
+            <div className="w-4 h-4 rounded-sm border-2 border-orange-400 peer-checked:bg-orange-400 peer-checked:flex peer-checked:items-center peer-checked:justify-center">
               <svg
                 className="w-3 h-3 text-white"
                 fill="none"
@@ -88,16 +91,54 @@ export default function MetricChartWithToggles({ title, lines, data }) {
           </label>
         ))}
       </div>
-      {/* Custom Legend */}
-      <div className="flex items-center gap-4 mb-2 ml-1">
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[#fb923c] inline-block" />
-          <span className="text-sm text-orange-400 font-medium">Mobile</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[#22c55e] inline-block" />
-          <span className="text-sm text-green-500 font-medium">Desktop</span>
-        </div>
+
+      {/* Group Toggle Buttons */}
+      <div className="flex gap-4 mb-4 ml-1">
+        <button
+          onClick={() => {
+            const mobileKeys = lines
+              .filter((l) => l.device === "mobile")
+              .map((l) => l.key);
+            const allVisible = mobileKeys.every((k) =>
+              visibleLines.includes(k)
+            );
+            setVisibleLines((prev) =>
+              allVisible
+                ? prev.filter((k) => !mobileKeys.includes(k))
+                : [...new Set([...prev, ...mobileKeys])]
+            );
+          }}
+          className="px-3 py-1 bg-orange-400 text-white text-xs rounded hover:bg-orange-500 transition"
+        >
+          {lines.every(
+            (l) => l.device !== "mobile" || visibleLines.includes(l.key)
+          )
+            ? "Hide Mobile"
+            : "Show Mobile"}
+        </button>
+
+        <button
+          onClick={() => {
+            const desktopKeys = lines
+              .filter((l) => l.device === "desktop")
+              .map((l) => l.key);
+            const allVisible = desktopKeys.every((k) =>
+              visibleLines.includes(k)
+            );
+            setVisibleLines((prev) =>
+              allVisible
+                ? prev.filter((k) => !desktopKeys.includes(k))
+                : [...new Set([...prev, ...desktopKeys])]
+            );
+          }}
+          className="px-3 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600 transition"
+        >
+          {lines.every(
+            (l) => l.device !== "desktop" || visibleLines.includes(l.key)
+          )
+            ? "Hide Desktop"
+            : "Show Desktop"}
+        </button>
       </div>
 
       {/* Chart */}
@@ -147,7 +188,7 @@ export default function MetricChartWithToggles({ title, lines, data }) {
                 <ReferenceLine
                   key={`ref-${key}`}
                   y={benchmarkLines[key]}
-                  stroke="red"
+                  stroke="gray"
                   strokeDasharray="4"
                   label={{
                     position: "right",
