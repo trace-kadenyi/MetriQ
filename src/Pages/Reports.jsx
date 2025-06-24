@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import clsx from "clsx";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 import errorGif from "../assets/error.gif";
 import { scoreColour, ErrorTemp, Loader } from "../Components/ResultsBlock";
@@ -17,6 +18,7 @@ import AISummaryButton from "../Components/AiSummaryButton";
 import Accordion from "../Components/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../utils/formatReports";
+import ReportPDF from "../Components/ReportPDF";
 
 const Reports = () => {
   const [prevReports, setPrevReports] = useState([]);
@@ -192,6 +194,7 @@ const Reports = () => {
               />
             </div>
           </section>
+          {/* charts */}
           <section>
             <motion.button
               onClick={() => {
@@ -212,6 +215,26 @@ const Reports = () => {
             >
               Chart My Results
             </motion.button>
+          </section>
+          {/* pdf download */}
+          <section>
+            {memoizedData.length > 0 && (
+              <div className="text-center mb-8">
+                <PDFDownloadLink
+                  document={
+                    <ReportPDF
+                      url={url}
+                      reports={memoizedData}
+                      aiSummary={aiSummary}
+                    />
+                  }
+                  fileName="performance_report.pdf"
+                  className="inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition text-sm font-semibold"
+                >
+                  Download PDF Report
+                </PDFDownloadLink>
+              </div>
+            )}
           </section>
         </div>
       )}
