@@ -1,0 +1,114 @@
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ReportPDF from "./ReportPDF";
+import { motion } from "framer-motion";
+
+const AISummaryButton = ({
+  onClick,
+  disabled,
+  aiSummary,
+  showSummary,
+  generatingSummary,
+}) => (
+  <motion.button
+    whileHover={{
+      boxShadow: [
+        "0 0 0px #fb923c",
+        "0 0 8px #fb923c",
+        "0 0 12px #fb923c",
+        "0 0 20px #fb923c",
+        "0 0 0px #fb923c",
+      ],
+      scale: [1, 1.15, 1],
+      transition: { duration: 0.8, ease: "easeInOut" },
+    }}
+    onClick={onClick}
+    disabled={disabled}
+    className="mx-auto w-3/4 sm:w-[14rem] md:min-w-[16rem] bg-gradient-to-r from-blue-600 to-green-500 text-white px-4 py-2 rounded shadow hover:opacity-90 disabled:opacity-60 cursor-pointer flex items-center gap-2 justify-center"
+  >
+    {generatingSummary ? (
+      <>
+        <svg
+          className="w-5 h-5 animate-spin text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          />
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+          />
+        </svg>
+        Generating...
+      </>
+    ) : aiSummary && showSummary ? (
+      "🙈 Hide AI Analysis"
+    ) : aiSummary && !showSummary ? (
+      "👁️ Show AI Analysis"
+    ) : (
+      "🧠 Generate AI Analysis"
+    )}
+  </motion.button>
+);
+
+export default AISummaryButton;
+
+// chart button
+export const ChartBtn = ({ url, navigate }) => (
+  <motion.button
+    onClick={() => {
+      navigate(`/charts?url=${encodeURIComponent(url)}`);
+    }}
+    whileHover={{
+      boxShadow: [
+        "0 0 0px #fb923c",
+        "0 0 8px #fb923c",
+        "0 0 12px #fb923c",
+        "0 0 20px #fb923c",
+        "0 0 0px #fb923c",
+      ],
+      scale: [1, 1.15, 1],
+      transition: { duration: 0.8, ease: "easeInOut" },
+    }}
+    className="mx-auto w-3/4 sm:w-[14rem] md:min-w-[16rem] bg-gradient-to-r from-green-600 to-orange-400 text-white px-4 py-2 rounded shadow hover:opacity-90 disabled:opacity-60 cursor-pointer flex items-center gap-2 justify-center"
+  >
+    🧬Chart My Reports
+  </motion.button>
+);
+
+// pdf download button
+export const PdfDownloadBtn = ({ url, reports, aiSummary }) => (
+  <motion.div
+    whileHover={{
+      boxShadow: [
+        "0 0 0px #34d399",
+        "0 0 8px #34d399",
+        "0 0 12px #34d399",
+        "0 0 20px #34d399",
+        "0 0 0px #34d399",
+      ],
+      scale: [1, 1.15, 1],
+      transition: { duration: 0.8, ease: "easeInOut" },
+    }}
+    className="w-3/4 sm:w-[14rem] md:min-w-[16rem] mx-auto"
+  >
+    <PDFDownloadLink
+      document={<ReportPDF url={url} reports={reports} aiSummary={aiSummary} />}
+      fileName="performance_report.pdf"
+      className="inline-flex w-full sm:w-[14rem] md:min-w-[16rem]
+                 bg-gradient-to-r from-green-500 to-blue-600 text-white
+                 px-4 py-2 rounded shadow hover:opacity-90
+                 disabled:opacity-60 cursor-pointer items-center gap-2 justify-center text-center"
+    >
+      📥 Download PDF
+    </PDFDownloadLink>
+  </motion.div>
+);
