@@ -6,20 +6,24 @@ import Report from "./Pages/Report";
 import Reports from "./Pages/Reports";
 import Charts from "./Pages/Charts";
 import "./App.css";
+import { FavouritesProvider } from "./context/FavouritesContext";
+import Header from "./Components/Header";
 
 const App = () => {
   return (
     <>
-      <Toaster position="top-right" reverseOrder={false} />
-      <Router>
-        {/* <Navigation /> */}
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/report" element={<Report />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/charts" element={<Charts />} />
-        </Routes>
-      </Router>
+      <FavouritesProvider>
+        <Toaster position="top-right" reverseOrder={false} />
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/report" element={<Report />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/charts" element={<Charts />} />
+          </Routes>
+        </Router>
+      </FavouritesProvider>
     </>
   );
 };
