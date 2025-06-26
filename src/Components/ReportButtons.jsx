@@ -12,11 +12,11 @@ const AISummaryButton = ({
   <motion.button
     whileHover={{
       boxShadow: [
-        "0 0 0px #fb923c",
-        "0 0 8px #fb923c",
-        "0 0 12px #fb923c",
-        "0 0 20px #fb923c",
-        "0 0 0px #fb923c",
+        "0 0 0px #3b82f6",
+        "0 0 8px #3b82f6",
+        "0 0 12px #3b82f6",
+        "0 0 20px #3b82f6",
+        "0 0 0px #3b82f6",
       ],
       scale: [1, 1.15, 1],
       transition: { duration: 0.8, ease: "easeInOut" },
