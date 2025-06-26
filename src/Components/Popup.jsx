@@ -11,9 +11,7 @@ import {
 } from "../Components/ResultsBlock";
 
 const Popup = ({
-  showPopup,
   setShowPopup,
-  loading,
   setLoading,
   partialResults,
   submittedUrl,
@@ -38,7 +36,7 @@ const Popup = ({
   return (
     <>
       {/* Faded Background */}
-      <div className="fixed inset-0 backdrop-blur-md bg-white/10 z-10"></div>
+      <div className="fixed inset-0 backdrop-blur-sm bg-slate-800/30 z-10"></div>
       {/* Animated Popup */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}
