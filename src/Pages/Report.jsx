@@ -47,9 +47,12 @@ const Report = () => {
   if (!latestReport) return <Loader src={preloader} />;
 
   return (
-    <main className="min-h-screen bg-gray-50 relative pt-[112px]" role="main">
+    <main
+      className="min-h-screen bg-gray-50 relative pt-[212px] sm:pt-[112px]"
+      role="main"
+    >
       <div className="m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
-        <section className="sticky top-[108px] z-[44] bg-gray-100 border-b border-gray-300 shadow-sm rounded-t-xl">
+        <section className="sticky top-[245px] z-[44] bg-gray-100 border-b border-gray-300 shadow-sm rounded-t-xl sm:top-[108px]">
           <div className="flex justify-center px-6 py-3">
             <DeviceToggle view={view} setView={setView} />
           </div>
