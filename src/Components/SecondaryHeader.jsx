@@ -1,13 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  FileText,
-  BarChart3,
-  Lightbulb,
-  FilePlus,
-  FolderOpen,
-  Star,
-} from "lucide-react";
+import { BarChart3, Lightbulb, FolderOpen } from "lucide-react";
 
 import { FavouriteBtn } from "./ReportButtons";
 import useBreakpoint from "../hooks/useBreakpoint";
