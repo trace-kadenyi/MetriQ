@@ -50,7 +50,7 @@ const Popup = ({
             setShowPopup(false);
             setLoading(false);
           }}
-          className="absolute top-4 right-5 text-gray-400 hover:text-red-600 text-2xl font-bold"
+          className="absolute top-4 right-5 text-gray-400 hover:text-red-600 text-2xl font-bold cursor-pointer"
           aria-label="Close popup"
         >
           &times;
