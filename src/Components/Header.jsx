@@ -32,7 +32,7 @@ const Header = () => {
 
   return (
     <header className="w-full bg-gradient-to-b from-blue-950 to-blue-900 text-white fixed top-0 z-[50] shadow-md">
-      <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4 px-4 py-3">
+      <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center sm:flex-nowrap gap-4 px-4 py-3">
         {/* Branding */}
         <div
           className="text-2xl font-bold tracking-tight cursor-pointer hover:text-orange-400 transition"
