@@ -10,10 +10,12 @@ import {
 } from "lucide-react";
 
 import { FavouriteBtn } from "./ReportButtons";
+import useBreakpoint from "../hooks/useBreakpoint";
 
 export default function SecondaryHeader() {
   const navigate = useNavigate();
   const location = useLocation();
+  const breakpoint = useBreakpoint();
 
   // Read ?url=... from the query string
   const params = new URLSearchParams(location.search);
@@ -27,8 +29,14 @@ export default function SecondaryHeader() {
     navigate(`${path}?url=${encodeURIComponent(selectedUrl)}`);
 
   // Utility: shorten very long URLs for display
-  const condensedUrl =
-    selectedUrl.length > 40 ? `${selectedUrl.slice(0, 37)}…` : selectedUrl;
+  let condensedUrl = selectedUrl;
+  if (selectedUrl.length > 25) {
+    if (breakpoint === "md") {
+      condensedUrl = `${selectedUrl.slice(0, 25)}…`;
+    } else {
+      condensedUrl = `${selectedUrl.slice(0, 37)}…`;
+    }
+  }
 
   return (
     <motion.header
