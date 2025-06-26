@@ -1,6 +1,9 @@
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ReportPDF from "./ReportPDF";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { Star, StarOff, Loader2 } from "lucide-react";
+import { useFavourites } from "../context/FavouritesContext";
 
 const AISummaryButton = ({
   onClick,
@@ -112,3 +115,40 @@ export const PdfDownloadBtn = ({ url, reports, aiSummary }) => (
     </PDFDownloadLink>
   </motion.div>
 );
+
+export function FavouriteBtn({ url, size = 18 }) {
+  const { isFavourite, toggleFavourite, loading } = useFavourites();
+  const [optimistic, setOptimistic] = useState(false); // during local toggle
+
+  // Figure out the current status, taking optimistic updates into account
+  const saved = optimistic ? !isFavourite(url) : isFavourite(url);
+
+  const handleClick = async (e) => {
+    e.preventDefault(); // Prevent <a> parent navigation if any
+    if (loading) return; // Still fetching initial data
+
+    setOptimistic(true); // Immediate UI feedback
+    try {
+      await toggleFavourite(url); // Update server + context
+    } finally {
+      setOptimistic(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      title={saved ? "Remove from favourites" : "Add to favourites"}
+      className="p-1 rounded-full hover:scale-110 transition-transform disabled:opacity-50"
+      disabled={loading || optimistic}
+    >
+      {loading || optimistic ? (
+        <Loader2 className="animate-spin" size={size} />
+      ) : saved ? (
+        <Star className="text-yellow-500 fill-yellow-400" size={size} />
+      ) : (
+        <StarOff className="text-gray-500" size={size} />
+      )}
+    </button>
+  );
+}
