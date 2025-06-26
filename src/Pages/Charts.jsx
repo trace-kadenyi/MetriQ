@@ -45,7 +45,10 @@ const Charts = () => {
   if (loading) return <Loader src={preloader} />;
 
   return (
-    <main className="min-h-screen bg-gray-50 relative" role="main">
+    <main
+      className="min-h-screen bg-gray-50 relative pt-[252px] sm:pt-[112px]"
+      role="main"
+    >
       {/* error message */}
       {errorOccurred ? (
         <ErrorTemp url={url} errorGif={errorGif} />
