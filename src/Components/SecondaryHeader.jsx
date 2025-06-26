@@ -9,6 +9,8 @@ import {
   Star,
 } from "lucide-react";
 
+import { FavouriteBtn } from "./ReportButtons";
+
 export default function SecondaryHeader() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,18 +35,19 @@ export default function SecondaryHeader() {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="pt-2 fixed inset-x-0 top-[60px] z-[45] bg-white/60 backdrop-blur-md text-gray-800 shadow"
+      className="pt-2 fixed inset-x-0 top-[160px] sm:top-[60px] z-[45] bg-gray-300 backdrop-blur-md text-gray-800 shadow"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2 text-sm leading-none">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 text-sm leading-none flex-col sm:py-2 sm:flex-row gap-3">
         {/* Selected URL */}
         <span className="font-semibold truncate" title={selectedUrl}>
           <a
             href={condensedUrl}
             target="_blank"
-            className="hover:text-orange-400"
+            className="underline hover:text-orange-400"
           >
             {condensedUrl}
           </a>
+          <FavouriteBtn url={selectedUrl} />
         </span>
 
         {/* Quick nav */}
