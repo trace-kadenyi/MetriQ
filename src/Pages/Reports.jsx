@@ -194,9 +194,6 @@ const Reports = () => {
               />
             </section>
           </div>
-
-          {/* favourites tester */}
-          <button onClick={handleFavourites}>Test favourites add</button>
         </div>
       )}
     </main>
