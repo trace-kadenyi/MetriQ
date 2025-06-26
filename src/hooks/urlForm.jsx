@@ -33,6 +33,8 @@ export default function useUrlForm() {
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setPartialResults(null);
+    setSubmittedUrl("");
     setHasSubmitted(true);
     setShowLongWaitMessage(false);
     clearTimeout(timeoutId.current);
