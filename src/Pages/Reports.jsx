@@ -15,7 +15,6 @@ import MarkdownRenderer from "../Components/MarkdownRenderer";
 import Accordion from "../Components/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../utils/formatReports";
-import { useToggleFavourites } from "../hooks/handleFavouritesList";
 import { useAISummary } from "../hooks/useAiSummary";
 
 const Reports = () => {
@@ -26,7 +25,6 @@ const Reports = () => {
   const [searchParams] = useSearchParams();
   const url = searchParams.get("url");
   const navigate = useNavigate();
-  const toggleFavourites = useToggleFavourites();
 
   // use aisummary hook
   const {
@@ -51,11 +49,6 @@ const Reports = () => {
     if (url) fetchReports();
   }, [url]);
 
-  const handleFavourites = async () => {
-    const updatedFavourites = await toggleFavourites(url);
-    console.log("New Favourites: ", updatedFavourites);
-  };
-
   // memoize data/formatted reports
   const memoizedData = useMemo(() => formatReports(prevReports), [prevReports]);
 
@@ -63,7 +56,10 @@ const Reports = () => {
   if (loading) return <Loader src={preloader} />;
 
   return (
-    <main className="min-h-screen bg-gray-50 relative" role="main">
+    <main
+      className="min-h-screen bg-gray-50 relative pt-[252px] sm:pt-[112px]"
+      role="main"
+    >
       {/* error message */}
       {errorOccurred ? (
         <ErrorTemp url={url} errorGif={errorGif} />
@@ -194,9 +190,6 @@ const Reports = () => {
               />
             </section>
           </div>
-
-          {/* favourites tester */}
-          <button onClick={handleFavourites}>Test favourites add</button>
         </div>
       )}
     </main>

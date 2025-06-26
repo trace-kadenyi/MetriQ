@@ -47,34 +47,13 @@ const Report = () => {
   if (!latestReport) return <Loader src={preloader} />;
 
   return (
-    <main className="min-h-screen bg-gray-50 relative" role="main">
+    <main
+      className="min-h-screen bg-gray-50 relative pt-[212px] sm:pt-[112px]"
+      role="main"
+    >
       <div className="m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
-        <section className="sticky top-0 z-[50] bg-gray-100 border-b border-gray-300 shadow-sm">
-          <div className="flex flex-col lg:flex-row md:justify-center lg:justify-between items-center gap-4 px-6 py-3">
-            {/* url */}
-            <h2 className="font-semibold text-lg text-gray-800 underline truncate max-w-[80vw]">
-              <a
-                href={report.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={report.url}
-                aria-label={`Open ${report.url} in a new tab`}
-                className="hover:text-orange-400"
-              >
-                {report.url}
-              </a>
-            </h2>
-            {/* previous reports */}
-            <button
-              onClick={() => {
-                navigate(
-                  `/reports?url=${encodeURIComponent(report.url)}`
-                );
-              }}
-              className="bg-gray-200 text-gray-700 transition-shadow hover:shadow-md hover:bg-orange-400 hover:text-white cursor-pointer px-5 py-2 mt-2"
-            >
-              View All Reports
-            </button>
+        <section className="sticky top-[245px] z-[44] bg-gray-100 border-b border-gray-300 shadow-sm rounded-t-xl sm:top-[108px]">
+          <div className="flex justify-center px-6 py-3">
             <DeviceToggle view={view} setView={setView} />
           </div>
         </section>

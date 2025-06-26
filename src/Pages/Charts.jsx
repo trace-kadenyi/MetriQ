@@ -13,6 +13,7 @@ import {
   parseMetric,
 } from "../utils/chartReportsData";
 import CoreVitalChart from "../Components/CoreVitalChart";
+import { WarningBox } from "../utils/warningBox";
 
 const Charts = () => {
   const [prevReports, setPrevReports] = useState([]);
@@ -45,7 +46,10 @@ const Charts = () => {
   if (loading) return <Loader src={preloader} />;
 
   return (
-    <main className="min-h-screen bg-gray-50 relative" role="main">
+    <main
+      className="min-h-screen bg-gray-50 relative pt-[252px] sm:pt-[112px]"
+      role="main"
+    >
       {/* error message */}
       {errorOccurred ? (
         <ErrorTemp url={url} errorGif={errorGif} />
@@ -86,41 +90,49 @@ const Charts = () => {
               each line on or off using the checkboxes to focus on specific
               metrics across devices.
             </p>
-            <ScoreChartWithToggles
-              title="Scores: Performance, Accessibility, Best Practices, SEO"
-              quality="Good score: > 50"
-              data={chartData}
-              lines={[
-                {
-                  key: "mobilePerformance",
-                  label: "Performance",
-                  device: "mobile",
-                },
-                {
-                  key: "desktopPerformance",
-                  label: "Performance",
-                  device: "desktop",
-                },
-                { key: "mobileSEO", label: "SEO", device: "mobile" },
-                { key: "desktopSEO", label: "SEO", device: "desktop" },
-                { key: "mobileBP", label: "Best Practices", device: "mobile" },
-                {
-                  key: "desktopBP",
-                  label: "Best Practices",
-                  device: "desktop",
-                },
-                {
-                  key: "mobileAccessibility",
-                  label: "Accessibility",
-                  device: "mobile",
-                },
-                {
-                  key: "desktopAccessibility",
-                  label: "Accessibility",
-                  device: "desktop",
-                },
-              ]}
-            />
+            {prevReports.length > 1 ? (
+              <ScoreChartWithToggles
+                title="Scores: Performance, Accessibility, Best Practices, SEO"
+                quality="Good score: > 50"
+                data={chartData}
+                lines={[
+                  {
+                    key: "mobilePerformance",
+                    label: "Performance",
+                    device: "mobile",
+                  },
+                  {
+                    key: "desktopPerformance",
+                    label: "Performance",
+                    device: "desktop",
+                  },
+                  { key: "mobileSEO", label: "SEO", device: "mobile" },
+                  { key: "desktopSEO", label: "SEO", device: "desktop" },
+                  {
+                    key: "mobileBP",
+                    label: "Best Practices",
+                    device: "mobile",
+                  },
+                  {
+                    key: "desktopBP",
+                    label: "Best Practices",
+                    device: "desktop",
+                  },
+                  {
+                    key: "mobileAccessibility",
+                    label: "Accessibility",
+                    device: "mobile",
+                  },
+                  {
+                    key: "desktopAccessibility",
+                    label: "Accessibility",
+                    device: "desktop",
+                  },
+                ]}
+              />
+            ) : (
+              <WarningBox />
+            )}
           </section>
           {/* Core Web Vitals Section */}
           <section className="mb-12">
@@ -136,44 +148,49 @@ const Charts = () => {
               signals.
             </p>
 
-            <CoreVitalChart
-              title="Largest Contentful Paint (LCP)"
-              description="Measures how long it takes for the largest visible content (e.g. image or heading) to appear on screen."
-              quality="Good: ≤ 2.5 seconds"
-              unit="ms"
-              yDomain={[0, 5]}
-              data={chartData}
-              lines={[
-                { key: "mobileLCP", label: "LCP", device: "mobile" },
-                { key: "desktopLCP", label: "LCP", device: "desktop" },
-              ]}
-            />
-
-            <CoreVitalChart
-              title="First Input Delay (FID)"
-              description="Measures the time from when a user first interacts with your page (click/tap/keypress) to when the browser responds."
-              quality="Good: ≤ 100 milliseconds"
-              unit="ms"
-              yDomain={[0, 300]}
-              data={chartData}
-              lines={[
-                { key: "mobileFID", label: "FID", device: "mobile" },
-                { key: "desktopFID", label: "FID", device: "desktop" },
-              ]}
-            />
-
-            <CoreVitalChart
-              title="Cumulative Layout Shift (CLS)"
-              description="Measures unexpected visual shifts of content during page load."
-              quality="Good: ≤ 0.1"
-              unit=""
-              yDomain={[0, 0.3]}
-              data={chartData}
-              lines={[
-                { key: "mobileCLS", label: "CLS", device: "mobile" },
-                { key: "desktopCLS", label: "CLS", device: "desktop" },
-              ]}
-            />
+            {prevReports.length > 1 ? (
+              <div>
+                (
+                <CoreVitalChart
+                  title="Largest Contentful Paint (LCP)"
+                  description="Measures how long it takes for the largest visible content (e.g. image or heading) to appear on screen."
+                  quality="Good: ≤ 2.5 seconds"
+                  unit="ms"
+                  yDomain={[0, 5]}
+                  data={chartData}
+                  lines={[
+                    { key: "mobileLCP", label: "LCP", device: "mobile" },
+                    { key: "desktopLCP", label: "LCP", device: "desktop" },
+                  ]}
+                />
+                <CoreVitalChart
+                  title="First Input Delay (FID)"
+                  description="Measures the time from when a user first interacts with your page (click/tap/keypress) to when the browser responds."
+                  quality="Good: ≤ 100 milliseconds"
+                  unit="ms"
+                  yDomain={[0, 300]}
+                  data={chartData}
+                  lines={[
+                    { key: "mobileFID", label: "FID", device: "mobile" },
+                    { key: "desktopFID", label: "FID", device: "desktop" },
+                  ]}
+                />
+                <CoreVitalChart
+                  title="Cumulative Layout Shift (CLS)"
+                  description="Measures unexpected visual shifts of content during page load."
+                  quality="Good: ≤ 0.1"
+                  unit=""
+                  yDomain={[0, 0.3]}
+                  data={chartData}
+                  lines={[
+                    { key: "mobileCLS", label: "CLS", device: "mobile" },
+                    { key: "desktopCLS", label: "CLS", device: "desktop" },
+                  ]}
+                />
+              </div>
+            ) : (
+              <WarningBox />
+            )}
           </section>
         </div>
       )}
