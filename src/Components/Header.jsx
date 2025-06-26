@@ -3,16 +3,24 @@ import { useFavourites } from "../context/FavouritesContext";
 import useUrlForm from "../hooks/urlForm";
 import { Search } from "lucide-react";
 
+import Popup from "./Popup";
+
 const Header = () => {
   const { favourites } = useFavourites();
   const navigate = useNavigate();
   const {
-    handleSubmit,
-    hasSubmitted,
     url,
-    handleChange,
-    loading,
     isValidFormat,
+    hasSubmitted,
+    handleChange,
+    handleSubmit,
+    loading,
+    setLoading,
+    showPopup,
+    setShowPopup,
+    partialResults,
+    submittedUrl,
+    showLongWaitMessage,
   } = useUrlForm();
 
   const goToReports = (url) => {
@@ -43,6 +51,15 @@ const Header = () => {
             required
             className="flex-grow px-4 py-2 text-sm text-gray-800 rounded-l-lg focus:outline-none"
           />
+          {url && !hasSubmitted && (
+            <p
+              className={`text-sm px-2 hidden sm:block ${
+                isValidFormat ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {isValidFormat ? "URL format looks good" : "Invalid URL format"}
+            </p>
+          )}
           <button
             type="submit"
             className="px-3 py-2 text-white bg-blue-500 rounded-md cursor-pointer hover:bg-blue-600 disabled:opacity-60 disabled:cursor-not-allowed"
@@ -56,6 +73,18 @@ const Header = () => {
           </button>
         </form>
 
+        {showPopup && (
+          <Popup
+            showPopup={showPopup}
+            setShowPopup={setShowPopup}
+            loading={loading}
+            setLoading={setLoading}
+            partialResults={partialResults}
+            submittedUrl={submittedUrl}
+            showLongWaitMessage={showLongWaitMessage}
+            navigate={navigate}
+          />
+        )}
         {/* Favourites */}
         <div className="relative group inline-block">
           <button className="flex items-center gap-2 px-4 py-2 transition text-white hover:text-orange-400">
