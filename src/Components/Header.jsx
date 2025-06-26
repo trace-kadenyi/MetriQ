@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useFavourites } from "../context/FavouritesContext";
 import useUrlForm from "../hooks/urlForm";
 import { Search } from "lucide-react";
@@ -8,6 +8,7 @@ import Popup from "./Popup";
 const Header = () => {
   const { favourites } = useFavourites();
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     url,
     isValidFormat,
@@ -27,8 +28,10 @@ const Header = () => {
     navigate(`/reports?url=${encodeURIComponent(url)}`);
   };
 
+  const isLandingPage = location.pathname === "/";
+
   return (
-    <header className="w-full bg-gradient-to-b from-blue-950 to-blue-900 text-white sticky top-0 z-[50] shadow-md">
+    <header className="w-full bg-gradient-to-b from-blue-950 to-blue-900 text-white fixed top-0 z-[50] shadow-md">
       <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4 px-4 py-3">
         {/* Branding */}
         <div
@@ -39,40 +42,42 @@ const Header = () => {
         </div>
 
         {/* Search Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="flex items-center bg-white rounded-lg shadow-sm px-2 py-1 w-full max-w-xl"
-        >
-          <input
-            type="text"
-            value={url}
-            onChange={handleChange}
-            placeholder="Enter site URL"
-            required
-            className="flex-grow px-4 py-2 text-sm text-gray-800 rounded-l-lg focus:outline-none"
-          />
-          {url && !hasSubmitted && (
-            <p
-              className={`text-sm px-2 hidden sm:block ${
-                isValidFormat ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {isValidFormat ? "URL format looks good" : "Invalid URL format"}
-            </p>
-          )}
-          <button
-            type="submit"
-            className="px-3 py-2 text-white bg-blue-500 rounded-md cursor-pointer hover:bg-blue-600 disabled:opacity-60 disabled:cursor-not-allowed"
-            disabled={loading}
+        {!isLandingPage && (
+          <form
+            onSubmit={handleSubmit}
+            className="flex items-center bg-white rounded-lg shadow-sm px-2 py-1 w-full max-w-xl"
           >
-            {loading ? (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            ) : (
-              <Search className="w-4 h-4" />
+            <input
+              type="text"
+              value={url}
+              onChange={handleChange}
+              placeholder="Enter site URL"
+              required
+              className="flex-grow px-4 py-2 text-sm text-gray-800 rounded-l-lg focus:outline-none"
+            />
+            {url && !hasSubmitted && (
+              <p
+                className={`text-sm px-2 hidden sm:block ${
+                  isValidFormat ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {isValidFormat ? "URL format looks good" : "Invalid URL format"}
+              </p>
             )}
-          </button>
-        </form>
-
+            <button
+              type="submit"
+              className="px-3 py-2 text-white bg-blue-500 rounded-md cursor-pointer hover:bg-blue-600 disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={loading}
+            >
+              {loading ? (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <Search className="w-4 h-4" />
+              )}
+            </button>
+          </form>
+        )}
+        {/* show popup */}
         {showPopup && (
           <Popup
             showPopup={showPopup}
@@ -87,21 +92,17 @@ const Header = () => {
         )}
         {/* Favourites */}
         <div className="relative group inline-block">
-          <button className="flex items-center gap-2 px-4 py-2 transition text-white hover:text-orange-400">
+          {/* Trigger */}
+          <button className="flex items-center gap-2 px-4 py-2 transition">
             <span role="img" aria-label="heart">
               🤍
             </span>
             <span className="text-sm font-medium">Favourites</span>
           </button>
 
-          <div
-            className="absolute right-0 top-full mt-1 z-50 w-64
-              rounded-2xl border border-gray-100 bg-white p-4 shadow-lg
-              opacity-0 scale-95 pointer-events-none
-              transition-all duration-200 ease-out
-              group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto"
-          >
-            {favourites.length > 0 ? (
+          {/* Dropdown */}
+          <div className="absolute left-0 top-full z-50 w-64 rounded-2xl border border-gray-100 bg-white p-4 shadow-lg opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto">
+            {favourites.length > 0 && (
               <ul className="space-y-2 text-sm">
                 {favourites.map((url) => (
                   <li key={url}>
@@ -114,8 +115,6 @@ const Header = () => {
                   </li>
                 ))}
               </ul>
-            ) : (
-              <p className="text-sm text-gray-500">No favourites yet</p>
             )}
           </div>
         </div>
