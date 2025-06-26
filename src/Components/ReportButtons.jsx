@@ -2,7 +2,17 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import ReportPDF from "./ReportPDF";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Star, StarOff, Loader2 } from "lucide-react";
+import {
+  Star,
+  StarOff,
+  Loader2,
+  Lightbulb,
+  BarChart3,
+  Download,
+  Eye,
+  EyeOff,
+} from "lucide-react";
+
 import { useFavourites } from "../context/FavouritesContext";
 
 const AISummaryButton = ({
@@ -53,11 +63,20 @@ const AISummaryButton = ({
         Generating...
       </>
     ) : aiSummary && showSummary ? (
-      "🙈 Hide AI Analysis"
+      <>
+        <EyeOff className="w-5 h-5" />
+        Hide AI Analysis
+      </>
     ) : aiSummary && !showSummary ? (
-      "👁️ Show AI Analysis"
+      <>
+        <Eye className="w-5 h-5" />
+        Show AI Analysis
+      </>
     ) : (
-      "🧠 Generate AI Analysis"
+      <>
+        <Lightbulb className="w-5 h-5" />
+        Generate AI Analysis
+      </>
     )}
   </motion.button>
 );
@@ -83,7 +102,10 @@ export const ChartBtn = ({ url, navigate }) => (
     }}
     className="mx-auto w-3/4 sm:w-[14rem] md:min-w-[16rem] bg-gradient-to-r from-green-600 to-orange-400 text-white px-4 py-2 rounded shadow hover:opacity-90 disabled:opacity-60 cursor-pointer flex items-center gap-2 justify-center"
   >
-    🧬Chart My Reports
+    <>
+      <BarChart3 className="w-5 h-5" />
+      Chart My Reports
+    </>
   </motion.button>
 );
 
@@ -111,7 +133,10 @@ export const PdfDownloadBtn = ({ url, reports, aiSummary }) => (
                  px-4 py-2 rounded shadow hover:opacity-90
                  disabled:opacity-60 cursor-pointer items-center gap-2 justify-center text-center"
     >
-      📥 Download PDF
+      <>
+        <Download className="w-5 h-5" />
+        Download PDF
+      </>
     </PDFDownloadLink>
   </motion.div>
 );
