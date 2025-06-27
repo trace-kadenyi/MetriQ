@@ -1,11 +1,11 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useFavourites } from "../context/FavouritesContext";
-import useUrlForm from "../hooks/urlForm";
 import { Search, Star } from "lucide-react";
 
-import Popup from "./Popup";
+import { useFavourites } from "../../context/FavouritesContext";
+import useUrlForm from "../../hooks/urlForm";
+import Popup from "../Accessories/Popup";
 
-const Header = () => {
+const PrimaryHeader = () => {
   const { favourites = [] } = useFavourites();
   const navigate = useNavigate();
   const location = useLocation();
@@ -131,4 +131,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default PrimaryHeader;

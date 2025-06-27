@@ -6,13 +6,13 @@ import clsx from "clsx";
 import AISummaryButton, {
   ChartBtn,
   PdfDownloadBtn,
-} from "../Components/ReportButtons";
+} from "../Components/Buttons/ReportButtons";
 import errorGif from "../assets/error.gif";
-import { scoreColour, ErrorTemp, Loader } from "../Components/ResultsBlock";
+import { scoreColour, ErrorTemp, Loader } from "../Components/ResultsBlocks/CurrResultsBlock";
 import preloader from "../assets/preloader_gif.gif";
-import { ReportSection } from "../Components/PrevResultsBlock";
-import MarkdownRenderer from "../Components/MarkdownRenderer";
-import Accordion from "../Components/Accordion";
+import { ReportSection } from "../Components/ResultsBlocks/PrevResultsBlock";
+import MarkdownRenderer from "../Components/Accessories/MarkdownRenderer";
+import Accordion from "../Components/Accessories/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../utils/formatReports";
 import { useAISummary } from "../hooks/useAiSummary";

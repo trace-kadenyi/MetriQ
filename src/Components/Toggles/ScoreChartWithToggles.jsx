@@ -12,7 +12,7 @@ import {
   metricDescriptions,
   colors,
   scorePoorThresholds,
-} from "../config/chartConfig";
+} from "../../config/chartConfig";
 
 export default function ScoreChartWithToggles({ title, quality, lines, data }) {
   const [visibleLines, setVisibleLines] = useState(() =>

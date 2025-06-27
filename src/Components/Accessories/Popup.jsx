@@ -2,13 +2,13 @@ import { motion } from "framer-motion";
 import { CheckCircle, ArrowRightCircle } from "lucide-react";
 import clsx from "clsx";
 
-import preloaderGif from "../assets/preloader_gif.gif";
+import preloaderGif from "../../assets/preloader_gif.gif";
 import {
   scoreColour,
   borderColour,
   getStatusColor,
   getScoreStatus,
-} from "../Components/ResultsBlock";
+} from "../../Components/ResultsBlocks/CurrResultsBlock";
 
 const Popup = ({
   setShowPopup,

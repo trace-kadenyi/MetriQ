@@ -1,5 +1,5 @@
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import ReportPDF from "./ReportPDF";
+import ReportPDF from "../ResultsBlocks/ReportPDF";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -13,7 +13,7 @@ import {
   EyeOff,
 } from "lucide-react";
 
-import { useFavourites } from "../context/FavouritesContext";
+import { useFavourites } from "../../context/FavouritesContext";
 
 const AISummaryButton = ({
   onClick,

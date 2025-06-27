@@ -21,10 +21,10 @@ import {
   heroVariants,
   fadeUp,
   StepCard,
-} from "../Components/FramerMotion";
+} from "../Components/Accessories/FramerMotion";
 import useUrlForm from "../hooks/urlForm";
-import { getStatusColor, getScoreStatus } from "../Components/ResultsBlock";
-import Popup from "../Components/Popup";
+import { getStatusColor, getScoreStatus } from "../Components/ResultsBlocks/CurrResultsBlock";
+import Popup from "../Components/Accessories/Popup";
 
 const LandingPage = () => {
   const {
