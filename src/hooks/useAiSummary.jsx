@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { generateSummaryInput } from "../Components/PrevResultsBlock";
+import { generateSummaryInput } from "../Components/ResultsBlocks/PrevResultsBlock";
 
 export const useAISummary = () => {
   const [aiSummary, setAiSummary] = useState("");

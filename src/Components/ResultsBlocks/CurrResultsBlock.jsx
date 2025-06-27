@@ -123,7 +123,7 @@ export const ErrorTemp = ({ url, errorGif }) => {
   const navigate = useNavigate();
 
   return (
-    <section className="p-6 h-screen bg-gray-100 flex justify-center items-center">
+    <section className="p-6 md:mt-20 flex justify-center items-center">
       <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
         <img src={errorGif} alt="No data found" className="w-32 h-32 mx-auto" />
         <h2 className="text-lg font-semibold text-gray-800 mb-2">

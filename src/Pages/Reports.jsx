@@ -6,13 +6,17 @@ import clsx from "clsx";
 import AISummaryButton, {
   ChartBtn,
   PdfDownloadBtn,
-} from "../Components/ReportButtons";
+} from "../Components/Buttons/ReportButtons";
 import errorGif from "../assets/error.gif";
-import { scoreColour, ErrorTemp, Loader } from "../Components/ResultsBlock";
+import {
+  scoreColour,
+  ErrorTemp,
+  Loader,
+} from "../Components/ResultsBlocks/CurrResultsBlock";
 import preloader from "../assets/preloader_gif.gif";
-import { ReportSection } from "../Components/PrevResultsBlock";
-import MarkdownRenderer from "../Components/MarkdownRenderer";
-import Accordion from "../Components/Accordion";
+import { ReportSection } from "../Components/ResultsBlocks/PrevResultsBlock";
+import MarkdownRenderer from "../Components/Accessories/MarkdownRenderer";
+import Accordion from "../Components/Accessories/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../utils/formatReports";
 import { useAISummary } from "../hooks/useAiSummary";
@@ -104,7 +108,7 @@ const Reports = () => {
           </section>
           {/* Generate AI Summary */}
           <div className="mt-6 space-y-6">
-            <div className="reports_btns flex flex-col sm:flex-row flex-wrap justify-center items-stretch gap-4 sm:gap-6 lg:gap-8 w-full">
+            <div className="reports_btns flex flex-col-reverse sm:flex-row flex-wrap justify-center items-stretch gap-4 sm:gap-6 lg:gap-8 w-full">
               {/* ai button */}
               <section className="w-full sm:w-auto">
                 <AISummaryButton

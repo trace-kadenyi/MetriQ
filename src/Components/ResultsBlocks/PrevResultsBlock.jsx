@@ -1,9 +1,9 @@
-import ScoreProgress from "./ScoreProgress";
+import ScoreProgress from "../Accessories/ScoreProgress";
 import {
   MetricsBlock,
   scoreColour,
   borderColour,
-} from "../Components/ResultsBlock";
+} from "../ResultsBlocks/CurrResultsBlock";
 
 // generate summary input
 export const generateSummaryInput = (unsortedAiReports) => {

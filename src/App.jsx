@@ -7,8 +7,8 @@ import Reports from "./Pages/Reports";
 import Charts from "./Pages/Charts";
 import "./App.css";
 import { FavouritesProvider } from "./context/FavouritesContext";
-import Header from "./Components/Header";
-import SecondaryHeader from "./Components/SecondaryHeader";
+import PrimaryHeader from "./Components/Headers/PrimaryHeader";
+import SecondaryHeader from "./Components/Headers/SecondaryHeader";
 
 const App = () => {
   return (
@@ -16,7 +16,7 @@ const App = () => {
       <FavouritesProvider>
         <Toaster position="top-right" reverseOrder={false} />
         <Router>
-          <Header />
+          <PrimaryHeader />
           <SecondaryHeader />
           <Routes>
             <Route path="/" element={<LandingPage />} />

@@ -1,11 +1,11 @@
 import React from "react";
 import { Document, Page, Text, View, Font } from "@react-pdf/renderer";
-import InterRegular from "../assets/fonts/Inter-Regular.ttf";
-import InterBold from "../assets/fonts/Inter-Bold.ttf";
-import InterItalic from "../assets/fonts/Inter-Italic.ttf";
+import InterRegular from "../../assets/fonts/Inter-Regular.ttf";
+import InterBold from "../../assets/fonts/Inter-Bold.ttf";
+import InterItalic from "../../assets/fonts/Inter-Italic.ttf";
 
-import { styles, colors, formatLabel, classifyScore } from "../utils/pdfStyles";
-import { renderMarkdownLines } from "../utils/AISummaryPDF";
+import { styles, colors, formatLabel, classifyScore } from "../../utils/pdfStyles";
+import { renderMarkdownLines } from "../../utils/AISummaryPDF";
 
 // Font setup
 Font.register({

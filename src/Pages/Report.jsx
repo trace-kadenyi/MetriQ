@@ -9,11 +9,11 @@ import {
   renderVital,
   getOpportunityStatus,
   Loader,
-} from "../Components/ResultsBlock";
-import ScoreProgress from "../Components/ScoreProgress";
+} from "../Components/ResultsBlocks/CurrResultsBlock";
+import ScoreProgress from "../Components/Accessories/ScoreProgress";
 import preloader from "../assets/preloader_gif.gif";
 import { useMemoizedReport } from "../hooks/useMemoizedReport";
-import DeviceToggle from "../Components/DeviceToggle";
+import DeviceToggle from "../Components/Toggles/DeviceToggle";
 
 const Report = () => {
   const [searchParams] = useSearchParams();
@@ -48,11 +48,11 @@ const Report = () => {
 
   return (
     <main
-      className="min-h-screen bg-gray-50 relative pt-[212px] sm:pt-[112px]"
+      className="min-h-screen bg-gray-50 relative pt-[222px] sm:pt-[112px]"
       role="main"
     >
       <div className="m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
-        <section className="sticky top-[245px] z-[44] bg-gray-100 border-b border-gray-300 shadow-sm rounded-t-xl sm:top-[108px]">
+        <section className="sticky top-[255px] z-[44] bg-gray-100 border-b border-gray-300 shadow-sm rounded-t-xl sm:top-[108px]">
           <div className="flex justify-center px-6 py-3">
             <DeviceToggle view={view} setView={setView} />
           </div>

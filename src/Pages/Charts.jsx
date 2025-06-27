@@ -2,17 +2,17 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import errorGif from "../assets/error.gif";
-import { ErrorTemp, Loader } from "../Components/ResultsBlock";
+import { ErrorTemp, Loader } from "../Components/ResultsBlocks/CurrResultsBlock";
 import preloader from "../assets/preloader_gif.gif";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../utils/formatReports";
-import ScoreChartWithToggles from "../Components/ScoreChartWithToggles";
+import ScoreChartWithToggles from "../Components/Toggles/ScoreChartWithToggles";
 import {
   chartReportsData,
   safeDate,
   parseMetric,
 } from "../utils/chartReportsData";
-import CoreVitalChart from "../Components/CoreVitalChart";
+import CoreVitalChart from "../Components/Charts/CoreVitalChart";
 import { WarningBox } from "../utils/warningBox";
 
 const Charts = () => {

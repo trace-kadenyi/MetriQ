@@ -1,5 +1,5 @@
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import ReportPDF from "./ReportPDF";
+import ReportPDF from "../ResultsBlocks/ReportPDF";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -13,7 +13,7 @@ import {
   EyeOff,
 } from "lucide-react";
 
-import { useFavourites } from "../context/FavouritesContext";
+import { useFavourites } from "../../context/FavouritesContext";
 
 const AISummaryButton = ({
   onClick,
@@ -164,13 +164,13 @@ export function FavouriteBtn({ url, size = 18 }) {
     <button
       onClick={handleClick}
       title={saved ? "Remove from favourites" : "Add to favourites"}
-      className="p-1 rounded-full hover:scale-110 transition-transform disabled:opacity-50"
+      className="p-1 rounded-full hover:scale-110 transition-transform disabled:opacity-50 cursor-pointer"
       disabled={loading || optimistic}
     >
       {loading || optimistic ? (
         <Loader2 className="animate-spin" size={size} />
       ) : saved ? (
-        <Star className="text-yellow-500 fill-yellow-400" size={size} />
+        <Star className="text-orange-500 fill-orange-400" size={size} />
       ) : (
         <StarOff className="text-gray-500" size={size} />
       )}
