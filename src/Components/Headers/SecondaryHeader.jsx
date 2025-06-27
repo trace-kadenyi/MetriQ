@@ -73,15 +73,13 @@ export default function SecondaryHeader() {
           <NavBtn path="/report">
             <span className="text-orange-500 text-xl">*</span> New Report
           </NavBtn>
-
+          <NavBtn path="/reports">
+            <FolderOpen className="w-4 h-4" /> Reports
+          </NavBtn>
           <NavBtn path="/charts">
             <BarChart3 className="w-4 h-4" /> Charts
           </NavBtn>
           <NavBtn path="/reports">
-            <FolderOpen className="w-4 h-4" /> Reports
-          </NavBtn>
-          <NavBtn path="/reports">
-            {" "}
             <Lightbulb className="w-4 h-4" /> AI Analysis
           </NavBtn>
         </nav>
