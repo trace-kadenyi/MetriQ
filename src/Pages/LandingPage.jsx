@@ -25,6 +25,7 @@ import {
 import useUrlForm from "../hooks/urlForm";
 import { getStatusColor, getScoreStatus } from "../Components/ResultsBlocks/CurrResultsBlock";
 import Popup from "../Components/Accessories/Popup";
+import ThemeToggle from "../Components/Accessories/ThemeToggle";
 
 const LandingPage = () => {
   const {
@@ -69,7 +70,7 @@ const LandingPage = () => {
           variants={heroVariants}
           initial="hidden"
           animate="visible"
-          className="text-white p-4 lg:p-22"
+          className="text-white p-4 lg:p-22 dark:text-gray-400"
         >
           <motion.h1
             variants={fadeUp}
