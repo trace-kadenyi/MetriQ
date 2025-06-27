@@ -4,6 +4,7 @@ import { Search, Star } from "lucide-react";
 import { useFavourites } from "../../context/FavouritesContext";
 import useUrlForm from "../../hooks/urlForm";
 import Popup from "../Accessories/Popup";
+import logo from "../../assets/zyntra_logo.png";
 
 const PrimaryHeader = () => {
   const { favourites = [] } = useFavourites();
@@ -32,13 +33,20 @@ const PrimaryHeader = () => {
 
   return (
     <header className="w-full bg-gradient-to-b from-blue-950 to-blue-900 text-white fixed top-0 z-[50] shadow-md">
-      <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center sm:flex-nowrap gap-4 px-4 py-3">
+      <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center sm:flex-nowrap gap-4 p-3">
         {/* Branding */}
         <div
-          className="text-2xl font-bold tracking-tight cursor-pointer hover:text-orange-400 transition"
+          className="flex items-center gap-1 cursor-pointer hover:text-orange-400 transition px-4 sm:px-0"
           onClick={() => navigate("/")}
         >
-          MetricMind
+          <img
+            src={logo}
+            alt="Zyntra Logo"
+            className="w-4 h-4 sm:w-5 h-5 object-contain"
+          />
+          <span className="text-md sm:text-xl pr-4 font-bold tracking-tight">
+            Zyntra
+          </span>
         </div>
 
         {/* Search Form */}
