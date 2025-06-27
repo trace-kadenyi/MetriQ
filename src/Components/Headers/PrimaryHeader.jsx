@@ -5,6 +5,7 @@ import { useFavourites } from "../../context/FavouritesContext";
 import useUrlForm from "../../hooks/urlForm";
 import Popup from "../Accessories/Popup";
 import logo from "../../assets/zyntra_logo.png";
+import ThemeToggle from "../Accessories/ThemeToggle";
 
 const PrimaryHeader = () => {
   const { favourites = [] } = useFavourites();
@@ -141,6 +142,10 @@ const PrimaryHeader = () => {
               </p>
             )}
           </div>
+        </div>
+        {/* themes */}
+        <div>
+          <ThemeToggle />
         </div>
       </div>
     </header>
