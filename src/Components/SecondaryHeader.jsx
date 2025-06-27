@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BarChart3, Lightbulb, FolderOpen } from "lucide-react";
+import clsx from "clsx";
 
 import { FavouriteBtn } from "./ReportButtons";
 import useBreakpoint from "../hooks/useBreakpoint";
@@ -31,6 +32,22 @@ export default function SecondaryHeader() {
     }
   }
 
+  // re-usable nav button component
+  const NavBtn = ({ path, children }) => {
+    const isActive = location.pathname === path;
+    return (
+      <button
+        onClick={() => goTo(path)}
+        className={clsx(
+          "flex items-center gap-1 px-2 rounded transition cursor-pointer text-xs",
+          isActive ? "text-green-600 font-semibold" : "hover:text-orange-400"
+        )}
+      >
+        {children}
+      </button>
+    );
+  };
+
   return (
     <motion.header
       initial={{ opacity: 0, y: -10 }}
@@ -52,32 +69,21 @@ export default function SecondaryHeader() {
         </span>
 
         {/* Quick nav */}
-        <nav className="flex gap-4">
-          <button
-            onClick={() => goTo("/report")}
-            className="flex items-center gap-1 hover:text-orange-400 transition cursor-pointer"
-          >
-            <span className="text-orange-500 text-xl">*</span>
-            New Report
-          </button>
-          <button
-            onClick={() => goTo("/charts")}
-            className="flex items-center gap-1 hover:text-orange-400 transition cursor-pointer"
-          >
+        <nav className="flex gap-2">
+          <NavBtn path="/report">
+            <span className="text-orange-500 text-xl">*</span> New Report
+          </NavBtn>
+
+          <NavBtn path="/charts">
             <BarChart3 className="w-4 h-4" /> Charts
-          </button>
-          <button
-            onClick={() => goTo("/reports")}
-            className="flex items-center gap-1 hover:text-orange-400 transition cursor-pointer"
-          >
+          </NavBtn>
+          <NavBtn path="/reports">
             <FolderOpen className="w-4 h-4" /> Reports
-          </button>
-          <button
-            onClick={() => goTo("/reports")}
-            className="flex items-center gap-1 hover:text-orange-400 transition cursor-pointer"
-          >
+          </NavBtn>
+          <NavBtn path="/reports">
+            {" "}
             <Lightbulb className="w-4 h-4" /> AI Analysis
-          </button>
+          </NavBtn>
         </nav>
       </div>
     </motion.header>
