@@ -101,7 +101,15 @@ const PrimaryHeader = () => {
           </button>
 
           {/* Dropdown */}
-          <div className="absolute left-0 top-full z-50 w-50 rounded-2xl border border-gray-100 bg-white p-4 shadow-lg opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto">
+          <div
+            className="absolute top-full left-0 sm:left-auto sm:right-0 z-50
+                w-64 max-w-[90vw]
+                rounded-2xl border border-gray-100 bg-white p-4 shadow-lg
+                opacity-0 scale-95 pointer-events-none transition-all
+                duration-200 ease-out origin-top-right
+                group-hover:opacity-100 group-hover:scale-100
+                group-hover:pointer-events-auto"
+          >
             {favourites.length > 0 ? (
               <ul className="space-y-2 text-sm">
                 {favourites.map((url) => {
@@ -111,7 +119,7 @@ const PrimaryHeader = () => {
                     <li key={url}>
                       <button
                         onClick={() => goToReports(url)}
-                        className="text-left w-full text-blue-600 hover:text-orange-400 transition break-all"
+                        className="text-left w-full text-gray-800 text-xs underline hover:text-orange-400 transition break-all"
                       >
                         {truncated}
                       </button>
