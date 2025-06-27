@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useFavourites } from "../context/FavouritesContext";
 import useUrlForm from "../hooks/urlForm";
-import { Search } from "lucide-react";
+import { Search, Star } from "lucide-react";
 
 import Popup from "./Popup";
 
@@ -95,7 +95,7 @@ const Header = () => {
           {/* Trigger */}
           <button className="flex items-center gap-2 px-4 py-2 transition">
             <span role="img" aria-label="heart">
-              🤍
+              <Star className="text-orange-500 fill-orange-400 w-3 h-3" />
             </span>
             <span className="text-sm font-medium">Favourites</span>
           </button>
