@@ -8,7 +8,11 @@ import AISummaryButton, {
   PdfDownloadBtn,
 } from "../Components/Buttons/ReportButtons";
 import errorGif from "../assets/error.gif";
-import { scoreColour, ErrorTemp, Loader } from "../Components/ResultsBlocks/CurrResultsBlock";
+import {
+  scoreColour,
+  ErrorTemp,
+  Loader,
+} from "../Components/ResultsBlocks/CurrResultsBlock";
 import preloader from "../assets/preloader_gif.gif";
 import { ReportSection } from "../Components/ResultsBlocks/PrevResultsBlock";
 import MarkdownRenderer from "../Components/Accessories/MarkdownRenderer";
@@ -104,7 +108,7 @@ const Reports = () => {
           </section>
           {/* Generate AI Summary */}
           <div className="mt-6 space-y-6">
-            <div className="reports_btns flex flex-col sm:flex-row flex-wrap justify-center items-stretch gap-4 sm:gap-6 lg:gap-8 w-full">
+            <div className="reports_btns flex flex-col-reverse sm:flex-row flex-wrap justify-center items-stretch gap-4 sm:gap-6 lg:gap-8 w-full">
               {/* ai button */}
               <section className="w-full sm:w-auto">
                 <AISummaryButton
