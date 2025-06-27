@@ -73,17 +73,7 @@ const Reports = () => {
           {/* header sect */}
           <section>
             <h2 className="font-semibold text-lg text-gray-800 underline max-w-[80vw] my-4 break-words">
-              Showing reports for:{" "}
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={url}
-                aria-label={`Open ${url} in a new tab`}
-                className="hover:text-orange-400"
-              >
-                {url}
-              </a>
+              Showing reports for: {url}
             </h2>
             <p className="w-full md:w-2/3 text-sm text-gray-700 py-3 rounded-lg mb-6 leading-relaxed">
               Below are the{" "}
