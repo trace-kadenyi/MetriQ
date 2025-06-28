@@ -5,6 +5,7 @@ import { useFavourites } from "../../context/FavouritesContext";
 import useUrlForm from "../../hooks/urlForm";
 import Popup from "../Accessories/Popup";
 import logo from "../../assets/zyntra_logo.png";
+import ThemeToggle from "../Accessories/ThemeToggle";
 
 const PrimaryHeader = () => {
   const { favourites = [] } = useFavourites();
@@ -32,8 +33,15 @@ const PrimaryHeader = () => {
   const isLandingPage = location.pathname === "/";
 
   return (
-    <header className="w-full bg-gradient-to-b from-blue-950 to-blue-900 text-white fixed top-0 z-[50] shadow-md">
-      <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center sm:flex-nowrap gap-4 p-3">
+    <header className="w-full bg-gradient-to-b from-blue-950 to-blue-900 text-white dark:text-gray-300 fixed top-0 z-[50] shadow-md">
+      <div
+        className={`max-w-7xl mx-auto flex justify-between gap-4 p-3 ${
+          isLandingPage
+            ? "flex-col sm:flex-row"
+            : "flex-wrap items-center sm:flex-nowrap"
+        }
+        `}
+      >
         {/* Branding */}
         <div
           className="flex items-center gap-1 cursor-pointer hover:text-orange-400 transition px-4 sm:px-0"
@@ -101,7 +109,7 @@ const PrimaryHeader = () => {
         {/* Favourites */}
         <div className="relative group inline-block">
           {/* Trigger */}
-          <button className="flex items-center gap-2 px-4 py-2 transition">
+          <button className="flex items-center gap-2 px-4 py-2 transition cursor-pointer">
             <span role="img" aria-label="heart">
               <Star className="text-orange-500 fill-orange-400 w-3 h-3" />
             </span>
@@ -141,6 +149,10 @@ const PrimaryHeader = () => {
               </p>
             )}
           </div>
+        </div>
+        {/* themes */}
+        <div>
+          <ThemeToggle />
         </div>
       </div>
     </header>
