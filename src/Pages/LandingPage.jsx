@@ -48,25 +48,8 @@ const LandingPage = () => {
 
   const navigate = useNavigate();
 
-  // render scores
-  const renderScore = (label, score) => {
-    const status = getScoreStatus(score);
-    const colorClass = getStatusColor(status, "text");
-    const ratingText = status.charAt(0).toUpperCase() + status.slice(1); // e.g. "Good", "Average", "Poor"
-
-    return (
-      <p className="mb-1 font-semibold">
-        {label}:{" "}
-        <span className={clsx(colorClass)}>
-          {score ?? "N/A"}{" "}
-          {score !== undefined && <span className="ml-1">({ratingText})</span>}
-        </span>
-      </p>
-    );
-  };
-
   return (
-    <main>
+    <main className="bg-white dark:bg-blue-950">
       {/* hero section */}
       <section className="hero_sect h-screen w-full flex justify-center flex-col overflow-x-hidden">
         <motion.div
