@@ -42,7 +42,7 @@ const Popup = ({
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="fixed top-1/2 left-1/2 z-20 transform -translate-x-1/2 -translate-y-1/2 bg-white text-gray-800 shadow-xl border border-gray-200 rounded-2xl p-8 w-[95%] max-w-xl text-center"
+        className="fixed top-1/2 left-1/2 z-20 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-blue-950 text-gray-800 dark:text-gray-200 shadow-xl border border-gray-200 rounded-2xl p-8 w-[95%] max-w-xl text-center"
       >
         {/* Close Button */}
         <button
@@ -50,7 +50,7 @@ const Popup = ({
             setShowPopup(false);
             setLoading(false);
           }}
-          className="absolute top-4 right-5 text-gray-400 hover:text-red-600 text-2xl font-bold cursor-pointer"
+          className="absolute top-4 right-5 text-gray-400 dark:text-gray-200 hover:text-red-600 text-2xl font-bold cursor-pointer"
           aria-label="Close popup"
         >
           &times;
@@ -71,7 +71,7 @@ const Popup = ({
             </h3>
             {!showLongWaitMessage && (
               <div>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
                   Hang tight — this may take up to 30 seconds.
                 </p>
               </div>
@@ -79,7 +79,7 @@ const Popup = ({
             {/* Appears when it take more than 20s */}
             {showLongWaitMessage && (
               <div className="mt-3 text-sm max-w-md mx-auto text-center">
-                <p className="text-red-600 font-semibold leading-relaxed">
+                <p className="text-red-600 dark:text-red-500 font-semibold leading-relaxed">
                   Note that this may take longer than usual because the website
                   has a large number of resources or complex scripts that
                   require deeper analysis.
@@ -93,9 +93,9 @@ const Popup = ({
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4 }}
-              className="text-xl font-bold text-blue-950 mb-6"
+              className="text-xl font-bold text-blue-950 dark:text-gray-200 mb-6"
             >
-              <CheckCircle className="text-blue-950 w-6 h-6 inline-block mr-2" />
+              <CheckCircle className="text-blue-950 dark:text-gray-100 w-6 h-6 inline-block mr-2" />
               Report Ready
             </motion.h3>
 
@@ -166,7 +166,7 @@ const Popup = ({
 
             <motion.button
               whileHover={{ scale: 1.05 }}
-              className="mt-8 px-5 py-2 mx-auto bg-blue-500 text-white rounded-full font-semibold shadow-md hover:bg-blue-700 transition duration-300 cursor-pointer flex items-center justify-center gap-2"
+              className="mt-8 px-5 py-2 mx-auto bg-blue-500 dark:bg-blue-600 text-white dark:text-gray-100 rounded-full font-semibold shadow-md hover:bg-blue-700 transition duration-300 cursor-pointer flex items-center justify-center gap-2"
               onClick={() => {
                 setShowPopup(false);
                 setLoading(false);
