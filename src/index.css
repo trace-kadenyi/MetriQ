@@ -5,3 +5,17 @@ html {
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    @apply bg-white;
+  }
+
+  html.dark {
+    @apply bg-gray-900;
+  }
+
+  body {
+    @apply bg-inherit;
+  }
+}
