@@ -35,10 +35,10 @@ export default function CoreVitalChart({
 
   return (
     <div className="my-8 text-sm">
-      <h3 className="font-semibold text-gray-800 uppercase underline mb-2">
+      <h3 className="font-semibold text-gray-800 dark:text-gray-100 uppercase underline mb-2">
         {title}
       </h3>
-      <p className="text-sm text-gray-700 rounded-lg mb-6 leading-relaxed italic">
+      <p className="text-sm text-gray-700 dark:text-gray-300 rounded-lg mb-6 leading-relaxed italic">
         {description} <br /> <span className="font-semibold">{quality}</span>
       </p>
 
@@ -70,7 +70,7 @@ export default function CoreVitalChart({
                 />
               </svg>
             </div>
-            <span className="ml-2 text-gray-700 text-sm font-medium">
+            <span className="ml-2 text-gray-700 dark:text-gray-300 text-sm font-medium">
               {label} ({device})
             </span>
           </label>
