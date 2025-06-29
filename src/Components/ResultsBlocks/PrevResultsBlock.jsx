@@ -52,7 +52,7 @@ Desktop Metrics:
 
 // Report section template
 export const ReportSection = ({ label, icon, scores, metrics }) => (
-  <div className="p-2 sm:p-4 bg-white rounded-xl shadow-inner">
+  <div className="p-2 sm:p-4 bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-inner">
     <h4
       className={`font-semibold text-lg mb-1 ${scoreColour(
         scores.performance
@@ -88,7 +88,7 @@ export const ReportSection = ({ label, icon, scores, metrics }) => (
         wrapperAlign="items-center"
       />
     </div>
-    <div className="bg-white mt-2 px-6 py-2 rounded-xl shadow-sm">
+    <div className="bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 mt-2 px-6 py-2 rounded-xl shadow-sm">
       <MetricsBlock title="METRICS" metrics={metrics} />
     </div>
   </div>
