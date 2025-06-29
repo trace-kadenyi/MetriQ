@@ -126,14 +126,14 @@ export const ErrorTemp = ({ url, errorGif }) => {
 
   return (
     <section className="p-6 md:mt-20 flex justify-center items-center">
-      <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
+      <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800">
         <img src={errorGif} alt="No data found" className="w-32 h-32 mx-auto" />
-        <h2 className="text-lg font-semibold text-gray-800 mb-2">
+        <h2 className="text-lg font-semibold text-gray-800 mb-2 dark:text-gray-100">
           No reports found for this URL
         </h2>
-        <p className="text-sm text-gray-600 mb-6">
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
           We couldn’t find any past reports for:
-          <span className="block mt-1 text-gray-500 italic break-words">
+          <span className="block mt-1 text-gray-500 dark:text-gray-400 italic break-words">
             {url}
           </span>
         </p>
