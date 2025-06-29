@@ -61,7 +61,7 @@ const PrimaryHeader = () => {
         {!isLandingPage && (
           <form
             onSubmit={handleSubmit}
-            className="flex items-center bg-white rounded-lg shadow-sm px-2 py-1 w-full max-w-xl"
+            className="flex items-center bg-white dark:bg-gray-800 rounded-lg shadow-sm px-2 py-1 w-full max-w-xl"
           >
             <input
               type="text"
@@ -69,7 +69,7 @@ const PrimaryHeader = () => {
               onChange={handleChange}
               placeholder="Enter site URL"
               required
-              className="flex-grow px-4 py-2 text-sm text-gray-800 rounded-l-lg focus:outline-none"
+              className="flex-grow px-4 py-2 text-sm text-gray-800 dark:text-gray-100 rounded-l-lg focus:outline-none"
             />
             {url && !hasSubmitted && (
               <p
