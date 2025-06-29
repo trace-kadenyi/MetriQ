@@ -2,7 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import errorGif from "../assets/error.gif";
-import { ErrorTemp, Loader } from "../Components/ResultsBlocks/CurrResultsBlock";
+import {
+  ErrorTemp,
+  Loader,
+} from "../Components/ResultsBlocks/CurrResultsBlock";
 import preloader from "../assets/preloader_gif.gif";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../utils/formatReports";
@@ -47,7 +50,7 @@ const Charts = () => {
 
   return (
     <main
-      className="min-h-screen bg-gray-50 relative pt-[252px] sm:pt-[112px]"
+      className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 relative pt-[252px] sm:pt-[112px]"
       role="main"
     >
       {/* error message */}
@@ -55,9 +58,9 @@ const Charts = () => {
         <ErrorTemp url={url} errorGif={errorGif} />
       ) : (
         // main content
-        <div className="m-2 sm:m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
+        <div className="m-2 sm:m-10 p-5 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
           <section>
-            <h2 className="font-semibold text-lg text-gray-800 underline max-w-[80vw] my-4 break-words">
+            <h2 className="font-semibold text-lg text-gray-800 dark:text-gray-100 underline max-w-[80vw] my-4 break-words">
               Chart analysis page for:{" "}
               <a
                 href={url}
@@ -70,7 +73,7 @@ const Charts = () => {
                 {url}
               </a>
             </h2>
-            <p className="text-sm text-gray-700 py-3 rounded-lg mb-6 leading-relaxed">
+            <p className="text-sm text-gray-700 dark:text-gray-200 py-3 rounded-lg mb-6 leading-relaxed">
               Below, you'll find visual representations of your website's
               Lighthouse scores and Core Web Vitals over time. These help you
               track progress and identify trends in performance, accessibility,
@@ -79,10 +82,10 @@ const Charts = () => {
           </section>
           {/* Scores section */}
           <section className="mb-12">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
               Lighthouse Category Scores
             </h2>
-            <p className="text-sm text-gray-700 py-3 rounded-lg mb-6 leading-relaxed">
+            <p className="text-sm text-gray-700 dark:text-gray-300 py-3 rounded-lg mb-6 leading-relaxed">
               This chart displays trends in your site's core Lighthouse
               categories:
               <strong> Performance</strong>, <strong>Accessibility</strong>,{" "}
@@ -136,10 +139,10 @@ const Charts = () => {
           </section>
           {/* Core Web Vitals Section */}
           <section className="mb-12">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
               Core Web Vitals (CWV)
             </h2>
-            <p className="text-sm text-gray-700 py-3 rounded-lg mb-6 leading-relaxed">
+            <p className="text-sm text-gray-700 dark:text-gray-300 py-3 rounded-lg mb-6 leading-relaxed">
               Monitor the three key Core Web Vitals:{" "}
               <strong>Largest Contentful Paint (LCP)</strong>,{" "}
               <strong>First Input Delay (FID)</strong>, and{" "}
@@ -150,7 +153,6 @@ const Charts = () => {
 
             {prevReports.length > 1 ? (
               <div>
-                (
                 <CoreVitalChart
                   title="Largest Contentful Paint (LCP)"
                   description="Measures how long it takes for the largest visible content (e.g. image or heading) to appear on screen."

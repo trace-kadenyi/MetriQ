@@ -50,10 +50,12 @@ export const ScoreBlock = ({ title, scores }) => (
 // handle metrics
 export const MetricsBlock = ({ title, metrics }) => (
   <section className="py-3 text-sm">
-    <h3 className="font-semibold my-2 mb-4 lg:text-center">{title}</h3>
+    <h3 className="font-semibold my-2 mb-4 lg:text-center dark:text-gray-100">
+      {title}
+    </h3>
     <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-5 lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:items-center">
       {Object.entries(metrics).map(([key, metric]) => (
-        <p key={key} className="flex gap-2 items-center">
+        <p key={key} className="flex gap-2 items-center dark:text-gray-200">
           <span
             className="inline-block w-3 h-3 rounded-full ml-1"
             style={getStatusColor(metric.status, "style")}
@@ -124,14 +126,14 @@ export const ErrorTemp = ({ url, errorGif }) => {
 
   return (
     <section className="p-6 md:mt-20 flex justify-center items-center">
-      <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
+      <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800">
         <img src={errorGif} alt="No data found" className="w-32 h-32 mx-auto" />
-        <h2 className="text-lg font-semibold text-gray-800 mb-2">
+        <h2 className="text-lg font-semibold text-gray-800 mb-2 dark:text-gray-100">
           No reports found for this URL
         </h2>
-        <p className="text-sm text-gray-600 mb-6">
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
           We couldn’t find any past reports for:
-          <span className="block mt-1 text-gray-500 italic break-words">
+          <span className="block mt-1 text-gray-500 dark:text-gray-400 italic break-words">
             {url}
           </span>
         </p>

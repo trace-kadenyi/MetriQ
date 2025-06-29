@@ -73,11 +73,11 @@ const ScoreProgress = ({
             />
           </div>
           <div>
-            <p className="score_title md:text-center text-gray-700 font-semibold">
+            <p className="score_title md:text-center text-gray-700 font-semibold dark:text-gray-100">
               {title}
             </p>
             {showDescriptions && description && (
-              <p className="scores_desc text-gray-700 md:text-center">
+              <p className="scores_desc text-gray-700 dark:text-gray-300 md:text-center">
                 {description}
               </p>
             )}

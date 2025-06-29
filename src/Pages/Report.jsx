@@ -48,18 +48,21 @@ const Report = () => {
 
   return (
     <main
-      className="min-h-screen bg-gray-50 relative pt-[222px] sm:pt-[112px]"
+      className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 relative pt-[222px] sm:pt-[112px]"
       role="main"
     >
-      <div className="m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
-        <section className="sticky top-[255px] z-[44] bg-gray-100 border-b border-gray-300 shadow-sm rounded-t-xl sm:top-[108px]">
+      <div className="m-10 p-5 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
+        <section
+          className="sticky top-[255px] z-[44] bg-gray-100 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950
+ border-b border-gray-300 shadow-sm rounded-t-xl sm:top-[108px]"
+        >
           <div className="flex justify-center px-6 py-3">
             <DeviceToggle view={view} setView={setView} />
           </div>
         </section>
 
         {/* Score progress and core web vitals */}
-        <section className="mt-10 gap-3 flex md:items-center justify-between lg:px-20 flex-col md:flex-row p-5 bg-gray-50 rounded-xl shadow-sm space-y-4">
+        <section className="mt-10 gap-3 flex md:items-center justify-between lg:px-20 flex-col md:flex-row p-5 bg-gray-50 dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 rounded-xl shadow-sm space-y-4">
           <div
             className="w-24 text-center transition-transform duration-200 hover:scale-[1.02]"
             role="progressbar"
@@ -70,11 +73,11 @@ const Report = () => {
             <ScoreProgress performanceScore={performanceScore} />
           </div>
           <div>
-            <h4 className="underline my-2 text-sm font-semibold">
+            <h4 className="underline my-2 text-sm font-semibold dark:text-gray-100">
               Core Web Vitals
             </h4>
             <div className="flex gap-3 flex-col md:flex-row">
-              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
+              <div className="p-3 rounded-md bg-white dark:bg-gray-300 shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
                 {renderVital(
                   "LCP",
                   "Largest Contentful Paint",
@@ -82,7 +85,7 @@ const Report = () => {
                   deviceData
                 )}
               </div>
-              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
+              <div className="p-3 rounded-md bg-white dark:bg-gray-300 shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
                 {renderVital(
                   "First Input Delay",
                   "First Input Delay",
@@ -90,7 +93,7 @@ const Report = () => {
                   deviceData
                 )}
               </div>
-              <div className="p-3 rounded-md bg-white shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
+              <div className="p-3 rounded-md bg-white dark:bg-gray-300 shadow-sm border border-gray-100 transition-transform hover:scale-[0.90] duration-200">
                 {renderVital(
                   "Cumulative Layout Shift",
                   "Cumulative Layout Shift",
@@ -101,22 +104,23 @@ const Report = () => {
             </div>
           </div>
         </section>
-        {/* <hr className="text-gray-200 my-5" /> */}
         {/* Metrics block */}
-        <section className="bg-white mt-8 p-6 rounded-xl shadow-sm">
+        <section className="bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 mt-8 p-6 rounded-xl shadow-sm">
           <MetricsBlock title={`METRICS`} metrics={deviceData} />
         </section>
-        {/* <hr className="text-gray-200 mt-10" /> */}
 
         {/* Opportunities */}
         <section
           className="p-2 mt-8 md:p-5"
           aria-labelledby="opportunities-title"
         >
-          <h4 id="opportunities-title" className="font-bold my-4">
+          <h4
+            id="opportunities-title"
+            className="font-bold my-4 dark:text-gray-100"
+          >
             Performance Improvement Opportunities
           </h4>
-          <p className="text-sm mb-3">
+          <p className="text-sm mb-3 dark:text-gray-300">
             Below are actionable suggestions generated from your page's
             performance audit. Addressing these can significantly reduce load
             time, improve interactivity, and enhance the overall user experience
@@ -132,7 +136,7 @@ const Report = () => {
                   return (
                     <li
                       key={index}
-                      className="opportunities_li bg-gray-50 p-4 rounded shadow-sm break-words hover:shadow-md transition-all border-l-4"
+                      className="opportunities_li bg-gray-50 p-4 rounded shadow-sm break-words hover:shadow-md transition-all border-l-4 dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800"
                     >
                       {/* Title with color */}
                       <p
@@ -144,7 +148,7 @@ const Report = () => {
                         {`${item.title} (${item.displayValue})`}
                       </p>
                       {/* Description */}
-                      <p className="text-xs text-gray-700 mt-1">
+                      <p className="text-xs text-gray-700 dark:text-gray-300 mt-1">
                         {item.description}
                       </p>
                     </li>
@@ -158,15 +162,14 @@ const Report = () => {
             )}
           </div>
         </section>
-        {/* <hr className="text-gray-200 my-5" /> */}
 
         {/* SEO, Accessibility & Best Practices */}
         <section className="p-2 mt-8 md:p-5" aria-labelledby="qa-title">
           <div className="mb-5">
-            <h4 id="qa-title" className="font-bold my-4">
+            <h4 id="qa-title" className="font-bold my-4 dark:text-gray-100">
               Quality Assurance Scores
             </h4>
-            <p className="text-sm">
+            <p className="text-sm dark:text-gray-300">
               These scores reflect accessibility, best practices and search
               engine optimization. While they don't directly impact your
               performance score, they contribute to a more robust,

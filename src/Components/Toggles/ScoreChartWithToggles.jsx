@@ -27,8 +27,10 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
 
   return (
     <div className="my-6 text-sm">
-      <h3 className="font-semibold text-gray-800 uppercase mb-1">{title}</h3>
-      <p className="text-sm text-gray-700 rounded-lg mb-6 leading-relaxed italic">
+      <h3 className="font-semibold text-gray-800 dark:text-gray-100 uppercase mb-1">
+        {title}
+      </h3>
+      <p className="text-sm text-gray-700 dark:text-gray-300 rounded-lg mb-6 leading-relaxed italic">
         <span className="font-semibold">{quality}</span>
       </p>
       {/* Toggle Checkboxes */}
@@ -56,7 +58,7 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
                 />
               </svg>
             </div>
-            <span className="ml-2 text-gray-700 text-sm font-medium">
+            <span className="ml-2 text-gray-700 dark:text-gray-300 text-sm font-medium">
               {label} ({device})
             </span>
           </label>
@@ -79,7 +81,7 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
                 : [...new Set([...prev, ...mobileKeys])]
             );
           }}
-          className="px-3 py-1 bg-orange-500 text-white text-xs rounded hover:bg-orange-600 transition"
+          className="px-3 py-1 bg-orange-500 text-white text-xs rounded hover:bg-orange-600 transition cursor-pointer"
         >
           {lines.every(
             (l) => l.device !== "mobile" || visibleLines.includes(l.key)
@@ -102,7 +104,7 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
                 : [...new Set([...prev, ...desktopKeys])]
             );
           }}
-          className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition"
+          className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition cursor-pointer"
         >
           {lines.every(
             (l) => l.device !== "desktop" || visibleLines.includes(l.key)

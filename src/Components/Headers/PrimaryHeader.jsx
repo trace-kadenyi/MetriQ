@@ -61,7 +61,7 @@ const PrimaryHeader = () => {
         {!isLandingPage && (
           <form
             onSubmit={handleSubmit}
-            className="flex items-center bg-white rounded-lg shadow-sm px-2 py-1 w-full max-w-xl"
+            className="flex items-center bg-white dark:bg-gray-800 rounded-lg shadow-sm px-2 py-1 w-full max-w-xl"
           >
             <input
               type="text"
@@ -69,7 +69,7 @@ const PrimaryHeader = () => {
               onChange={handleChange}
               placeholder="Enter site URL"
               required
-              className="flex-grow px-4 py-2 text-sm text-gray-800 rounded-l-lg focus:outline-none"
+              className="flex-grow px-4 py-2 text-sm text-gray-800 dark:text-gray-100 rounded-l-lg focus:outline-none"
             />
             {url && !hasSubmitted && (
               <p
@@ -124,7 +124,7 @@ const PrimaryHeader = () => {
                 opacity-0 scale-95 pointer-events-none transition-all
                 duration-200 ease-out origin-top-right
                 group-hover:opacity-100 group-hover:scale-100
-                group-hover:pointer-events-auto"
+                group-hover:pointer-events-auto dark:bg-blue-950"
           >
             {favourites.length > 0 ? (
               <ul className="space-y-2 text-sm">
@@ -135,7 +135,7 @@ const PrimaryHeader = () => {
                     <li key={url}>
                       <button
                         onClick={() => goToReports(url)}
-                        className="text-left w-full text-gray-800 text-xs underline hover:text-orange-400 transition break-all"
+                        className="text-left w-full text-gray-800 text-xs underline hover:text-orange-400 transition break-all dark:text-gray-300"
                       >
                         {truncated}
                       </button>
