@@ -61,7 +61,7 @@ const Reports = () => {
 
   return (
     <main
-      className="min-h-screen bg-gray-50 relative pt-[252px] sm:pt-[112px]"
+      className="min-h-screen bg-gray-50 relative pt-[252px] sm:pt-[112px] dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950"
       role="main"
     >
       {/* error message */}
@@ -69,13 +69,13 @@ const Reports = () => {
         <ErrorTemp url={url} errorGif={errorGif} />
       ) : (
         // main content
-        <div className="m-2 sm:m-10 p-5 sm:p-10 bg-white rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
+        <div className="m-2 sm:m-10 p-5 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
           {/* header sect */}
           <section>
-            <h2 className="font-semibold text-lg text-gray-800 underline max-w-[80vw] my-4 break-words">
+            <h2 className="font-semibold text-lg text-gray-800 dark:text-gray-100 underline max-w-[80vw] my-4 break-words">
               Showing reports for: {url}
             </h2>
-            <p className="w-full md:w-2/3 text-sm text-gray-700 py-3 rounded-lg mb-6 leading-relaxed">
+            <p className="w-full md:w-2/3 text-sm text-gray-700 dark:text-gray-300 py-3 rounded-lg mb-6 leading-relaxed">
               Below are the{" "}
               <span className="font-semibold text-blue-500">
                 latest performance reports
@@ -129,12 +129,12 @@ const Reports = () => {
             {/* ai summary output */}
             <section>
               {aiSummary && showSummary && (
-                <div className="mt-6 p-6 bg-gradient-to-br from-blue-50 to-gray-100 border-l-4 border-orange-400 rounded-xl shadow space-y-4">
+                <div className="mt-6 p-6 bg-gradient-to-br from-blue-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 border-l-4 border-orange-400 rounded-xl shadow space-y-4">
                   <motion.article
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="prose prose-sm sm:prose lg:prose-lg prose-orange prose-li:marker:text-orange-400 text-gray-800 max-w-none"
+                    className="prose prose-sm sm:prose lg:prose-lg prose-orange prose-li:marker:text-orange-400 text-gray-800 dark:text-gray-200 max-w-none"
                   >
                     <MarkdownRenderer content={aiSummary} />
                   </motion.article>
@@ -147,7 +147,7 @@ const Reports = () => {
                 items={memoizedData}
                 renderTitle={(report, index, isOpen) => (
                   <>
-                    <p className="text-sm font-semibold text-blue-950 tracking-wide">
+                    <p className="text-sm font-semibold text-blue-950 tracking-wide dark:text-gray-100">
                       🕒 Generated on
                     </p>
                     <p
@@ -155,12 +155,12 @@ const Reports = () => {
                         "text-sm italic font-medium",
                         isOpen
                           ? scoreColour(report.scores.mobile.performance || 0)
-                          : "text-gray-800"
+                          : "text-gray-800 dark:text-gray-100"
                       )}
                     >
                       {report.createdAt}
                     </p>
-                    <span className="ml-2 text-lg text-gray-600">
+                    <span className="ml-2 text-lg text-gray-600 dark:text-gray-300">
                       {isOpen ? "▲" : "▼"}
                     </span>
                   </>
