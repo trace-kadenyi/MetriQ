@@ -1,6 +1,6 @@
 export const WarningBox = () => {
   return (
-    <div className="relative overflow-hidden rounded-xl border border-dashed border-orange-300 bg-orange-50 p-6 text-center shadow-inner mb-10">
+    <div className="relative overflow-hidden rounded-xl border border-dashed border-orange-300 bg-orange-50 dark:border-orange-600 p-6 text-center shadow-inner mb-10">
       {/* optional background graphic */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-10 pointer-events-none"
