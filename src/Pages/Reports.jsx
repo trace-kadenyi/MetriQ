@@ -75,7 +75,7 @@ const Reports = () => {
             <h2 className="font-semibold text-lg text-gray-800 dark:text-gray-100 underline max-w-[80vw] my-4 break-words">
               Showing reports for: {url}
             </h2>
-            <p className="w-full md:w-2/3 text-sm text-gray-700 dark:text-gray-300 py-3 rounded-lg mb-6 leading-relaxed">
+            <p className="w-full md:w-2/3 text-sm text-gray-700 dark:text-gray-200 py-3 rounded-lg mb-6 leading-relaxed">
               Below are the{" "}
               <span className="font-semibold text-blue-500">
                 latest performance reports
