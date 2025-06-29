@@ -50,10 +50,12 @@ export const ScoreBlock = ({ title, scores }) => (
 // handle metrics
 export const MetricsBlock = ({ title, metrics }) => (
   <section className="py-3 text-sm">
-    <h3 className="font-semibold my-2 mb-4 lg:text-center">{title}</h3>
+    <h3 className="font-semibold my-2 mb-4 lg:text-center dark:text-gray-100">
+      {title}
+    </h3>
     <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-5 lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:items-center">
       {Object.entries(metrics).map(([key, metric]) => (
-        <p key={key} className="flex gap-2 items-center">
+        <p key={key} className="flex gap-2 items-center dark:text-gray-200">
           <span
             className="inline-block w-3 h-3 rounded-full ml-1"
             style={getStatusColor(metric.status, "style")}
