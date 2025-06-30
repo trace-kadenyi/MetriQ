@@ -9,6 +9,7 @@ import "./App.css";
 import { FavouritesProvider } from "./context/FavouritesContext";
 import PrimaryHeader from "./Components/Headers/PrimaryHeader";
 import SecondaryHeader from "./Components/Headers/SecondaryHeader";
+import Footer from "./Components/Footer/Footer";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/reports" element={<Reports />} />
             <Route path="/charts" element={<Charts />} />
           </Routes>
+          <Footer />
         </Router>
       </FavouritesProvider>
     </>
