@@ -12,24 +12,16 @@ import {
   TrendingUpDown,
 } from "lucide-react";
 import { easeOut, motion } from "framer-motion";
-import clsx from "clsx";
 
 import {
   ScrollFadeFunc,
-  EaseOutFunc,
   HoverFunc,
   heroVariants,
   fadeUp,
   StepCard,
 } from "../Components/Accessories/FramerMotion";
 import useUrlForm from "../hooks/urlForm";
-import {
-  getStatusColor,
-  getScoreStatus,
-} from "../Components/ResultsBlocks/CurrResultsBlock";
 import Popup from "../Components/Accessories/Popup";
-import ThemeToggle from "../Components/Accessories/ThemeToggle";
-import Footer from "../Components/Footer/Footer";
 
 const LandingPage = () => {
   const {
