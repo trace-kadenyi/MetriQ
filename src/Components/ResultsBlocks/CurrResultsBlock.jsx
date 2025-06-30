@@ -150,11 +150,7 @@ export const ErrorTemp = ({ url, errorGif }) => {
 
 // preloader template
 export const Loader = ({ src, alt = "Loading...", fullScreen = true }) => (
-  <div
-    className={`preloader_div flex justify-center items-center ${
-      fullScreen ? "h-screen" : "h-full"
-    } bg-gray-50`}
-  >
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-50 dark:bg-blue-950">
     <img src={src} alt={alt} />
   </div>
 );
