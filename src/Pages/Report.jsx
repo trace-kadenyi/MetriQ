@@ -51,7 +51,7 @@ const Report = () => {
       className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 relative pt-[222px] sm:pt-[112px]"
       role="main"
     >
-      <div className="m-10 p-5 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
+      <div className="mt-10 p-5 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
         <section
           className="sticky top-[255px] z-[44] bg-gray-100 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950
  border-b border-gray-300 shadow-sm rounded-t-xl sm:top-[108px]"
@@ -164,7 +164,10 @@ const Report = () => {
         </section>
 
         {/* SEO, Accessibility & Best Practices */}
-        <section className="p-2 mt-8 md:p-5" aria-labelledby="qa-title">
+        <section
+          className="p-2 mt-8 md:p-5 dark:bg-gradient-to-b dark:from-blue-950 dark:via-blue-950 dark:to-gray-800"
+          aria-labelledby="qa-title"
+        >
           <div className="mb-5">
             <h4 id="qa-title" className="font-bold my-4 dark:text-gray-100">
               Quality Assurance Scores

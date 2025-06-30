@@ -27,7 +27,7 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
 
   return (
     <div className="my-6 text-sm">
-      <h3 className="font-semibold text-gray-800 dark:text-gray-100 uppercase mb-1">
+      <h3 className="font-semibold text-gray-800 dark:text-gray-100 uppercase underline mb-1">
         {title}
       </h3>
       <p className="text-sm text-gray-700 dark:text-gray-300 rounded-lg mb-6 leading-relaxed italic">
@@ -45,7 +45,7 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
             />
             <div className="w-4 h-4 rounded-sm border-2 border-orange-500 peer-checked:bg-orange-500 peer-checked:flex peer-checked:items-center peer-checked:justify-center">
               <svg
-                className="w-3 h-3 text-white"
+                className="w-3 h-3 text-white dark:text-blue-950"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="3"
