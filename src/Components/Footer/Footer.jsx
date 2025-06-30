@@ -1,7 +1,8 @@
-import { EaseOutFunc } from "../Accessories/FramerMotion";
-import { motion } from "framer-motion";
-import MainForm from "../MainForm/MainForm";
 import { useState } from "react";
+import { motion } from "framer-motion";
+
+import { EaseOutFunc } from "../Accessories/FramerMotion";
+import MainForm from "../MainForm/MainForm";
 
 const Footer = () => {
   const [showForm, setShowForm] = useState(false);
