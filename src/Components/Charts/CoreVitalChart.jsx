@@ -57,7 +57,7 @@ export default function CoreVitalChart({
             />
             <div className="w-4 h-4 rounded-sm border-2 border-orange-500 peer-checked:bg-orange-500 peer-checked:flex peer-checked:items-center peer-checked:justify-center">
               <svg
-                className="w-3 h-3 text-white"
+                className="w-3 h-3 text-white dark:text-blue-950"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="3"
