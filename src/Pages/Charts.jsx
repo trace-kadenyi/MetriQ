@@ -9,7 +9,7 @@ import {
 import preloader from "../assets/preloader_gif.gif";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../utils/formatReports";
-import ScoreChartWithToggles from "../Components/Toggles/ScoreChartWithToggles";
+import ScoreChartWithToggles from "../Components/Charts/ScoreChartWithToggles";
 import {
   chartReportsData,
   safeDate,
@@ -50,7 +50,7 @@ const Charts = () => {
 
   return (
     <main
-      className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 relative pt-[252px] sm:pt-[112px]"
+      className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 relative pt-[252px] sm:pt-[112px] pb-4"
       role="main"
     >
       {/* error message */}
