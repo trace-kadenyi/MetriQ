@@ -2,7 +2,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Search, Star } from "lucide-react";
 
 import { useFavourites } from "../../context/FavouritesContext";
-import useUrlForm from "../../hooks/urlForm";
+import { useUrlFormContext } from "../../context/UrlFormContext";
+
 import Popup from "../Accessories/Popup";
 import logo from "../../assets/zyntra_logo.png";
 import ThemeToggle from "../Accessories/ThemeToggle";
@@ -24,7 +25,7 @@ const PrimaryHeader = () => {
     partialResults,
     submittedUrl,
     showLongWaitMessage,
-  } = useUrlForm();
+  } = useUrlFormContext();
 
   const goToReports = (url) => {
     navigate(`/reports?url=${encodeURIComponent(url)}`);
