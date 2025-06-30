@@ -29,6 +29,7 @@ import {
 } from "../Components/ResultsBlocks/CurrResultsBlock";
 import Popup from "../Components/Accessories/Popup";
 import ThemeToggle from "../Components/Accessories/ThemeToggle";
+import Footer from "../Components/Footer/Footer";
 
 const LandingPage = () => {
   const {
@@ -260,25 +261,7 @@ const LandingPage = () => {
         </section>
       </ScrollFadeFunc>
       {/* Footer */}
-      <EaseOutFunc>
-        <section className="py-20 bg-blue-950 text-white dark:text-gray-100 text-center">
-          <h2 className="text-4xl font-bold mb-6">
-            Start Analyzing Smarter Today
-          </h2>
-          <p className="text-xl mb-6">
-            Join developers making better decisions with MetricMind.
-          </p>
-          <motion.button
-            whileHover={{
-              scale: [1, 1.15, 1],
-              transition: { duration: 0.8, ease: "easeInOut" },
-            }}
-            className="bg-white dark:bg-gray-300 text-blue-950 px-6 py-3 rounded-md font-semibold hover:bg-blue-100 dark:hover:bg-gray-300 transition cursor-pointer"
-          >
-            Get Started Free
-          </motion.button>
-        </section>
-      </EaseOutFunc>
+      {/* <Footer EaseOutFunc={EaseOutFunc} motion={motion} /> */}
     </main>
   );
 };
