@@ -58,20 +58,18 @@ const HeaderForm = () => {
         </button>
       </form>
       {/* show popup */}
-      <div className="z-1000">
-        {showPopup && (
-          <Popup
-            showPopup={showPopup}
-            setShowPopup={setShowPopup}
-            loading={loading}
-            setLoading={setLoading}
-            partialResults={partialResults}
-            submittedUrl={submittedUrl}
-            showLongWaitMessage={showLongWaitMessage}
-            navigate={navigate}
-          />
-        )}
-      </div>
+      {showPopup && (
+        <Popup
+          showPopup={showPopup}
+          setShowPopup={setShowPopup}
+          loading={loading}
+          setLoading={setLoading}
+          partialResults={partialResults}
+          submittedUrl={submittedUrl}
+          showLongWaitMessage={showLongWaitMessage}
+          navigate={navigate}
+        />
+      )}
     </>
   );
 };
