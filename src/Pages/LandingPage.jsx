@@ -19,7 +19,7 @@ import {
   fadeUp,
   StepCard,
 } from "../Components/Accessories/FramerMotion";
-import MainForm from "../Components/MainForm/MainForm";
+import MainForm from "../Components/Forms/MainForm";
 
 const LandingPage = () => {
   return (

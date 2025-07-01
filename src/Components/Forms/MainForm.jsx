@@ -5,6 +5,7 @@ import { fadeUp } from "../Accessories/FramerMotion";
 import Popup from "../Accessories/Popup";
 
 import { useUrlFormContext } from "../../context/UrlFormContext";
+
 const MainForm = ({ formClass = "", inputClass = "", buttonClass = "" }) => {
   const {
     url,
@@ -53,7 +54,7 @@ const MainForm = ({ formClass = "", inputClass = "", buttonClass = "" }) => {
         )}
         <button
           type="submit"
-          className={`px-4 py-2 bg-blue-500 dark:bg-blue-900 rounded-lg my-2 flex items-center justify-center min-w-[120px] ${
+          className={`px-4 py-2 bg-blue-500 dark:bg-blue-900 rounded-lg my-2 flex items-center justify-center min-w-[120px] ${buttonClass} ${
             loading
               ? "cursor-default"
               : "cursor-pointer hover:bg-white dark:hover:bg-gray-400 hover:text-blue-500 hover:font-semibold dark:hover:text-blue-600"
