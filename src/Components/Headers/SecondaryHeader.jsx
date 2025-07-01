@@ -82,7 +82,7 @@ export default function SecondaryHeader() {
           <NavBtn path="/reports">
             <Lightbulb className="w-4 h-4" /> AI Analysis
           </NavBtn>
-           <NavBtn path="/competitors">
+          <NavBtn path="/competitors">
             <BarChart3 className="w-4 h-4" /> Competitors
           </NavBtn>
         </nav>
