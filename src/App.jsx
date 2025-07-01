@@ -5,6 +5,7 @@ import LandingPage from "./Pages/LandingPage";
 import Report from "./Pages/Report";
 import Reports from "./Pages/Reports";
 import Charts from "./Pages/Charts";
+import CompareCompetitorsPage from "./Pages/CompareCompetitorsPage";
 import "./App.css";
 import { FavouritesProvider } from "./context/FavouritesContext";
 import PrimaryHeader from "./Components/Headers/PrimaryHeader";
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/report" element={<Report />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/charts" element={<Charts />} />
+            <Route path="/competitors" element={<CompareCompetitorsPage />} />
           </Routes>
           <Footer />
         </Router>
