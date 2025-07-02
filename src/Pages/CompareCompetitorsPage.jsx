@@ -79,9 +79,8 @@ const CompareCompetitorsPage = () => {
         {/* ------- Results ------- */}
         {!loading && comparison && (
           <div className="space-y-4">
-            {/* 🔔 global notice if response was partial */}
             {comparison.partial && (
-              <p className="rounded bg-yellow-100 text-yellow-800 text-sm p-3">
+              <p className="rounded-lg border border-yellow-300 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-100 text-sm px-4 py-3 shadow-sm">
                 Some sites could not be analysed – they’re marked as “Data not
                 available”.
               </p>
@@ -89,13 +88,15 @@ const CompareCompetitorsPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* ---------- Your site ---------- */}
-              <div className="rounded-lg border p-4 shadow">
-                <h2 className="text-lg font-medium mb-2">Your Site</h2>
-                <p className="text-sm text-gray-500 mb-2">
+              <div className="relative border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-[0_-1px_4px_rgba(0,0,0,0.05),0_2px_6px_rgba(0,0,0,0.1)] dark:shadow-[0_-1px_4px_rgba(255,255,255,0.05),0_2px_6px_rgba(0,0,0,0.3)]">
+                <div className="absolute top-0 left-0 h-full w-1 bg-orange-400 dark:bg-orange-500 rounded-s-xl" />
+                <h2 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-1 uppercase underline">
+                  Your Site
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
                   {comparison.userSiteUrl}
                 </p>
 
-                {/* ‑‑ handle the unlikely case your own site failed ‑‑ */}
                 {comparison.userScores ? (
                   Object.entries(comparison.userScores).map(
                     ([device, scores]) => (
@@ -113,11 +114,17 @@ const CompareCompetitorsPage = () => {
 
               {/* ---------- Competitors ---------- */}
               {comparison.competitors.map((comp, idx) => (
-                <div key={idx} className="rounded-lg border p-4 shadow">
-                  <h2 className="text-lg font-medium mb-2">
+                <div
+                  key={idx}
+                  className="relative border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-[0_-1px_4px_rgba(0,0,0,0.05),0_2px_6px_rgba(0,0,0,0.1)] dark:shadow-[0_-1px_4px_rgba(255,255,255,0.05),0_2px_6px_rgba(0,0,0,0.3)]"
+                >
+                  <div className="absolute top-0 left-0 h-full w-1 bg-green-500 dark:bg-green-500 rounded-s-xl" />
+                  <h2 className="text-md font-semibold text-blue-600 dark:text-blue-400 mb-1">
                     {comp.label || `Competitor ${idx + 1}`}
                   </h2>
-                  <p className="text-sm text-gray-500 mb-2">{comp.url}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    {comp.url}
+                  </p>
 
                   {comp.error || !comp.scores ? (
                     <Unavailable />
