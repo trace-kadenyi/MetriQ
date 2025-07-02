@@ -26,7 +26,7 @@ const CompetitorInputBlock = ({
           disabled={loading}
           className={`flex-1 rounded-md border bg-white dark:bg-gray-900 dark:text-gray-200 px-4 py-2 text-sm focus:outline-none focus:ring-2 ${
             loading
-              ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+              ? "bg-gray-600 dark:bg-gray-400 text-gray-400 dark:text-gray-700 cursor-not-allowed"
               : "border-gray-300 dark:border-gray-700 focus:ring-blue-500"
           }`}
         />
@@ -38,7 +38,7 @@ const CompetitorInputBlock = ({
           disabled={loading}
           className={`flex-1 rounded-md border bg-white dark:bg-gray-900 dark:text-gray-200 px-4 py-2 text-sm focus:outline-none focus:ring-2 ${
             loading
-              ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+              ? "bg-gray-600 dark:bg-gray-400 text-gray-400 dark:text-gray-700 cursor-not-allowed"
               : "border-gray-300 dark:border-gray-700 focus:ring-blue-500"
           }`}
         />
