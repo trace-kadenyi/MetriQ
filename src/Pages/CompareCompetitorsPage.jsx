@@ -38,7 +38,6 @@ const CompareCompetitorsPage = () => {
           you shine—and where there's room to grow.
         </p>
         {/* ------- Form ------- */}
-        {/* ------- Form ------- */}
         <div className="space-y-6 mb-10">
           {/* your site (disabled) */}
           <div>
