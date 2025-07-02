@@ -4,7 +4,7 @@ export const Unavailable = () => (
 );
 // handle device scores
 export const DeviceScores = ({ device, scores }) => (
-  <div className="mb-2">
+  <div className="mb-2 dark:text-gray-200">
     <h4 className="font-semibold capitalize">{device}</h4>
     <ul className="text-sm space-y-0.5">
       {Object.entries(scores).map(([k, v]) => (
