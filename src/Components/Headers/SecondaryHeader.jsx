@@ -55,7 +55,7 @@ export default function SecondaryHeader() {
       transition={{ duration: 0.35, ease: "easeOut" }}
       className="pt-2 fixed inset-x-0 top-[160px] sm:top-[60px] z-[45] bg-gray-300 dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 backdrop-blur-md text-gray-800 shadow"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 text-sm leading-none flex-col sm:py-2 sm:flex-row gap-3 dark:text-gray-100">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 text-sm leading-none flex-col sm:py-2 md:flex-row gap-3 dark:text-gray-100">
         {/* Selected URL */}
         <span className="font-semibold truncate" title={selectedUrl}>
           <a
@@ -69,7 +69,7 @@ export default function SecondaryHeader() {
         </span>
 
         {/* Quick nav */}
-        <nav className="flex gap-2">
+        <nav className="flex gap-2 flex-wrap min-h-[53px] justify-center  sm:flex-nowrap sm:min-h-[30px]">
           <NavBtn path="/report">
             <span className="text-orange-500 text-xl">*</span> New Report
           </NavBtn>
@@ -81,6 +81,9 @@ export default function SecondaryHeader() {
           </NavBtn>
           <NavBtn path="/reports">
             <Lightbulb className="w-4 h-4" /> AI Analysis
+          </NavBtn>
+          <NavBtn path="/competitors">
+            <BarChart3 className="w-4 h-4" /> Competitors
           </NavBtn>
         </nav>
       </div>

@@ -53,8 +53,8 @@ const Report = () => {
     >
       <div className="mt-10 p-5 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
         <section
-          className="sticky top-[255px] z-[44] bg-gray-100 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950
- border-b border-gray-300 shadow-sm rounded-t-xl sm:top-[108px]"
+          className="sticky top-[282px] z-[44] bg-gray-100 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950
+ border-b border-gray-300 shadow-sm rounded-t-xl sm:top-[148px] md:top-[108px]"
         >
           <div className="flex justify-center px-6 py-3">
             <DeviceToggle view={view} setView={setView} />

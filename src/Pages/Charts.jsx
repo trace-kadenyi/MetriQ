@@ -50,7 +50,7 @@ const Charts = () => {
 
   return (
     <main
-      className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 relative pt-[252px] sm:pt-[112px] pb-4"
+      className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 relative pt-[302px] sm:pt-[142px] md:pt-[112px] pb-4"
       role="main"
     >
       {/* error message */}
