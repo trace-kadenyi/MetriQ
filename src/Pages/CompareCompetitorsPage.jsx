@@ -5,9 +5,9 @@ import {
   Unavailable,
   DeviceScores,
   Generator,
-  CompetitorBtns,
 } from "../Components/ResultsBlocks/CompetitorResultsBlock";
 import CompetitorInputBlock from "../Components/ResultsBlocks/CompetitorInputBlock";
+import CompetitorBtns from "../Components/Buttons/CompetitorBtns";
 
 const CompareCompetitorsPage = () => {
   const { search } = useLocation();
@@ -27,7 +27,7 @@ const CompareCompetitorsPage = () => {
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
-      <div className="mt-10 p-5 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
+      <div className="mt-10 p-5 pt-10 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
         <h1 className="font-semibold text-lg text-gray-800 dark:text-gray-100 underline">
           Competitor Comparison
         </h1>
@@ -89,24 +89,29 @@ const CompareCompetitorsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* ---------- Your site ---------- */}
               <div className="relative border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-[0_-1px_4px_rgba(0,0,0,0.05),0_2px_6px_rgba(0,0,0,0.1)] dark:shadow-[0_-1px_4px_rgba(255,255,255,0.05),0_2px_6px_rgba(0,0,0,0.3)]">
-                <div className="absolute top-0 left-0 h-full w-1 bg-orange-400 dark:bg-orange-500 rounded-s-xl" />
                 <h2 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-1 uppercase underline">
                   Your Site
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                <a
+                  href={`${comparison.userSiteUrl}`}
+                  target="_blank"
+                  className="text-sm text-gray-600 dark:text-gray-300 mb-3 hover:text-orange-400 hover:underline italic"
+                >
                   {comparison.userSiteUrl}
-                </p>
+                </a>
 
                 {comparison.userScores ? (
-                  Object.entries(comparison.userScores).map(
-                    ([device, scores]) => (
-                      <DeviceScores
-                        key={device}
-                        device={device}
-                        scores={scores}
-                      />
-                    )
-                  )
+                  <div className="mt-2">
+                    {Object.entries(comparison.userScores).map(
+                      ([device, scores]) => (
+                        <DeviceScores
+                          key={device}
+                          device={device}
+                          scores={scores}
+                        />
+                      )
+                    )}
+                  </div>
                 ) : (
                   <Unavailable />
                 )}
@@ -118,24 +123,35 @@ const CompareCompetitorsPage = () => {
                   key={idx}
                   className="relative border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-[0_-1px_4px_rgba(0,0,0,0.05),0_2px_6px_rgba(0,0,0,0.1)] dark:shadow-[0_-1px_4px_rgba(255,255,255,0.05),0_2px_6px_rgba(0,0,0,0.3)]"
                 >
-                  <div className="absolute top-0 left-0 h-full w-1 bg-green-500 dark:bg-green-500 rounded-s-xl" />
-                  <h2 className="text-md font-semibold text-blue-600 dark:text-blue-400 mb-1">
+                  <div
+                    className="absolute top-0 left-0 h-full w-1 rounded-s-xl
+             bg-gradient-to-b from-orange-400 via-yellow-4=200 to-green-500
+             dark:from-orange-500 dark:via-yellow-500 dark:to-green-600"
+                  />
+
+                  <h2 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-1 underline">
                     {comp.label || `Competitor ${idx + 1}`}
                   </h2>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                  <a
+                    href={`${comp.url}`}
+                    target="_blank"
+                    className="text-sm text-gray-600 dark:text-gray-300 mb-3 hover:text-orange-400 hover:underline italic"
+                  >
                     {comp.url}
-                  </p>
+                  </a>
 
                   {comp.error || !comp.scores ? (
                     <Unavailable />
                   ) : (
-                    Object.entries(comp.scores).map(([device, scores]) => (
-                      <DeviceScores
-                        key={device}
-                        device={device}
-                        scores={scores}
-                      />
-                    ))
+                    <div className="mt-2">
+                      {Object.entries(comp.scores).map(([device, scores]) => (
+                        <DeviceScores
+                          key={device}
+                          device={device}
+                          scores={scores}
+                        />
+                      ))}
+                    </div>
                   )}
                 </div>
               ))}
