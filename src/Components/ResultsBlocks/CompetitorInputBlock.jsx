@@ -20,7 +20,7 @@ const CompetitorInputBlock = ({
         </label>
         <input
           type="text"
-          placeholder="https://competitor.com"
+          placeholder="Enter Competitor's URL"
           value={c.url}
           onChange={(e) => handleCompetitorChange(i, "url", e.target.value)}
           disabled={loading}
