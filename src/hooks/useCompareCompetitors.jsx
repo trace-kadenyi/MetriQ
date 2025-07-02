@@ -20,9 +20,8 @@ export default function useCompareCompetitors(userSiteUrl = "") {
   const userNorm = normalize(userSiteUrl);
 
   /* ---------- state ---------- */
-  const [competitors, setCompetitors] = useState([
-    { url: "", label: "", isValidFormat: false },
-  ]);
+  const emptyRow = { url: "", label: "", isValidFormat: false };
+  const [competitors, setCompetitors] = useState([emptyRow]);
   const [duplicateFlags, setDuplicateFlags] = useState([false]);
   const [loading, setLoading] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -71,18 +70,17 @@ export default function useCompareCompetitors(userSiteUrl = "") {
     const full = /^https?:/i.test(raw) ? raw : `https://${raw}`;
     try {
       const res = await api.post("/api/url/check", { url: full });
-      return res.data?.success;
+
+      // Your /check route returns 200 with {success:false} for 404-ish cases
+      return res.data?.success ? "ok" : "bad";
     } catch (err) {
-      console.log(
-        "[checkReachable][ERROR]",
-        full,
-        err.response?.status,
-        err.response?.data
-      );
-      return false;
+      const code = err.response?.status; // undefined for DNS/timeout
+      console.log("[checkReachable]", full, code ?? "network");
+
+      // 5xx from /check gets special treatment
+      return code === 500 ? "server" : "bad";
     }
   };
-
   /* ---------- submit ---------- */
   const handleCompare = async () => {
     setHasSubmitted(true);
@@ -97,7 +95,9 @@ export default function useCompareCompetitors(userSiteUrl = "") {
       return;
     }
     if (filled.some((c) => c.dup)) {
-      toast.error("A competitor URL matches your own site.");
+      toast.error(
+        "A competitor URL matches your own site. Please enter a different URL."
+      );
       return;
     }
     if (filled.some((c) => !c.isValidFormat)) {
@@ -108,14 +108,26 @@ export default function useCompareCompetitors(userSiteUrl = "") {
     /* ---- 200‑status reachability checks ---- */
     setLoading(true);
     try {
-      const reachable = await Promise.all(
+      /* --- SINGLE reachability probe --- */
+      const statuses = await Promise.all(
         filled.map((c) => checkReachable(c.url.trim()))
       );
 
-      if (reachable.some((ok) => !ok)) {
-        toast.error("One or more competitor URLs could not be reached.");
+      /* ------ case 1: bad addresses (4xx / network) ------ */
+      if (statuses.some((s) => s === "bad")) {
+        toast.error(
+          "One or more competitor URLs could not be reached. Please check the addresses and try again."
+        );
         setLoading(false);
-        return;
+        return; // ⛔️ abort – let user edit
+      }
+
+      /* ------ case 2: server 5xx – soft notice ------ */
+      if (statuses.some((s) => s === "server")) {
+        toast(
+          "Some sites could not be analysed – they’ll show ‘Data not available’."
+        );
+        // continue to /api/compare
       }
 
       /* ---- run comparison ---- */
@@ -129,10 +141,15 @@ export default function useCompareCompetitors(userSiteUrl = "") {
 
       if (data.success) {
         setComparison(data.comparison);
+        if (data.partial) toast("Some competitors had no data.");
+        setCompetitors([emptyRow]);
+        setDuplicateFlags([false]);
+        setHasSubmitted(false);
       } else {
         toast.error(data.message || "Comparison failed.");
       }
-    } catch {
+    } catch (err) {
+      console.error("[handleCompare] unexpected", err);
       toast.error("Server error while comparing.");
     } finally {
       setLoading(false);
