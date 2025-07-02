@@ -1,5 +1,13 @@
 import { useLocation } from "react-router-dom";
+
 import useCompareCompetitors from "../hooks/useCompareCompetitors";
+import {
+  Unavailable,
+  DeviceScores,
+  Generator,
+  CompetitorBtns,
+} from "../Components/ResultsBlocks/CompetitorResultsBlock";
+import CompetitorInputBlock from "../Components/ResultsBlocks/CompetitorInputBlock";
 
 const CompareCompetitorsPage = () => {
   const { search } = useLocation();
@@ -29,145 +37,103 @@ const CompareCompetitorsPage = () => {
           accessibility. We'll run a side-by-side analysis so you can see where
           you shine—and where there's room to grow.
         </p>
-
         {/* ------- Form ------- */}
-        <div className="space-y-4 mb-8">
+        {/* ------- Form ------- */}
+        <div className="space-y-6 mb-10">
           {/* your site (disabled) */}
-          <input
-            type="text"
-            value={userSiteUrl}
-            disabled
-            className="w-full cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-sm text-gray-500 font-bold"
-          />
+          <div>
+            <label className="block text-xs font-semibold uppercase text-gray-700 dark:text-gray-300 mb-1">
+              Your Site
+            </label>
+            <input
+              type="text"
+              value={`${userSiteUrl} (locked)`}
+              disabled
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-400 cursor-not-allowed"
+            />
+          </div>
 
           {competitors.map((c, i) => (
-            <div key={i} className="flex flex-col gap-1 md:gap-2">
-              <div className="flex flex-col md:flex-row md:items-center gap-2">
-                <label>Competitor {i + 1}</label>
-                <input
-                  type="text"
-                  placeholder="Competitor URL"
-                  value={c.url}
-                  onChange={(e) =>
-                    handleCompetitorChange(i, "url", e.target.value)
-                  }
-                  disabled={loading}
-                  className={`flex-1 rounded border px-3 py-2 text-sm focus:outline-none focus:ring ${
-                    loading
-                      ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                      : ""
-                  }`}
-                />
-                <input
-                  type="text"
-                  placeholder="Label (optional)"
-                  value={c.label}
-                  onChange={(e) =>
-                    handleCompetitorChange(i, "label", e.target.value)
-                  }
-                  disabled={loading}
-                  className={`flex-1 rounded border px-3 py-2 text-sm focus:outline-none focus:ring ${
-                    loading
-                      ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                      : ""
-                  }`}
-                />
-                {i > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => removeCompetitor(i)}
-                    disabled={loading}
-                    className="rounded bg-red-500 px-3 py-2 text-sm text-white hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Remove
-                  </button>
-                )}
-              </div>
-              {/* per‑field validity message */}
-              {/* per‑field validity / duplicate message */}
-              {c.url && !hasSubmitted && (
-                <p
-                  className={
-                    !duplicateFlags[i] && c.isValidFormat
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }
-                >
-                  {duplicateFlags[i]
-                    ? "URL matches your own site — choose a different competitor"
-                    : c.isValidFormat
-                    ? "URL format looks good"
-                    : "Invalid URL format"}
-                </p>
-              )}
-            </div>
+            <CompetitorInputBlock
+              key={i}
+              c={c}
+              i={i}
+              handleCompetitorChange={handleCompetitorChange}
+              loading={loading}
+              removeCompetitor={removeCompetitor}
+              duplicateFlags={duplicateFlags}
+              hasSubmitted={hasSubmitted}
+            />
           ))}
-
-          <button
-            type="button"
-            onClick={addCompetitor}
-            disabled={loading}
-            className={`rounded bg-gray-200 px-3 py-2 text-sm hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed ${
-              loading ? "bg-gray-600 text-gray-400 cursor-not-allowed" : ""
-            }`}
-          >
-            + Add Competitor
-          </button>
-
-          <button
-            type="button"
-            onClick={handleCompare}
-            disabled={loading}
-            className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? "Comparing…" : "Compare Now"}
-          </button>
+          {/* Add competitor and Compare buttons */}
+          <CompetitorBtns
+            competitors={competitors}
+            loading={loading}
+            addCompetitor={addCompetitor}
+            handleCompare={handleCompare}
+          />
         </div>
+
+        {/* loader */}
+        {loading && <Generator />}
 
         {/* ------- Results ------- */}
         {comparison && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* your site */}
-            <div className="rounded-lg border p-4 shadow">
-              <h2 className="text-lg font-medium mb-2">Your Site</h2>
-              <p className="text-sm text-gray-500 mb-2">
-                {comparison.userSiteUrl}
+          <div className="space-y-4">
+            {/* 🔔 global notice if response was partial */}
+            {comparison.partial && (
+              <p className="rounded bg-yellow-100 text-yellow-800 text-sm p-3">
+                Some sites could not be analysed – they’re marked as “Data not
+                available”.
               </p>
-              {Object.entries(comparison.userScores).map(([device, scores]) => (
-                <div key={device} className="mb-2">
-                  <h4 className="font-semibold capitalize">{device}</h4>
-                  <ul className="text-sm space-y-0.5">
-                    {Object.entries(scores).map(([k, v]) => (
-                      <li key={k}>
-                        {k}: {v}
-                      </li>
-                    ))}
-                  </ul>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* ---------- Your site ---------- */}
+              <div className="rounded-lg border p-4 shadow">
+                <h2 className="text-lg font-medium mb-2">Your Site</h2>
+                <p className="text-sm text-gray-500 mb-2">
+                  {comparison.userSiteUrl}
+                </p>
+
+                {/* ‑‑ handle the unlikely case your own site failed ‑‑ */}
+                {comparison.userScores ? (
+                  Object.entries(comparison.userScores).map(
+                    ([device, scores]) => (
+                      <DeviceScores
+                        key={device}
+                        device={device}
+                        scores={scores}
+                      />
+                    )
+                  )
+                ) : (
+                  <Unavailable />
+                )}
+              </div>
+
+              {/* ---------- Competitors ---------- */}
+              {comparison.competitors.map((comp, idx) => (
+                <div key={idx} className="rounded-lg border p-4 shadow">
+                  <h2 className="text-lg font-medium mb-2">
+                    {comp.label || `Competitor ${idx + 1}`}
+                  </h2>
+                  <p className="text-sm text-gray-500 mb-2">{comp.url}</p>
+
+                  {comp.error || !comp.scores ? (
+                    <Unavailable />
+                  ) : (
+                    Object.entries(comp.scores).map(([device, scores]) => (
+                      <DeviceScores
+                        key={device}
+                        device={device}
+                        scores={scores}
+                      />
+                    ))
+                  )}
                 </div>
               ))}
             </div>
-
-            {/* competitors */}
-            {comparison.competitors.map((comp, idx) => (
-              <div key={idx} className="rounded-lg border p-4 shadow">
-                <h2 className="text-lg font-medium mb-2">
-                  {comp.label || `Competitor ${idx + 1}`}
-                </h2>
-                <p className="text-sm text-gray-500 mb-2">{comp.url}</p>
-                {Object.entries(comp.scores).map(([device, scores]) => (
-                  <div key={device} className="mb-2">
-                    <h4 className="font-semibold capitalize">{device}</h4>
-                    <ul className="text-sm space-y-0.5">
-                      {Object.entries(scores).map(([k, v]) => (
-                        <li key={k}>
-                          {k}: {v}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            ))}
           </div>
         )}
       </div>
