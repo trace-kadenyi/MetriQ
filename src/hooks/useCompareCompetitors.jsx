@@ -75,8 +75,6 @@ export default function useCompareCompetitors(userSiteUrl = "") {
       return res.data?.success ? "ok" : "bad";
     } catch (err) {
       const code = err.response?.status; // undefined for DNS/timeout
-      console.log("[checkReachable]", full, code ?? "network");
-
       // 5xx from /check gets special treatment
       return code === 500 ? "server" : "bad";
     }
