@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { BarChart3, Lightbulb, FolderOpen } from "lucide-react";
+import { BarChart3, Lightbulb, FolderOpen, Activity } from "lucide-react";
 import clsx from "clsx";
 
 import { FavouriteBtn } from "../Buttons/ReportButtons";
@@ -83,7 +83,7 @@ export default function SecondaryHeader() {
             <Lightbulb className="w-4 h-4" /> AI Analysis
           </NavBtn>
           <NavBtn path="/competitors">
-            <BarChart3 className="w-4 h-4" /> Competitors
+            <Activity className="w-4 h-4" /> Competitors
           </NavBtn>
         </nav>
       </div>
