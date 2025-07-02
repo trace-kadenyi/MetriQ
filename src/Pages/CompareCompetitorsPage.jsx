@@ -26,7 +26,7 @@ const CompareCompetitorsPage = () => {
   } = useCompareCompetitors(userSiteUrl);
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[222px] sm:pt-[112px] p-6">
+    <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
       <div className="mt-10 p-5 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
         <h1 className="font-semibold text-lg text-gray-800 dark:text-gray-100 underline">
           Competitor Comparison
@@ -77,7 +77,7 @@ const CompareCompetitorsPage = () => {
         {loading && <Generator />}
 
         {/* ------- Results ------- */}
-        {comparison && (
+        {!loading && comparison && (
           <div className="space-y-4">
             {/* 🔔 global notice if response was partial */}
             {comparison.partial && (
