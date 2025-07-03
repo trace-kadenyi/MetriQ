@@ -8,6 +8,7 @@ import {
 } from "../Components/ResultsBlocks/CompetitorResultsBlock";
 import CompetitorInputBlock from "../Components/ResultsBlocks/CompetitorInputBlock";
 import CompetitorBtns from "../Components/Buttons/CompetitorBtns";
+import { CompetitorScoreChart } from "../Components/Charts/CompetitorScoreChart";
 
 const CompareCompetitorsPage = () => {
   const { search } = useLocation();
@@ -157,6 +158,20 @@ const CompareCompetitorsPage = () => {
               ))}
             </div>
           </div>
+        )}
+        {/* Charts */}
+        {!loading && comparison && (
+          <section>
+            {["performance", "seo", "bestPractices", "accessibility"].map(
+              (metric) => (
+                <CompetitorScoreChart
+                  key={metric}
+                  comparison={comparison}
+                  metric={metric}
+                />
+              )
+            )}
+          </section>
         )}
       </div>
     </main>
