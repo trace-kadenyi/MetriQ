@@ -10,6 +10,7 @@ import {
 } from "recharts";
 
 import { useChartSizing } from "../../hooks/useChartSizing";
+import { formatMetricName } from "../ResultsBlocks/CompetitorResultsBlock";
 
 const metricColors = {
   performance: "#10B981", // green
@@ -65,7 +66,7 @@ export const CompetitorScoreChart = ({ comparison, metric }) => {
   return (
     <div className="my-10">
       <h3 className="text-md font-semibold mb-3 text-gray-800 dark:text-gray-100 capitalize underline">
-        {metric} scores
+        {formatMetricName(metric)} scores
       </h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
