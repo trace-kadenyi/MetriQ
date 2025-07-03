@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import useCompareCompetitors from "../hooks/useCompareCompetitors";
 import {
@@ -7,7 +7,9 @@ import {
   Generator,
 } from "../Components/ResultsBlocks/CompetitorResultsBlock";
 import CompetitorInputBlock from "../Components/ResultsBlocks/CompetitorInputBlock";
-import CompetitorBtns from "../Components/Buttons/CompetitorBtns";
+import CompetitorBtns, {
+  CompetitorChartBtn,
+} from "../Components/Buttons/CompetitorBtns";
 import { CompetitorScoreChart } from "../Components/Charts/CompetitorScoreChart";
 
 const CompareCompetitorsPage = () => {
@@ -25,6 +27,7 @@ const CompareCompetitorsPage = () => {
     hasSubmitted,
     comparison,
   } = useCompareCompetitors(userSiteUrl);
+  const navigate = useNavigate();
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
@@ -159,18 +162,14 @@ const CompareCompetitorsPage = () => {
             </div>
           </div>
         )}
-        {/* Charts */}
+        {/* competitor charts page button */}
         {!loading && comparison && (
-          <section>
-            {["performance", "seo", "bestPractices", "accessibility"].map(
-              (metric) => (
-                <CompetitorScoreChart
-                  key={metric}
-                  comparison={comparison}
-                  metric={metric}
-                />
-              )
-            )}
+          <section className="mt-8 text-center">
+            <CompetitorChartBtn
+              url={userSiteUrl}
+              navigate={navigate}
+              comparison={comparison}
+            />
           </section>
         )}
       </div>
