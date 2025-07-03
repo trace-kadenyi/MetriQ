@@ -11,6 +11,7 @@ import { FavouritesProvider } from "./context/FavouritesContext";
 import PrimaryHeader from "./Components/Headers/PrimaryHeader";
 import SecondaryHeader from "./Components/Headers/SecondaryHeader";
 import Footer from "./Components/Footer/Footer";
+import CompetitorChartsPage from "./Pages/CompetitorChartsPage";
 
 const App = () => {
   return (
@@ -26,6 +27,10 @@ const App = () => {
             <Route path="/reports" element={<Reports />} />
             <Route path="/charts" element={<Charts />} />
             <Route path="/competitors" element={<CompareCompetitorsPage />} />
+            <Route
+              path="/competitors/charts"
+              element={<CompetitorChartsPage />}
+            />
           </Routes>
           <Footer />
         </Router>
