@@ -7,7 +7,7 @@ export const renderCompetitorScores = (score) => {
 };
 
 // format metric name
-const formatMetricName = (str) => {
+export const formatMetricName = (str) => {
   return str
     .replace(/([A-Z])/g, " $1") // insert space before capital letters
     .replace(/^./, (char) => char.toUpperCase()); // capitalize first letter
