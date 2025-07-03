@@ -1,3 +1,6 @@
+import { motion } from "framer-motion";
+import { BarChart3 } from "lucide-react";
+
 // handle buttons
 const CompetitorBtns = ({
   competitors,
@@ -35,3 +38,31 @@ const CompetitorBtns = ({
 };
 
 export default CompetitorBtns;
+
+// Competitor chart button
+export const CompetitorChartBtn = ({ url, navigate, comparison }) => (
+  <motion.button
+    onClick={() =>
+      navigate(`/competitors/charts?url=${encodeURIComponent(url)}`, {
+        state: { comparison },
+      })
+    }
+    whileHover={{
+      boxShadow: [
+        "0 0 0px #fb923c",
+        "0 0 8px #fb923c",
+        "0 0 12px #fb923c",
+        "0 0 20px #fb923c",
+        "0 0 0px #fb923c",
+      ],
+      scale: [1, 1.15, 1],
+      transition: { duration: 0.8, ease: "easeInOut" },
+    }}
+    className="mx-auto w- sm:min-w-[14rem] bg-gradient-to-r from-green-600 to-orange-400 text-white px-4 py-2 rounded shadow hover:opacity-90 disabled:opacity-60 cursor-pointer flex items-center gap-2 justify-center"
+  >
+    <>
+      <BarChart3 className="w-5 h-5" />
+      Chart Comparison Results
+    </>
+  </motion.button>
+);
