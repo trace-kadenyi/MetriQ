@@ -1,11 +1,13 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
+import api from "../api";
+
 export const useFetchCurrReport = (url, setReport, setLatestReport) => {
   const fetchReport = async () => {
     try {
-      const res = await axios.get(
-        `http://localhost:4000/api/url/report?url=${encodeURIComponent(url)}`
+      const res = await api.get(
+        `/api/url/report?url=${encodeURIComponent(url)}`
       );
       if (res.data.success) {
         setReport(res.data.report);
