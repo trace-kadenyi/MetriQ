@@ -14,7 +14,7 @@ const CompetitorInputBlock = ({
              bg-white shadow-sm dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-900 
              dark:shadow-md pl-4 rounded-md px"
     >
-      <div className="flex flex-col md:flex-row md:items-center gap-3">
+      <div className="flex flex-col md:flex-row md:items-center gap-3 py-2 md:py-0">
         <label className="text-xs font-semibold text-gray-800 dark:text-gray-200">
           Competitor {i + 1}
         </label>
@@ -47,7 +47,7 @@ const CompetitorInputBlock = ({
             type="button"
             onClick={() => removeCompetitor(i)}
             disabled={loading}
-            className="rounded-md bg-red-600 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-600 text-white text-xs px-2 py-1 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+            className="rounded-md bg-red-600 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-600 text-white text-xs px-2 py-1 disabled:opacity-50 cursor-pointer mx-1 disabled:cursor-not-allowed"
           >
             Remove
           </button>
