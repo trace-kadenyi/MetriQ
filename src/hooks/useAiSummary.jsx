@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+
 import { generateSummaryInput } from "../Components/ResultsBlocks/PrevResultsBlock";
+import api from "../api";
 
 export const useAISummary = () => {
   const [aiSummary, setAiSummary] = useState("");
@@ -23,7 +25,7 @@ export const useAISummary = () => {
     try {
       const inputText = generateSummaryInput(reportsArr);
 
-      const { data } = await axios.post("http://localhost:4000/api/summarize", {
+      const { data } = await api.post("/api/summarize", {
         inputText,
       });
 
