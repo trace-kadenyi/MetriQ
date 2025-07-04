@@ -12,11 +12,14 @@ import {
 import { useChartSizing } from "../../hooks/useChartSizing";
 import { formatMetricName } from "../ResultsBlocks/CompetitorResultsBlock";
 
-const metricColors = {
-  performance: "#10B981", // green
-  seo: "#F59E0B", // orange
-  bestPractices: "#3B82F6", // blue
-  accessibility: "#8B5CF6", // purple
+const metricDescriptions = {
+  performance:
+    "Measures how fast your page loads and becomes usable. Key for user experience and conversions.",
+  seo: "Evaluates how easily your content can be discovered and understood by search engines.",
+  bestPractices:
+    "Checks for common web development mistakes and security issues.",
+  accessibility:
+    "Assesses how usable your site is for people with disabilities or assistive technologies.",
 };
 
 const getChartData = (comparison, metric) => {
@@ -68,6 +71,9 @@ export const CompetitorScoreChart = ({ comparison, metric }) => {
       <h3 className="text-md font-semibold mb-3 text-gray-800 dark:text-gray-100 capitalize underline">
         {formatMetricName(metric)} scores
       </h3>
+      <p className="text-sm italic text-gray-600 dark:text-gray-200 mb-3 max-w-3xl">
+        {metricDescriptions[metric]}
+      </p>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={data}
