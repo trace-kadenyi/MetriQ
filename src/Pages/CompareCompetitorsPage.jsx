@@ -1,4 +1,5 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import useCompareCompetitors from "../hooks/useCompareCompetitors";
 import {
@@ -7,14 +8,16 @@ import {
   Generator,
 } from "../Components/ResultsBlocks/CompetitorResultsBlock";
 import CompetitorInputBlock from "../Components/ResultsBlocks/CompetitorInputBlock";
-import CompetitorBtns, {
-  CompetitorChartBtn,
-} from "../Components/Buttons/CompetitorBtns";
-import { CompetitorScoreChart } from "../Components/Charts/CompetitorScoreChart";
+import CompetitorBtns from "../Components/Buttons/CompetitorBtns";
+import {
+  ActiveResults,
+  ActiveCharts,
+} from "../Components/ResultsBlocks/CompetitorTabsBlock";
 
 const CompareCompetitorsPage = () => {
   const { search } = useLocation();
   const userSiteUrl = new URLSearchParams(search).get("url") || "";
+  const [activeTab, setActiveTab] = useState("results");
 
   const {
     competitors,
@@ -27,11 +30,10 @@ const CompareCompetitorsPage = () => {
     hasSubmitted,
     comparison,
   } = useCompareCompetitors(userSiteUrl);
-  const navigate = useNavigate();
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
-      <div className="mt-10 p-5 pt-10 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
+      <div className="mt-10 p-5 pt-10 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-950 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
         <h1 className="font-semibold text-lg text-gray-800 dark:text-gray-100 underline">
           Competitor Comparison
         </h1>
@@ -80,97 +82,60 @@ const CompareCompetitorsPage = () => {
         {/* loader */}
         {loading && <Generator />}
 
-        {/* ------- Results ------- */}
+        {/* ------- Results / Charts / AI Tabs ------- */}
         {!loading && comparison && (
           <div className="space-y-4">
-            {comparison.partial && (
+            {/* Optional “partial” notice */}
+            {comparison.partial && activeTab === "results" && (
               <p className="rounded-lg border border-yellow-300 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-100 text-sm px-4 py-3 shadow-sm">
                 Some sites could not be analysed – they’re marked as “Data not
                 available”.
               </p>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* ---------- Your site ---------- */}
-              <div className="relative border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-[0_-1px_4px_rgba(0,0,0,0.05),0_2px_6px_rgba(0,0,0,0.1)] dark:shadow-[0_-1px_4px_rgba(255,255,255,0.05),0_2px_6px_rgba(0,0,0,0.3)]">
-                <h2 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-1 uppercase underline">
-                  Your Site
-                </h2>
-                <a
-                  href={`${comparison.userSiteUrl}`}
-                  target="_blank"
-                  className="text-sm text-gray-600 dark:text-gray-300 mb-3 hover:text-orange-400 hover:underline italic"
+            {/* ───────────── Tab bar */}
+            <nav className="flex justify-center sm:justify-start gap-2 border-b border-gray-200 dark:border-gray-800">
+              {["results", "charts", "analysis"].map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setActiveTab(t)}
+                  type="button"
+                  className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors ${
+                    activeTab === t
+                      ? "bg-white dark:bg-gray-900 border-b-2 border-orange-500 text-green-600 dark:text-green-400"
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-orange-500"
+                  }`}
                 >
-                  {comparison.userSiteUrl}
-                </a>
-
-                {comparison.userScores ? (
-                  <div className="mt-2">
-                    {Object.entries(comparison.userScores).map(
-                      ([device, scores]) => (
-                        <DeviceScores
-                          key={device}
-                          device={device}
-                          scores={scores}
-                        />
-                      )
-                    )}
-                  </div>
-                ) : (
-                  <Unavailable />
-                )}
-              </div>
-
-              {/* ---------- Competitors ---------- */}
-              {comparison.competitors.map((comp, idx) => (
-                <div
-                  key={idx}
-                  className="relative border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-[0_-1px_4px_rgba(0,0,0,0.05),0_2px_6px_rgba(0,0,0,0.1)] dark:shadow-[0_-1px_4px_rgba(255,255,255,0.05),0_2px_6px_rgba(0,0,0,0.3)]"
-                >
-                  <div
-                    className="absolute top-0 left-0 h-full w-1 rounded-s-xl
-             bg-gradient-to-b from-orange-400 via-yellow-4=200 to-green-500
-             dark:from-orange-500 dark:via-yellow-500 dark:to-green-600"
-                  />
-
-                  <h2 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-1 underline">
-                    {comp.label || `Competitor ${idx + 1}`}
-                  </h2>
-                  <a
-                    href={`${comp.url}`}
-                    target="_blank"
-                    className="text-sm text-gray-600 dark:text-gray-300 mb-3 hover:text-orange-400 hover:underline italic"
-                  >
-                    {comp.url}
-                  </a>
-
-                  {comp.error || !comp.scores ? (
-                    <Unavailable />
-                  ) : (
-                    <div className="mt-2">
-                      {Object.entries(comp.scores).map(([device, scores]) => (
-                        <DeviceScores
-                          key={device}
-                          device={device}
-                          scores={scores}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
+                  {t === "results"
+                    ? "Results"
+                    : t === "charts"
+                    ? "Charts"
+                    : "AI Analysis"}
+                </button>
               ))}
-            </div>
+            </nav>
+
+            {/* ───────────── Pane • RESULTS */}
+            {activeTab === "results" && (
+              <ActiveResults
+                comparison={comparison}
+                DeviceScores={DeviceScores}
+                Unavailable={Unavailable}
+              />
+            )}
+
+            {/* ───────────── Pane • CHARTS */}
+            {activeTab === "charts" && <ActiveCharts comparison={comparison} />}
+
+            {/* ───────────── Pane • AI ANALYSIS */}
+            {activeTab === "analysis" && (
+              <section className="py-10 text-center">
+                <p className="text-gray-500 dark:text-gray-400 italic">
+                  ⚡ AI‑powered insights are on the way. Watch this space!
+                </p>
+              </section>
+            )}
           </div>
-        )}
-        {/* competitor charts page button */}
-        {!loading && comparison && (
-          <section className="mt-8 text-center">
-            <CompetitorChartBtn
-              url={userSiteUrl}
-              navigate={navigate}
-              comparison={comparison}
-            />
-          </section>
         )}
       </div>
     </main>
