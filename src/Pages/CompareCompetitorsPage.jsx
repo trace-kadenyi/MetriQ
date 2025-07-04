@@ -94,7 +94,7 @@ const CompareCompetitorsPage = () => {
             )}
 
             {/* ───────────── Tab bar */}
-            <nav className="flex gap-2 border-b border-gray-200 dark:border-gray-800">
+            <nav className="flex justify-center sm:justify-start gap-2 border-b border-gray-200 dark:border-gray-800">
               {["results", "charts", "analysis"].map((t) => (
                 <button
                   key={t}
