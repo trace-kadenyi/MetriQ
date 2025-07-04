@@ -1,5 +1,5 @@
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import ReportPDF from "../ResultsBlocks/ReportPDF";
+import ReportPDF from "../PDFBlocks/ReportPDF";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
