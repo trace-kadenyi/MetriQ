@@ -61,3 +61,31 @@ export const ActiveResults = ({ comparison, DeviceScores, Unavailable }) => {
     </div>
   );
 };
+
+// Active charts
+const metrics = ["performance", "seo", "bestPractices", "accessibility"];
+
+export const ActiveCharts = ({ comparison }) => {
+  if (!comparison) return null;
+
+  return (
+    <section className="pt-4">
+      <p className="text-sm text-gray-700 dark:text-gray-200 mb-6 leading-relaxed">
+        Visual comparison of your site versus selected competitors across
+        Lighthouse categories{" "}
+        <span className="font-semibold italic">
+          (Performance, SEO, Best Practices, Accessibility)
+        </span>
+        .
+      </p>
+
+      {metrics.map((metric) => (
+        <CompetitorScoreChart
+          key={metric}
+          comparison={comparison}
+          metric={metric}
+        />
+      ))}
+    </section>
+  );
+};
