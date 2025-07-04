@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import useCompareCompetitors from "../hooks/useCompareCompetitors";
 import {
@@ -9,8 +9,10 @@ import {
 } from "../Components/ResultsBlocks/CompetitorResultsBlock";
 import CompetitorInputBlock from "../Components/ResultsBlocks/CompetitorInputBlock";
 import CompetitorBtns from "../Components/Buttons/CompetitorBtns";
-import { CompetitorScoreChart } from "../Components/Charts/CompetitorScoreChart";
-import { ActiveResults } from "../Components/ResultsBlocks/TabsBlock";
+import {
+  ActiveResults,
+  ActiveCharts,
+} from "../Components/ResultsBlocks/TabsBlock";
 
 const CompareCompetitorsPage = () => {
   const { search } = useLocation();
@@ -28,7 +30,6 @@ const CompareCompetitorsPage = () => {
     hasSubmitted,
     comparison,
   } = useCompareCompetitors(userSiteUrl);
-  const navigate = useNavigate();
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
@@ -116,31 +117,15 @@ const CompareCompetitorsPage = () => {
 
             {/* ───────────── Pane • RESULTS */}
             {activeTab === "results" && (
-             <ActiveResults comparison={comparison} DeviceScores={DeviceScores} Unavailable={Unavailable} />
+              <ActiveResults
+                comparison={comparison}
+                DeviceScores={DeviceScores}
+                Unavailable={Unavailable}
+              />
             )}
 
             {/* ───────────── Pane • CHARTS */}
-            {activeTab === "charts" && (
-              <section className="pt-4">
-                <p className="text-sm text-gray-700 dark:text-gray-200 mb-6 leading-relaxed">
-                  Visual comparison of your site versus selected competitors
-                  across Lighthouse categories{" "}
-                  <span className="font-semibold italic">
-                    (Performance, SEO, Best Practices, Accessibility)
-                  </span>
-                  .
-                </p>
-                {["performance", "seo", "bestPractices", "accessibility"].map(
-                  (m) => (
-                    <CompetitorScoreChart
-                      key={m}
-                      comparison={comparison}
-                      metric={m}
-                    />
-                  )
-                )}
-              </section>
-            )}
+            {activeTab === "charts" && <ActiveCharts comparison={comparison} />}
 
             {/* ───────────── Pane • AI ANALYSIS */}
             {activeTab === "analysis" && (
