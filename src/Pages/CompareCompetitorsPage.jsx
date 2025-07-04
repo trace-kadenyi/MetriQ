@@ -12,7 +12,7 @@ import CompetitorBtns from "../Components/Buttons/CompetitorBtns";
 import {
   ActiveResults,
   ActiveCharts,
-} from "../Components/ResultsBlocks/TabsBlock";
+} from "../Components/ResultsBlocks/CompetitorTabsBlock";
 
 const CompareCompetitorsPage = () => {
   const { search } = useLocation();
