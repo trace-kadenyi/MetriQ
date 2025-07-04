@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+import api from "../api";
+
 export default function useUrlForm() {
   const [url, setUrl] = useState("");
   const [isValidFormat, setIsValidFormat] = useState(false);
@@ -47,7 +49,7 @@ export default function useUrlForm() {
       // Step 1: Check if the URL is reachable
       let checkRes;
       try {
-        checkRes = await axios.post("http://localhost:4000/api/url/check", {
+        checkRes = await api.post("/api/url/check", {
           url,
         });
       } catch (checkErr) {
@@ -71,7 +73,7 @@ export default function useUrlForm() {
       // Step 2: Generate the report
       let reportRes;
       try {
-        reportRes = await axios.post("http://localhost:4000/api/url/report", {
+        reportRes = await api.post("/api/url/report", {
           url,
         });
         setUrl("");
