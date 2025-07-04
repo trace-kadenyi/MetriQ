@@ -33,7 +33,7 @@ const CompareCompetitorsPage = () => {
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
-      <div className="mt-10 p-5 pt-10 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-800 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
+      <div className="mt-10 p-5 pt-10 sm:p-10 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-950 dark:to-blue-950 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.1)]">
         <h1 className="font-semibold text-lg text-gray-800 dark:text-gray-100 underline">
           Competitor Comparison
         </h1>
@@ -94,7 +94,7 @@ const CompareCompetitorsPage = () => {
             )}
 
             {/* ───────────── Tab bar */}
-            <nav className="flex gap-2 border-b border-gray-200 dark:border-gray-700">
+            <nav className="flex gap-2 border-b border-gray-200 dark:border-gray-800">
               {["results", "charts", "analysis"].map((t) => (
                 <button
                   key={t}
@@ -191,7 +191,7 @@ const CompareCompetitorsPage = () => {
                 <p className="text-sm text-gray-700 dark:text-gray-200 mb-6 leading-relaxed">
                   Visual comparison of your site versus selected competitors
                   across Lighthouse categories{" "}
-                  <span className="font-semibold">
+                  <span className="font-semibold italic">
                     (Performance, SEO, Best Practices, Accessibility)
                   </span>
                   .
