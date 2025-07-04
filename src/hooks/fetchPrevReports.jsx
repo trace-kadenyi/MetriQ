@@ -1,5 +1,6 @@
-import axios from "axios";
 import toast from "react-hot-toast";
+
+import api from "../api";
 
 export const useFetchReports = ({
   url,
@@ -14,8 +15,8 @@ export const useFetchReports = ({
     setAiSummary?.("");
 
     try {
-      const res = await axios.get(
-        `http://localhost:4000/api/url/report?url=${encodeURIComponent(url)}`
+      const res = await api.get(
+        `/api/url/report?url=${encodeURIComponent(url)}`
       );
 
       if (res.data.success) {
