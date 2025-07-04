@@ -5,10 +5,10 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
-import { getAnonymousId } from "../utils/getAnonymousId";
 
+import { getAnonymousId } from "../utils/getAnonymousId";
+import api from "../api";
 const FavouritesContext = createContext();
 
 export function FavouritesProvider({ children }) {
@@ -21,7 +21,7 @@ export function FavouritesProvider({ children }) {
   const fetchFavourites = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get("http://localhost:4000/api/favourites", {
+      const { data } = await api.get("/api/favourites", {
         headers: { "x-anon-id": anonId },
       });
 
@@ -44,8 +44,8 @@ export function FavouritesProvider({ children }) {
   const toggleFavourite = useCallback(
     async (url) => {
       try {
-        const { data } = await axios.post(
-          "http://localhost:4000/api/favourites/toggle",
+        const { data } = await api.post(
+          "/api/favourites/toggle",
           { url },
           { headers: { "x-anon-id": anonId } }
         );
