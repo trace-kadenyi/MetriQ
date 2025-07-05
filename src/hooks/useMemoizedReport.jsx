@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 
+// memoized report
 export const useMemoizedReport = (report, latestReport, view) => {
   return useMemo(() => {
     if (!report) return {};
