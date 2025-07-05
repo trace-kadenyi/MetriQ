@@ -56,6 +56,7 @@ const Report = () => {
           className="sticky top-[282px] z-[44] bg-gray-100 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950
  border-b border-gray-300 shadow-sm rounded-t-xl sm:top-[148px] md:top-[108px]"
         >
+          {/* toggle between mobile and desktop results */}
           <div className="flex justify-center px-6 py-3">
             <DeviceToggle view={view} setView={setView} />
           </div>
@@ -180,6 +181,7 @@ const Report = () => {
             </p>
           </div>
           <div className="flex flex-col md:flex-row md:justify-between md:px-4 gap-3 px-4">
+            {/* seo, accessibility, bestpractices */}
             <div
               className="md:p-4 md:border-r border-gray-200 transition-transform duration-200 hover:scale-[1.02]"
               role="progressbar"
