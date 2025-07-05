@@ -9,6 +9,7 @@ const getSizes = (w) => {
   return { barSize: 40, barGap: 18, catGap: "30%", labelFont: 13 };
 };
 
+// use chart sizing func
 export const useChartSizing = () => {
   const [sizes, setSizes] = useState(getSizes(window.innerWidth));
   useEffect(() => {
