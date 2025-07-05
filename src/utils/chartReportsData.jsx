@@ -1,3 +1,4 @@
+// handle charts reports data
 export const chartReportsData = (reports, safeDate, parseMetric) => {
   return [...reports].reverse().map((report) => {
     const m = report.metrics.mobile;
@@ -27,7 +28,7 @@ export const chartReportsData = (reports, safeDate, parseMetric) => {
   });
 };
 
-// safe date
+// safe date func
 export const safeDate = (rawDate) => {
   if (!rawDate || typeof rawDate !== "string") return null;
 
