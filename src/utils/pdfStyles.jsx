@@ -1,5 +1,6 @@
 import { StyleSheet } from "@react-pdf/renderer";
 
+// colors function
 export const colors = {
   good: "#22c55e",
   average: "#fb923c",
@@ -7,6 +8,7 @@ export const colors = {
   title: "#1f2937",
 };
 
+// styles function
 export const styles = StyleSheet.create({
   page: {
     padding: 30,
@@ -65,12 +67,14 @@ export const styles = StyleSheet.create({
   },
 });
 
+// format label function
 export const formatLabel = (key) => {
   return key
     .replace(/([a-z])([A-Z])/g, "$1 $2")
     .replace(/^\w/, (c) => c.toUpperCase());
 };
 
+// classify score function
 export const classifyScore = (score) => {
   if (score >= 90) return { color: colors.good, label: "Good" };
   if (score >= 50) return { color: colors.average, label: "Average" };
