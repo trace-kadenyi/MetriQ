@@ -1,5 +1,6 @@
 import { Text } from "@react-pdf/renderer";
 
+// render markdown lines func
 export const renderMarkdownLines = (summary, styles) => {
   const fallback = `
 No AI Analysis was generated for these reports.
