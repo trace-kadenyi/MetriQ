@@ -132,10 +132,6 @@ const CompareCompetitorsPage = () => {
               <section className="py-10 text-center">
                 <p className="text-gray-500 dark:text-gray-400 italic">
                   ⚡ AI‑powered insights are on the way. Watch this space!
-                  <span>
-                    Plan: 1. Create api to handle AI-powered insights for
-                    competitor comparisons. 2. Connect to frontend.
-                  </span>
                 </p>
               </section>
             )}
