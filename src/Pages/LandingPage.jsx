@@ -182,8 +182,6 @@ const LandingPage = () => {
           </div>
         </section>
       </ScrollFadeFunc>
-      {/* Footer */}
-      {/* <Footer EaseOutFunc={EaseOutFunc} motion={motion} /> */}
     </main>
   );
 };
