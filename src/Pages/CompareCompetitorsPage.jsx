@@ -44,8 +44,8 @@ const CompareCompetitorsPage = () => {
           you shine—and where there's room to grow.
         </p>
         {/* ------- Form ------- */}
+        {/* Your site */}
         <div className="space-y-6 mb-10">
-          {/* your site (disabled) */}
           <div>
             <label className="block text-xs font-semibold uppercase text-gray-700 dark:text-gray-300 mb-1">
               Your Site
@@ -58,6 +58,7 @@ const CompareCompetitorsPage = () => {
             />
           </div>
 
+          {/* map through competitors */}
           {competitors.map((c, i) => (
             <CompetitorInputBlock
               key={i}
