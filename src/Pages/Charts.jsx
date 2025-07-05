@@ -134,6 +134,7 @@ const Charts = () => {
                 ]}
               />
             ) : (
+              // warning box in case no charts exist
               <WarningBox />
             )}
           </section>
@@ -191,6 +192,7 @@ const Charts = () => {
                 />
               </div>
             ) : (
+              // warning box in case no charts exist/no previous reports
               <WarningBox />
             )}
           </section>
