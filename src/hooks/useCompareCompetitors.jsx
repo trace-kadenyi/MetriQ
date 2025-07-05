@@ -47,6 +47,7 @@ export default function useCompareCompetitors(userSiteUrl = "") {
     setDuplicateFlags(nextDup);
   };
 
+  // add competitors
   const addCompetitor = () => {
     if (loading) return;
     setCompetitors((prev) => {
@@ -59,6 +60,7 @@ export default function useCompareCompetitors(userSiteUrl = "") {
     });
   };
 
+  // remove competitor
   const removeCompetitor = (index) => {
     if (loading) return;
     setCompetitors((prev) => prev.filter((_, i) => i !== index));
