@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+// get sizes func
 const getSizes = (w) => {
   if (w < 640) return { barSize: 6, barGap: 6, catGap: "15%", labelFont: 8 };
   if (w < 768) return { barSize: 10, barGap: 10, catGap: "22%", labelFont: 11 };
