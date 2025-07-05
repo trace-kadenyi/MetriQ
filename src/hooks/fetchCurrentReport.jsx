@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 
 import api from "../api";
 
+// fetch current report
 export const useFetchCurrReport = (url, setReport, setLatestReport) => {
   const fetchReport = async () => {
     try {
