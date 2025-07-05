@@ -1,3 +1,4 @@
+// handle warning if no previous reports exist
 export const WarningBox = () => {
   return (
     <div className="relative overflow-hidden rounded-xl border border-dashed border-orange-300 bg-orange-50 dark:border-orange-600 p-6 text-center shadow-inner mb-10">
