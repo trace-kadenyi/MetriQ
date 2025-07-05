@@ -49,6 +49,7 @@ const Reports = () => {
     setErrorOccurred,
   });
 
+  // fetch previous reports on url change
   useEffect(() => {
     if (url) fetchReports();
   }, [url]);
