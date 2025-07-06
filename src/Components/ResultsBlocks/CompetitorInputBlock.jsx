@@ -47,7 +47,11 @@ const CompetitorInputBlock = ({
             type="button"
             onClick={() => removeCompetitor(i)}
             disabled={loading}
-            className="rounded-md bg-red-600 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-600 text-white text-xs px-2 py-1 disabled:opacity-50 cursor-pointer mx-1 disabled:cursor-not-allowed"
+            className={`rounded-md bg-red-600 dark:bg-red-700  text-white text-xs px-2 py-1 disabled:opacity-50 mx-1 disabled:cursor-not-allowed ${
+              !loading
+                ? "hover:bg-red-500 dark:hover:bg-red-600 cursor-pointer"
+                : ""
+            }`}
           >
             Remove
           </button>
