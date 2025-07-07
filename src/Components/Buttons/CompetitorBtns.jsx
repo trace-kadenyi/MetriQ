@@ -1,5 +1,9 @@
 import { motion } from "framer-motion";
 import { BarChart3 } from "lucide-react";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Download } from "lucide-react";
+
+import CompetitorComparisonPDF from "../PDFBlocks/CompetitorComparisonPDF";
 
 // handle buttons
 const CompetitorBtns = ({
@@ -65,4 +69,37 @@ export const CompetitorChartBtn = ({ url, navigate, comparison }) => (
       Chart Comparison Results
     </>
   </motion.button>
+);
+
+// competitor comparison pdf
+export const ComparisonPdfBtn = ({ comparison, aiAnalysis }) => (
+  <motion.div
+    whileHover={{
+      scale: [1, 1.12, 1],
+      transition: { duration: 0.6, ease: "easeInOut" },
+      boxShadow: [
+        "0 0 0px #34d399",
+        "0 0 8px #34d399",
+        "0 0 12px #34d399",
+        "0 0 0px #34d399",
+      ],
+    }}
+    className="w-full sm:w-auto"
+  >
+    <PDFDownloadLink
+      document={
+        <CompetitorComparisonPDF
+          comparison={comparison}
+          aiAnalysis={aiAnalysis}
+        />
+      }
+      fileName="competitor_comparison.pdf"
+      className="inline-flex bg-gradient-to-r from-green-500 to-blue-600
+                 text-white px-4 py-2 rounded shadow hover:opacity-90
+                 disabled:opacity-60 items-center gap-2 justify-center w-full"
+    >
+      <Download className="w-5 h-5" />
+      Download PDF
+    </PDFDownloadLink>
+  </motion.div>
 );
