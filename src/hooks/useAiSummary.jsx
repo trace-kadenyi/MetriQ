@@ -8,6 +8,7 @@ export const useAISummary = () => {
   const [aiSummary, setAiSummary] = useState("");
   const [generatingSummary, setGeneratingSummary] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
+  const [aiError, setAiError] = useState(false);
 
   /**
    * Trigger AI summary generation.
@@ -31,8 +32,9 @@ export const useAISummary = () => {
       setAiSummary(data.summary);
       setShowSummary(true);
     } catch (err) {
-      console.error("AI summarization failed:", err);
-      toast.error("Failed to generate AI summary");
+      setAiError(true);
+      console.error("AI analysis failed:", err);
+      toast.error("Failed to generate AI analysis.");
     } finally {
       setGeneratingSummary(false);
     }
@@ -46,5 +48,6 @@ export const useAISummary = () => {
     showSummary,
     setShowSummary,
     handleAISummary,
+    aiError,
   };
 };

@@ -20,6 +20,7 @@ import Accordion from "../Components/Accessories/Accordion";
 import { useFetchReports } from "../hooks/fetchPrevReports";
 import { formatReports } from "../utils/formatReports";
 import { useAISummary } from "../hooks/useAiSummary";
+import ErrorTemplate from "../utils/errorTemplate";
 
 const Reports = () => {
   const [prevReports, setPrevReports] = useState([]);
@@ -37,6 +38,7 @@ const Reports = () => {
     generatingSummary,
     showSummary,
     handleAISummary,
+    aiError,
   } = useAISummary();
 
   // use fetch reports hook
@@ -142,6 +144,8 @@ const Reports = () => {
                 </div>
               )}
             </section>
+
+            {aiError && <ErrorTemplate error={aiError} />}
             <section>
               {/* previous reports */}
               <Accordion
