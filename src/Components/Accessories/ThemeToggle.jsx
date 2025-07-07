@@ -20,9 +20,9 @@ const ThemeToggle = () => {
         aria-label="Toggle theme"
       >
         {theme === "dark" ? (
-          <Sun className="text-yellow-400" />
+          <Sun className="text-orange-400" />
         ) : (
-          <Moon className="text-white" />
+          <Moon className="text-white" /> 
         )}
       </button>
       {/* Hidden paragraph that appears on hover */}
