@@ -15,6 +15,7 @@ import {
 
 import { useFavourites } from "../../context/FavouritesContext";
 
+// AI Analysis button
 const AISummaryButton = ({
   onClick,
   disabled,
