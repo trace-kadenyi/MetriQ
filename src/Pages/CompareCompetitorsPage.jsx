@@ -13,12 +13,15 @@ import {
   ActiveResults,
   ActiveCharts,
 } from "../Components/ResultsBlocks/CompetitorTabsBlock";
+import useAiComparison from "../hooks/useAiComparison";
+import AiPane from "../Components/Accessories/Aipane";
 
 const CompareCompetitorsPage = () => {
   const { search } = useLocation();
   const userSiteUrl = new URLSearchParams(search).get("url") || "";
   const [activeTab, setActiveTab] = useState("results");
 
+  // usecomparecompetitors hook
   const {
     competitors,
     duplicateFlags,
@@ -30,6 +33,9 @@ const CompareCompetitorsPage = () => {
     hasSubmitted,
     comparison,
   } = useCompareCompetitors(userSiteUrl);
+
+  // useaicomparison hook
+  const { aiComparison, aiLoading, aiError } = useAiComparison(comparison);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
@@ -130,10 +136,12 @@ const CompareCompetitorsPage = () => {
 
             {/* ───────────── Pane • AI ANALYSIS */}
             {activeTab === "analysis" && (
-              <section className="py-10 text-center">
-                <p className="text-gray-500 dark:text-gray-400 italic">
-                  ⚡ AI‑powered insights are on the way. Watch this space!
-                </p>
+              <section className="py-10">
+                <AiPane
+                  loading={aiLoading}
+                  error={aiError}
+                  markdown={aiComparison}
+                />
               </section>
             )}
           </div>
