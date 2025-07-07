@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 import { motion } from "framer-motion";
-import toast from "react-hot-toast";
+import api from "../api"
 
 import useCompareCompetitors from "../hooks/useCompareCompetitors";
 import {
@@ -23,7 +22,9 @@ const CompareCompetitorsPage = () => {
   const userSiteUrl = new URLSearchParams(search).get("url") || "";
   const [activeTab, setActiveTab] = useState("results");
   const [aiComparison, setAiComparison] = useState("");
-  const [aiLoading, setAiLoading] = useState(true)
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState(null);
+  const [fetchedKey, setFetchedKey] = useState(null);
 
   const {
     competitors,
@@ -40,31 +41,29 @@ const CompareCompetitorsPage = () => {
   // fetch ai comparison
 
   useEffect(() => {
-    if (!comparison?.createdAt) return;
-    const fetchAiComparison = async () => {
+    if (!comparison) return;
+    const key = comparison.createdAt;
+    if (!key || key === fetchedKey) return; // already fetched
+
+    // Reset state for fresh fetch
+    setAiComparison("");
+    setAiError(null);
+    setAiLoading(true);
+
+    (async () => {
       try {
-        const { data } = await axios.post(
-          "http://localhost:4000/api/ai/comparison",
-          {
-            comparison,
-          }
-        );
-        console.log(data.analysis);
-        const unwrap = (str) => str.replace(/^```[a-z]*\\n?|```$/g, "").trim();
-        setAiComparison(unwrap(data.analysis));
+        const { data } = await api.post("/api/ai/comparison", { comparison });
+        setAiComparison(data.analysis);
+        setFetchedKey(key); // mark this comparison as fetched
       } catch (err) {
-        if (
-          err.response?.status === 429 &&
-          err.response?.data?.error === "RATE_LIMIT"
-        ) {
-          toast.error(err.response.data.message); // shows friendly rate-limit message
-        } else {
-          toast.error("AI analysis failed. Please try again later.");
-        }
+        setAiError("Failed to generate AI insights");
+        console.error(err);
+      } finally {
+        setAiLoading(false);
       }
-    };
-    fetchAiComparison();
-  }, [comparison?.createdAt]);
+    })();
+  }, [comparison?.createdAt, fetchedKey]);
+
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
@@ -165,24 +164,7 @@ const CompareCompetitorsPage = () => {
 
             {/* ───────────── Pane • AI ANALYSIS */}
             {activeTab === "analysis" && (
-              <section className="py-10">
-                {aiComparison ? (
-                  <div className="mt-6 p-6 bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-950 dark:to-blue-950 border-l-4 border-green-500 rounded-xl shadow space-y-4">
-                    <motion.article
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                      className="prose prose-sm sm:prose lg:prose-lg prose-orange prose-li:marker:text-orange-400 text-gray-800 dark:text-gray-200 max-w-none"
-                    >
-                      <MarkdownRenderer content={aiComparison} />
-                    </motion.article>
-                  </div>
-                ) : (
-                  <p className="text-gray-500 dark:text-gray-400 italic">
-                    ⚡ AI‑powered insights are on the way. Watch this space!
-                  </p>
-                )}
-              </section>
+              <section className="py-10">{renderAiPane()}</section>
             )}
           </div>
         )}
