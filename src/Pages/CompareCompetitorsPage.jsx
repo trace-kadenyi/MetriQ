@@ -39,7 +39,6 @@ const CompareCompetitorsPage = () => {
   } = useCompareCompetitors(userSiteUrl);
 
   // fetch ai comparison
-
   useEffect(() => {
     if (!comparison) return;
     const key = comparison.createdAt;
@@ -64,6 +63,7 @@ const CompareCompetitorsPage = () => {
     })();
   }, [comparison?.createdAt, fetchedKey]);
 
+  // render ai comparison data
   const renderAiPane = () => {
     if (aiLoading) {
       return (
