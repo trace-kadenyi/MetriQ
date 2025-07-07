@@ -75,47 +75,6 @@ const MarkdownRenderer = ({ content }) => {
             </pre>
           );
         },
-        // 💡 Table Support
-        table({ children }) {
-          return (
-            <div className="overflow-x-auto my-6">
-              <table className="min-w-full border border-gray-300 dark:border-gray-600 text-sm text-left">
-                {children}
-              </table>
-            </div>
-          );
-        },
-        thead({ children }) {
-          return (
-            <thead className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
-              {children}
-            </thead>
-          );
-        },
-        tbody({ children }) {
-          return <tbody>{children}</tbody>;
-        },
-        tr({ children }) {
-          return (
-            <tr className="border-b border-gray-200 dark:border-gray-700">
-              {children}
-            </tr>
-          );
-        },
-        th({ children }) {
-          return (
-            <th className="px-4 py-2 font-medium border border-gray-300 dark:border-gray-600">
-              {children}
-            </th>
-          );
-        },
-        td({ children }) {
-          return (
-            <td className="px-4 py-2 border border-gray-200 dark:border-gray-700">
-              {children}
-            </td>
-          );
-        },
       }}
     >
       {content}
