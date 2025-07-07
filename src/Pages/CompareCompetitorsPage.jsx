@@ -102,6 +102,15 @@ const CompareCompetitorsPage = () => {
               </p>
             )}
 
+            {/* PDF Button (clearly not under a tab) */}
+            <div className="flex justify-center py-4">
+              <div className="text-center space-y-2">
+                <ComparisonPdfBtn
+                  comparison={comparison}
+                  aiAnalysis={aiComparison}
+                />
+              </div>
+            </div>
             {/* ───────────── Tab bar */}
             <nav className="flex justify-center sm:justify-start gap-2 border-b border-gray-200 dark:border-gray-800">
               {["results", "charts", "analysis"].map((t) => (
@@ -126,19 +135,11 @@ const CompareCompetitorsPage = () => {
 
             {/* ───────────── Pane • RESULTS */}
             {activeTab === "results" && (
-              <div>
-                <ActiveResults
-                  comparison={comparison}
-                  DeviceScores={DeviceScores}
-                  Unavailable={Unavailable}
-                />
-                {comparison && (
-                  <ComparisonPdfBtn
-                    comparison={comparison}
-                    aiAnalysis={aiComparison}
-                  />
-                )}
-              </div>
+              <ActiveResults
+                comparison={comparison}
+                DeviceScores={DeviceScores}
+                Unavailable={Unavailable}
+              />
             )}
 
             {/* ───────────── Pane • CHARTS */}
