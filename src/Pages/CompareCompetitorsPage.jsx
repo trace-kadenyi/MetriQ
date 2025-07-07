@@ -23,6 +23,7 @@ const CompareCompetitorsPage = () => {
   const userSiteUrl = new URLSearchParams(search).get("url") || "";
   const [activeTab, setActiveTab] = useState("results");
   const [aiComparison, setAiComparison] = useState("");
+  const [aiLoading, setAiLoading] = useState(true)
 
   const {
     competitors,
@@ -49,12 +50,17 @@ const CompareCompetitorsPage = () => {
           }
         );
         console.log(data.analysis);
-        setAiComparison(data.analysis);
+        const unwrap = (str) => str.replace(/^```[a-z]*\\n?|```$/g, "").trim();
+        setAiComparison(unwrap(data.analysis));
       } catch (err) {
-        toast.error(
-          "An AI analysis could not be generated at this time. Please try again later."
-        );
-        console.error(err);
+        if (
+          err.response?.status === 429 &&
+          err.response?.data?.error === "RATE_LIMIT"
+        ) {
+          toast.error(err.response.data.message); // shows friendly rate-limit message
+        } else {
+          toast.error("AI analysis failed. Please try again later.");
+        }
       }
     };
     fetchAiComparison();
