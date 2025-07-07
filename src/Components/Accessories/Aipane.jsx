@@ -6,7 +6,7 @@ const AiPane = ({ loading, error, markdown }) => {
     return (
       <div className="flex flex-col items-center gap-4 py-8">
         {/* lightweight spinner */}
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-green-500 border-t-transparent" />
+        <div className="animate-spin rounded-full h-5 w-5 sm:h-7 sm:w-7 lg:h-10 lg:w-10 border-4 border-green-500 border-t-transparent" />
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Generating AI insights…
         </p>
