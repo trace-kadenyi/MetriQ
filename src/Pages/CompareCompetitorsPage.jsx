@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 import useCompareCompetitors from "../hooks/useCompareCompetitors";
 import {
@@ -13,11 +16,13 @@ import {
   ActiveResults,
   ActiveCharts,
 } from "../Components/ResultsBlocks/CompetitorTabsBlock";
+import MarkdownRenderer from "../Components/Accessories/MarkdownRenderer";
 
 const CompareCompetitorsPage = () => {
   const { search } = useLocation();
   const userSiteUrl = new URLSearchParams(search).get("url") || "";
   const [activeTab, setActiveTab] = useState("results");
+  const [aiComparison, setAiComparison] = useState("");
 
   const {
     competitors,
@@ -30,6 +35,30 @@ const CompareCompetitorsPage = () => {
     hasSubmitted,
     comparison,
   } = useCompareCompetitors(userSiteUrl);
+
+  // fetch ai comparison
+
+  useEffect(() => {
+    if (!comparison) return;
+    const fetchAiComparison = async () => {
+      try {
+        const { data } = await axios.post(
+          "http://localhost:4000/api/ai/comparison",
+          {
+            comparison,
+          }
+        );
+        console.log(data.analysis);
+        setAiComparison(data.analysis);
+      } catch (err) {
+        toast.error(
+          "An AI analysis could not be generated at this time. Please try again later."
+        );
+        console.error(err);
+      }
+    };
+    fetchAiComparison();
+  }, [comparison]);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
@@ -130,10 +159,23 @@ const CompareCompetitorsPage = () => {
 
             {/* ───────────── Pane • AI ANALYSIS */}
             {activeTab === "analysis" && (
-              <section className="py-10 text-center">
-                <p className="text-gray-500 dark:text-gray-400 italic">
-                  ⚡ AI‑powered insights are on the way. Watch this space!
-                </p>
+              <section className="py-10">
+                {aiComparison ? (
+                  <div className="mt-6 p-6 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-950 dark:to-blue-950 border-l-4 border-green-500 rounded-xl shadow space-y-4">
+                    <motion.article
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="prose prose-sm sm:prose lg:prose-lg prose-orange prose-li:marker:text-orange-400 text-gray-800 dark:text-gray-200 max-w-none"
+                    >
+                      <MarkdownRenderer content={aiComparison} />
+                    </motion.article>
+                  </div>
+                ) : (
+                  <p className="text-gray-500 dark:text-gray-400 italic">
+                    ⚡ AI‑powered insights are on the way. Watch this space!
+                  </p>
+                )}
               </section>
             )}
           </div>
