@@ -27,7 +27,10 @@ const ScoreBlock = ({ label, scores }) => (
       const { color, label } = classifyScore(v);
       return (
         <Text key={k}>
-          {k.toUpperCase()}: <Text style={{ ...styles.coloredValue, color }}>{v} ({label})</Text>
+          {k.toUpperCase()}:{" "}
+          <Text style={{ ...styles.coloredValue, color }}>
+            {v} ({label})
+          </Text>
         </Text>
       );
     })}
@@ -47,7 +50,9 @@ const CompetitorComparisonPDF = ({ comparison, aiAnalysis }) => {
         <View style={{ marginBottom: 16 }}>
           <Text style={styles.title}>Competitor Comparison</Text>
           <Text style={styles.italic}>Your site: {userSiteUrl}</Text>
-          <Text style={styles.italic}>Generated: {new Date().toLocaleDateString()}</Text>
+          <Text style={styles.italic}>
+            Generated: {new Date().toLocaleDateString()}
+          </Text>
         </View>
 
         {/* -------- Your site -------- */}
@@ -59,7 +64,7 @@ const CompetitorComparisonPDF = ({ comparison, aiAnalysis }) => {
 
         {/* -------- Competitors -------- */}
         <Text style={styles.metricTitle}>Competitor Scores</Text>
-        {competitors.map((c, i) => (
+        {competitors.map((c, i) =>
           c.scores ? (
             <View key={i} style={styles.section}>
               <Text style={styles.label}>⚔ {c.label || c.url}</Text>
@@ -73,7 +78,7 @@ const CompetitorComparisonPDF = ({ comparison, aiAnalysis }) => {
               </Text>
             </View>
           )
-        ))}
+        )}
 
         {/* -------- AI analysis -------- */}
         {aiAnalysis && (
