@@ -73,19 +73,7 @@ export const CompetitorChartBtn = ({ url, navigate, comparison }) => (
 
 // competitor comparison pdf
 export const ComparisonPdfBtn = ({ comparison, aiAnalysis }) => (
-  <motion.div
-    whileHover={{
-      scale: [1, 1.12, 1],
-      transition: { duration: 0.6, ease: "easeInOut" },
-      boxShadow: [
-        "0 0 0px #34d399",
-        "0 0 8px #34d399",
-        "0 0 12px #34d399",
-        "0 0 0px #34d399",
-      ],
-    }}
-    className="w-full sm:w-auto"
-  >
+  <div className="w-3/4 mx-auto sm:w-auto">
     <PDFDownloadLink
       document={
         <CompetitorComparisonPDF
@@ -94,12 +82,12 @@ export const ComparisonPdfBtn = ({ comparison, aiAnalysis }) => (
         />
       }
       fileName="competitor_comparison.pdf"
-      className="inline-flex bg-gradient-to-r from-green-500 to-blue-600
+      className="inline-flex bg-gradient-to-r from-green-600 to-orange-600 dark:from-green-800 dark:to-orange-800
                  text-white px-4 py-2 rounded shadow hover:opacity-90
                  disabled:opacity-60 items-center gap-2 justify-center w-full"
     >
       <Download className="w-5 h-5" />
       Download PDF
     </PDFDownloadLink>
-  </motion.div>
+  </div>
 );
