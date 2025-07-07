@@ -72,24 +72,31 @@ const CompetitorComparisonPDF = ({ comparison, aiAnalysis }) => {
         {competitors.map((c, i) =>
           c.scores ? (
             <View key={i} style={styles.section}>
-              <Text style={styles.label}> {c.label || c.url}</Text>
+              <Text style={styles.label}>{c.label || c.url}</Text>
               <ScoreBlock label="Mobile" scores={c.scores.mobile} />
               <ScoreBlock label="Desktop" scores={c.scores.desktop} />
             </View>
           ) : (
             <View key={i} style={styles.section}>
               <Text style={{ ...styles.label, color: colors.poor }}>
-                {c.label || c.url}: Data not available
+                <Text>{c.label || c.url}: Data not available</Text>
               </Text>
             </View>
           )
         )}
 
         {/* -------- AI analysis -------- */}
-        {aiAnalysis && (
-          <View style={{ marginTop: 32 }}>
-            <Text style={styles.metricTitle}>AI‑Powered Insights</Text>
+        {aiAnalysis && aiAnalysis.trim().length > 0 ? (
+          <View style={{ marginTop: 30 }}>
+            <Text style={styles.metricTitle}>AI‑POWERED ANALYSIS</Text>
             {renderMarkdownLines(aiAnalysis, styles)}
+          </View>
+        ) : (
+          <View style={{ marginTop: 30 }}>
+            <Text style={styles.metricTitle}>AI‑POWERED ANALYSIS</Text>
+            <Text style={styles.paragraph}>
+              No AI Analysis was generated for this comparison.
+            </Text>
           </View>
         )}
       </Page>
