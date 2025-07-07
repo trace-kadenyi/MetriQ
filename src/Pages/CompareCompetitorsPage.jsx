@@ -39,7 +39,7 @@ const CompareCompetitorsPage = () => {
   // fetch ai comparison
 
   useEffect(() => {
-    if (!comparison) return;
+    if (!comparison?.createdAt) return;
     const fetchAiComparison = async () => {
       try {
         const { data } = await axios.post(
@@ -58,7 +58,7 @@ const CompareCompetitorsPage = () => {
       }
     };
     fetchAiComparison();
-  }, [comparison]);
+  }, [comparison?.createdAt]);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
@@ -161,7 +161,7 @@ const CompareCompetitorsPage = () => {
             {activeTab === "analysis" && (
               <section className="py-10">
                 {aiComparison ? (
-                  <div className="mt-6 p-6 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-950 dark:to-blue-950 border-l-4 border-green-500 rounded-xl shadow space-y-4">
+                  <div className="mt-6 p-6 bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-950 dark:to-blue-950 border-l-4 border-green-500 rounded-xl shadow space-y-4">
                     <motion.article
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
