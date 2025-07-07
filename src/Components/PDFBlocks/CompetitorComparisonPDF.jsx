@@ -2,7 +2,12 @@ import { Document, Page, Text, View, Font } from "@react-pdf/renderer";
 import InterRegular from "../../assets/fonts/Inter-Regular.ttf";
 import InterBold from "../../assets/fonts/Inter-Bold.ttf";
 import InterItalic from "../../assets/fonts/Inter-Italic.ttf";
-import { styles, classifyScore, colors } from "../../utils/pdfStyles";
+import {
+  styles,
+  classifyScore,
+  colors,
+  formatLabel,
+} from "../../utils/pdfStyles";
 import { renderMarkdownLines } from "../../utils/AISummaryPDF";
 
 /* -----------------------------------------------------------
@@ -27,7 +32,7 @@ const ScoreBlock = ({ label, scores }) => (
       const { color, label } = classifyScore(v);
       return (
         <Text key={k}>
-          {k.toUpperCase()}:{" "}
+          {formatLabel(k)}:{" "}
           <Text style={{ ...styles.coloredValue, color }}>
             {v} ({label})
           </Text>
@@ -67,7 +72,7 @@ const CompetitorComparisonPDF = ({ comparison, aiAnalysis }) => {
         {competitors.map((c, i) =>
           c.scores ? (
             <View key={i} style={styles.section}>
-              <Text style={styles.label}>⚔ {c.label || c.url}</Text>
+              <Text style={styles.label}> {c.label || c.url}</Text>
               <ScoreBlock label="Mobile" scores={c.scores.mobile} />
               <ScoreBlock label="Desktop" scores={c.scores.desktop} />
             </View>
