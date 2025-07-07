@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
-import api from "../api";
 
 import useCompareCompetitors from "../hooks/useCompareCompetitors";
 import {
@@ -15,7 +13,6 @@ import {
   ActiveResults,
   ActiveCharts,
 } from "../Components/ResultsBlocks/CompetitorTabsBlock";
-import MarkdownRenderer from "../Components/Accessories/MarkdownRenderer";
 import useAiComparison from "../hooks/useAiComparison";
 import AiPane from "../Components/Accessories/Aipane";
 
