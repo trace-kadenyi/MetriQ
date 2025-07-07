@@ -26,7 +26,7 @@ const AiPane = ({ loading, error, markdown }) => {
   // render ai comparison
   if (markdown) {
     return (
-      <div className="mt-6 p-6 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-950 dark:to-blue-950 border-l-4 border-green-500 rounded-xl shadow space-y-4">
+      <div className="mt-6 p-6 bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-950 dark:to-blue-950 border-l-4 border-green-500 rounded-xl shadow space-y-4">
         <motion.article
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
