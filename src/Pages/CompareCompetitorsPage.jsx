@@ -37,7 +37,9 @@ const CompareCompetitorsPage = () => {
   } = useCompareCompetitors(userSiteUrl);
 
   // useaicomparison hook
-  const { aiComparison, aiLoading, aiError } = useAiComparison(comparison);
+  const { aiComparison, aiLoading, aiError } = useAiComparison(
+    activeTab === "analysis" ? comparison : null
+  );
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pt-[272px] sm:pt-[142px] md:pt-[112px] p-6">
