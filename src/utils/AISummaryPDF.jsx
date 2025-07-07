@@ -9,7 +9,12 @@ To include AI-generated insights, please return to the reports page, click “Ge
 `;
 
   const source =
-    typeof summary === "string" && summary.trim() !== "" ? summary : fallback;
+    typeof summary === "string" && summary.trim() !== ""
+      ? summary
+          .replace(/--+/g, "") // remove -- or longer
+          .replace(/[^\x20-\x7E\r\n]+/g, "") // remove non-printable chars like "2"
+          .replace(/[★⭐]+/g, "") // remove stars
+      : fallback;
 
   const lines = source
     .split("\n")
