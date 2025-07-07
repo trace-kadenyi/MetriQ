@@ -2,9 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import api from "../api";
 
 /**
- * Custom hook to fetch and cache AI competitor analysis.
+ * Custom hook: fetch AI competitor analysis once per comparison run **and**
+ * cache it in sessionStorage so Vite hot‑reload or route reloads don’t fire
+ * additional API calls.
  *
- * @param {object|null} comparison – the comparison object returned by useCompareCompetitors.
+ * @param {object|null} comparison – the comparison object from useCompareCompetitors
  * @returns {object} { aiComparison, aiLoading, aiError }
  */
 const useAiComparison = (comparison) => {
@@ -12,14 +14,25 @@ const useAiComparison = (comparison) => {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState(null);
 
-  // remember which comparison.createdAt has already been fetched
   const fetchedKeyRef = useRef(null);
 
   useEffect(() => {
     if (!comparison) return;
 
     const key = comparison.createdAt;
-    if (!key || key === fetchedKeyRef.current) return; // already fetched for this run
+    if (!key) return;
+
+    const storageKey = `aiComparison-${key}`;
+    const cached = sessionStorage.getItem(storageKey);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      setAiComparison(parsed.analysis || "");
+      setAiError(parsed.error || null);
+      fetchedKeyRef.current = key;
+      return;
+    }
+
+    if (key === fetchedKeyRef.current) return;
 
     setAiComparison("");
     setAiError(null);
@@ -28,13 +41,16 @@ const useAiComparison = (comparison) => {
     (async () => {
       try {
         const { data } = await api.post("/api/ai/comparison", { comparison });
-        // strip accidental ```markdown fences so the markdown renderer works
         const unwrap = (str) => str.replace(/^```[a-z]*\n?|```$/g, "").trim();
-        setAiComparison(unwrap(data.analysis));
+        const analysis = unwrap(data.analysis);
+        setAiComparison(analysis);
+        sessionStorage.setItem(storageKey, JSON.stringify({ analysis }));
         fetchedKeyRef.current = key;
       } catch (err) {
-        setAiError("Failed to generate AI insights");
+        const msg = "Failed to generate AI insights";
+        setAiError(msg);
         console.error(err);
+        sessionStorage.setItem(storageKey, JSON.stringify({ error: msg }));
       } finally {
         setAiLoading(false);
       }
