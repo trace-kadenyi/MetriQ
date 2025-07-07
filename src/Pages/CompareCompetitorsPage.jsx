@@ -52,7 +52,9 @@ const CompareCompetitorsPage = () => {
     (async () => {
       try {
         const { data } = await api.post("/api/ai/comparison", { comparison });
-        setAiComparison(data.analysis);
+        // unwrap the results for markdown renderer
+        const unwrap = (str) => str.replace(/^```[a-z]*\n?|```$/g, "").trim();
+        setAiComparison(unwrap(data.analysis));
         setFetchedKey(key); // mark this comparison as fetched
       } catch (err) {
         setAiError("Failed to generate AI insights");
