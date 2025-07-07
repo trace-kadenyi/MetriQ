@@ -63,8 +63,9 @@ const CompareCompetitorsPage = () => {
     })();
   }, [comparison?.createdAt, fetchedKey]);
 
-  // render ai comparison data
+  // handle the rendering of aicomparison data
   const renderAiPane = () => {
+    // render loading state
     if (aiLoading) {
       return (
         <div className="flex flex-col items-center gap-4 py-8">
@@ -77,6 +78,7 @@ const CompareCompetitorsPage = () => {
       );
     }
 
+    // render ia error
     if (aiError) {
       return (
         <p className="text-red-600 dark:text-red-400 text-sm text-center">
@@ -85,6 +87,7 @@ const CompareCompetitorsPage = () => {
       );
     }
 
+    // render ai comparison
     if (aiComparison) {
       return (
         <div className="mt-6 p-6 bg-white dark:bg-gradient-to-b dark:from-blue-950 dark:via-gray-950 dark:to-blue-950 border-l-4 border-green-500 rounded-xl shadow space-y-4">
@@ -99,7 +102,7 @@ const CompareCompetitorsPage = () => {
         </div>
       );
     }
-
+    // default message
     return (
       <p className="text-gray-500 dark:text-gray-400 italic text-center">
         ⚡ AI‑powered insights are on the way. Watch this space!
