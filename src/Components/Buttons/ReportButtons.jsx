@@ -141,6 +141,7 @@ export const PdfDownloadBtn = ({ url, reports, aiSummary }) => (
   </motion.div>
 );
 
+// favourite btn
 export function FavouriteBtn({ url, size = 18 }) {
   const { isFavourite, toggleFavourite, loading } = useFavourites();
   const [optimistic, setOptimistic] = useState(false); // during local toggle
