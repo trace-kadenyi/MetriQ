@@ -72,7 +72,9 @@ const CompetitorComparisonPDF = ({ comparison, aiAnalysis }) => {
         {competitors.map((c, i) =>
           c.scores ? (
             <View key={i} style={styles.section}>
-              <Text style={styles.label}>{c.label || c.url}</Text>
+              <Text style={styles.label}>
+                {i + 1}. {c.label || c.url}
+              </Text>
               <ScoreBlock label="Mobile" scores={c.scores.mobile} />
               <ScoreBlock label="Desktop" scores={c.scores.desktop} />
             </View>
