@@ -12,7 +12,7 @@ export const ActiveResults = ({ comparison, DeviceScores, Unavailable }) => {
         <a
           href={comparison.userSiteUrl}
           target="_blank"
-          className="text-sm text-gray-600 dark:text-gray-300 mb-3 hover:text-orange-400 min-h-[40px] hover:underline italic"
+          className="block text-sm text-gray-600 dark:text-gray-300 mb-3 hover:text-orange-400 min-h-[40px] hover:underline italic"
         >
           {comparison.userSiteUrl}
         </a>
