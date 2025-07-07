@@ -8,7 +8,9 @@ import {
   Generator,
 } from "../Components/ResultsBlocks/CompetitorResultsBlock";
 import CompetitorInputBlock from "../Components/ResultsBlocks/CompetitorInputBlock";
-import CompetitorBtns from "../Components/Buttons/CompetitorBtns";
+import CompetitorBtns, {
+  ComparisonPdfBtn,
+} from "../Components/Buttons/CompetitorBtns";
 import {
   ActiveResults,
   ActiveCharts,
@@ -124,11 +126,19 @@ const CompareCompetitorsPage = () => {
 
             {/* ───────────── Pane • RESULTS */}
             {activeTab === "results" && (
-              <ActiveResults
-                comparison={comparison}
-                DeviceScores={DeviceScores}
-                Unavailable={Unavailable}
-              />
+              <div>
+                <ActiveResults
+                  comparison={comparison}
+                  DeviceScores={DeviceScores}
+                  Unavailable={Unavailable}
+                />
+                {comparison && (
+                  <ComparisonPdfBtn
+                    comparison={comparison}
+                    aiAnalysis={aiComparison}
+                  />
+                )}
+              </div>
             )}
 
             {/* ───────────── Pane • CHARTS */}
