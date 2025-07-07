@@ -16,16 +16,18 @@ import {
   ActiveCharts,
 } from "../Components/ResultsBlocks/CompetitorTabsBlock";
 import MarkdownRenderer from "../Components/Accessories/MarkdownRenderer";
+import useAiComparison from "../hooks/useAiComparison";
 
 const CompareCompetitorsPage = () => {
   const { search } = useLocation();
   const userSiteUrl = new URLSearchParams(search).get("url") || "";
   const [activeTab, setActiveTab] = useState("results");
-  const [aiComparison, setAiComparison] = useState("");
-  const [aiLoading, setAiLoading] = useState(false);
-  const [aiError, setAiError] = useState(null);
-  const [fetchedKey, setFetchedKey] = useState(null);
+  // const [aiComparison, setAiComparison] = useState("");
+  // const [aiLoading, setAiLoading] = useState(false);
+  // const [aiError, setAiError] = useState(null);
+  // const [fetchedKey, setFetchedKey] = useState(null);
 
+  // usecomparecompetitors hook
   const {
     competitors,
     duplicateFlags,
@@ -38,32 +40,10 @@ const CompareCompetitorsPage = () => {
     comparison,
   } = useCompareCompetitors(userSiteUrl);
 
-  // fetch ai comparison
-  useEffect(() => {
-    if (!comparison) return;
-    const key = comparison.createdAt;
-    if (!key || key === fetchedKey) return; // already fetched
+  // useaicomparison hook
+  const { aiComparison, aiLoading, aiError } = useAiComparison(comparison);
 
-    // Reset state for fresh fetch
-    setAiComparison("");
-    setAiError(null);
-    setAiLoading(true);
 
-    (async () => {
-      try {
-        const { data } = await api.post("/api/ai/comparison", { comparison });
-        // unwrap the results for markdown renderer
-        const unwrap = (str) => str.replace(/^```[a-z]*\n?|```$/g, "").trim();
-        setAiComparison(unwrap(data.analysis));
-        setFetchedKey(key); // mark this comparison as fetched
-      } catch (err) {
-        setAiError("Failed to generate AI insights");
-        console.error(err);
-      } finally {
-        setAiLoading(false);
-      }
-    })();
-  }, [comparison?.createdAt, fetchedKey]);
 
   // handle the rendering of aicomparison data
   const renderAiPane = () => {
