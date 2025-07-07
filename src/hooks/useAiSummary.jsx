@@ -31,8 +31,8 @@ export const useAISummary = () => {
       setAiSummary(data.summary);
       setShowSummary(true);
     } catch (err) {
-      console.error("AI summarization failed:", err);
-      toast.error("Failed to generate AI summary");
+      console.error("AI analysis failed:", err);
+      toast.error("Failed to generate AI analysis.");
     } finally {
       setGeneratingSummary(false);
     }
