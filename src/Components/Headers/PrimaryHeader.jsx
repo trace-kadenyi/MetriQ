@@ -6,6 +6,7 @@ import { useFavourites } from "../../context/FavouritesContext";
 import logo from "../../assets/zyntra_logo.png";
 import ThemeToggle from "../Accessories/ThemeToggle";
 import HeaderForm from "../Forms/HeaderForm";
+import LoginButtons from "../Buttons/LoginButtons";
 
 const PrimaryHeader = () => {
   const { favourites = [] } = useFavourites();
@@ -89,6 +90,9 @@ const PrimaryHeader = () => {
               </p>
             )}
           </div>
+        </div>
+        <div>
+          <LoginButtons />
         </div>
         {/* themes */}
         <div>
