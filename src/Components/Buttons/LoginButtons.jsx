@@ -1,20 +1,40 @@
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../context/AuthContext";
+import api from "../../api";
 
-export default function LoginButtons() {
+const LoginButtons = () => {
   const { user, logout, loading } = useAuth();
 
-  if (loading) return null;
+  if (loading)
+    return (
+      <div className="text-sm text-gray-500 dark:text-gray-400">Loading...</div>
+    );
+
+  const BACKEND = api.defaults.baseURL;
 
   return user ? (
-    <button onClick={logout}>Logout</button>
+    <div className="flex items-center gap-3">
+      <img
+        src={user.avatar}
+        alt="avatar"
+        className="w-8 h-8 rounded-full border"
+      />
+      <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+        {user.name}
+      </span>
+      <button onClick={logout} className="btn bg-red-600 text-white">
+        Logout
+      </button>
+    </div>
   ) : (
     <div className="flex gap-3">
-      <a href="/api/auth/google" className="btn">
+      <a href={`${BACKEND}/api/auth/google`} className="btn">
         Google
       </a>
-      <a href="/api/auth/github" className="btn">
+      <a href={`${BACKEND}/api/auth/github`} className="btn">
         GitHub
       </a>
     </div>
   );
-}
+};
+
+export default LoginButtons;
