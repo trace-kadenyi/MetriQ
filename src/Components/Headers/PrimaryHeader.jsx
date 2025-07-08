@@ -84,7 +84,7 @@ const PrimaryHeader = () => {
                 })}
               </ul>
             ) : (
-              <p className="text-gray-800 text-xs font-semibold">
+              <p className="text-gray-800 dark:text-gray-200 text-xs font-semibold">
                 No favourites yet
               </p>
             )}
