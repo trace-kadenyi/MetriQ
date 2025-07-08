@@ -51,14 +51,22 @@ const CompetitorComparisonPDF = ({ comparison, aiAnalysis }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* -------- Header -------- */}
-        <View style={{ marginBottom: 16 }}>
-          <Text style={styles.title}>Competitor Comparison</Text>
-          <Text style={styles.italic}>Your site: {userSiteUrl}</Text>
-          <Text style={styles.italic}>
-            Generated: {new Date().toLocaleDateString()}
-          </Text>
-        </View>
+        {/* header */}
+        <Text style={styles.title}>Competitor Comparison Report</Text>
+        <Text style={styles.italic}>
+          <Text>Your site: </Text>
+          <Text>{userSiteUrl}</Text>
+        </Text>
+        <Text style={styles.italic}>
+          <Text>Generated on: </Text>
+          <Text>{new Date().toLocaleDateString()}</Text>
+        </Text>
+
+        <Text style={styles.introParagraph}>
+          This report compares your Lighthouse performance scores to those of
+          selected competitors. It includes both mobile and desktop results
+          together with an AI‑powered analysis.
+        </Text>
 
         {/* -------- Your site -------- */}
         <View style={styles.section}>
