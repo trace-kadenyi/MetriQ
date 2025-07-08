@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import useCompareCompetitors from "../hooks/useCompareCompetitors";
@@ -22,6 +22,17 @@ const CompareCompetitorsPage = () => {
   const { search } = useLocation();
   const userSiteUrl = new URLSearchParams(search).get("url") || "";
   const [activeTab, setActiveTab] = useState("results");
+  const contentTopRef = useRef(null);
+
+  useEffect(() => {
+    const isMd = window.matchMedia("(min-width: 768px)").matches;
+    if (isMd) {
+      contentTopRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [activeTab]);
 
   // usecomparecompetitors hook
   const {
@@ -103,37 +114,48 @@ const CompareCompetitorsPage = () => {
                 available”.
               </p>
             )}
-
-            {/* PDF Button (clearly not under a tab) */}
-            <div className="flex flex-col sm:flex-row gap-5 sm:gap-3 justify-between sm:border-b border-gray-200 dark:border-gray-800 mb-5 md:mb-7">
-              {/* ───────────── Tab bar */}
-              <nav className="flex justify-center sm:justify-start gap-2">
-                {["results", "charts", "analysis"].map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setActiveTab(t)}
-                    type="button"
-                    className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors ${
-                      activeTab === t
-                        ? "bg-white dark:bg-gray-900 border-b-2 border-orange-500 text-green-600 dark:text-green-400"
-                        : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-orange-500"
-                    }`}
-                  >
-                    {t === "results"
-                      ? "Results"
-                      : t === "charts"
-                      ? "Charts"
-                      : "AI Analysis"}
-                  </button>
-                ))}
-              </nav>
-              <div className="text-center space-y-2">
-                <ComparisonPdfBtn
-                  comparison={comparison}
-                  aiAnalysis={aiComparison}
-                />
+            <section
+              className="md:sticky md:top-[110px] md:z-[45]
+             md:bg-gray-50 md:dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 md:pt-5 md:pb-1 md:px-3 md:rounded-md"
+            >
+              {/* PDF Button (clearly not under a tab) */}
+              <div className="flex flex-col sm:flex-row gap-5 sm:gap-3 justify-between sm:border-b border-gray-200 dark:border-gray-800 mb-5 md:mb-7">
+                {/* ───────────── Tab bar */}
+                <nav className="flex justify-center sm:justify-start gap-2">
+                  {["results", "charts", "analysis"].map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setActiveTab(t)}
+                      type="button"
+                      className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors ${
+                        activeTab === t
+                          ? "bg-white dark:bg-gray-900 border-b-2 border-orange-500 text-green-600 dark:text-green-400"
+                          : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-orange-500"
+                      }`}
+                    >
+                      {t === "results"
+                        ? "Results"
+                        : t === "charts"
+                        ? "Charts"
+                        : "AI Analysis"}
+                    </button>
+                  ))}
+                </nav>
+                <div className="text-center space-y-2">
+                  <ComparisonPdfBtn
+                    comparison={comparison}
+                    aiAnalysis={aiComparison}
+                  />
+                </div>
               </div>
-            </div>
+            </section>
+
+            {/* 🔻 add this one‑line anchor */}
+            <span
+              ref={contentTopRef}
+              className="block md:h-0 md:w-0 md:scroll-mt-[220px]"
+            />
+
             {/* ───────────── Pane • RESULTS */}
             {activeTab === "results" && (
               <ActiveResults
