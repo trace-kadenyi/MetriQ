@@ -115,7 +115,7 @@ const CompareCompetitorsPage = () => {
               </p>
             )}
             <section
-              className="md:sticky md:top-[110px] md:z-[45]
+              className="md:sticky md:top-[114px] md:z-[45]
              md:bg-gray-50 md:dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 md:pt-5 md:pb-1 md:px-3 md:rounded-md"
             >
               {/* PDF Button (clearly not under a tab) */}
