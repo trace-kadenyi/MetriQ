@@ -16,7 +16,7 @@ export function FavouritesProvider({ children }) {
 
   const [favourites, setFavourites] = useState([]);
   const [loading, setLoading] = useState(false);
-  const isLogged = Boolean(user && user._id);
+  const isLogged = Boolean(user && (user._id || user.id));
 
   /* ------------- FETCH ----------------- */
   const fetchFavourites = useCallback(async () => {
