@@ -19,6 +19,8 @@ const PrimaryHeader = () => {
 
   const isLandingPage = location.pathname === "/";
 
+  const isLoginPage = location.pathname === "/login";
+
   return (
     <header className="w-full bg-gradient-to-b from-blue-950 to-blue-900 text-white dark:text-gray-300 fixed top-0 z-[50] shadow-md">
       <div
@@ -91,9 +93,7 @@ const PrimaryHeader = () => {
             )}
           </div>
         </div>
-        <div>
-          <LoginButtons />
-        </div>
+        <div>{!isLoginPage && <LoginButtons />}</div>
         {/* themes */}
         <div>
           <ThemeToggle />
