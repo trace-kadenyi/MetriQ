@@ -6,23 +6,27 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const { user, loading: authLoading } = useAuth();
-  const [theme, setTheme] = useState("light");
 
-  // load theme once auth status settles
+  // ✅ Prime from localStorage to reduce flash
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || "light"
+  );
+
+  // Load theme once auth status settles
   useEffect(() => {
     if (authLoading) return;
 
     if (user) {
-      // logged‑in → ask backend
+      // Logged‑in → ask backend
       api.get("/api/user/theme").then(({ data }) => {
         setTheme(data.theme || "light");
       });
     } else {
-      // anonymous → localStorage
-      setTheme(localStorage.getItem("theme") || "light");
+      // Anonymous → already set from localStorage, no action needed
     }
   }, [user, authLoading]);
 
+  // Apply theme class and always write to localStorage
   useEffect(() => {
     const root = document.documentElement;
 
@@ -32,20 +36,16 @@ export const ThemeProvider = ({ children }) => {
       root.classList.remove("dark");
     }
 
-    // only store locally for anonymous users
-    if (!user) {
-      localStorage.setItem("theme", theme);
-    }
-  }, [theme, user]);
+    localStorage.setItem("theme", theme); // ✅ always store locally
+  }, [theme]);
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
+    localStorage.setItem("theme", next); // ✅ always update localStorage
 
     if (user) {
       api.patch("/api/user/theme", { theme: next });
-    } else {
-      localStorage.setItem("theme", next);
     }
   };
 
