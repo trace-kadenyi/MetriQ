@@ -97,7 +97,7 @@ export default function LoginButtons({ variant = "header" }) {
   // ───────── Header Auth Toggle ─────────
   if (user) {
     return (
-      <div className="w-45 flex items-center gap-3">
+      <div className="w-30 sm:w-45 flex items-center gap-3">
         <img src={user.avatar} alt="avatar" className="w-6 h-6 rounded-full" />
         <span className="hidden sm:block sm:text-xs font-medium text-white dark:text-gray-200">
           {user.name}
