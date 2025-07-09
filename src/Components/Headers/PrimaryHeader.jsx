@@ -48,57 +48,58 @@ const PrimaryHeader = () => {
 
         {/* Search Form */}
         {!isLandingPage && <HeaderForm />}
+        <div className="flex justify-between w-full items-center">
+          {/* Favourites */}
+          <div className="relative group inline-block">
+            {/* Trigger */}
+            <button className="flex items-center gap-2 p-2 transition cursor-pointer">
+              <span role="img" aria-label="heart">
+                <Star className="text-orange-500 fill-orange-400 w-3 h-3" />
+              </span>
+              <span className="text-xs sm:text-sm font-medium">Favourites</span>
+            </button>
 
-        {/* Favourites */}
-        <div className="relative group inline-block">
-          {/* Trigger */}
-          <button className="flex items-center gap-2 p-2 transition cursor-pointer">
-            <span role="img" aria-label="heart">
-              <Star className="text-orange-500 fill-orange-400 w-3 h-3" />
-            </span>
-            <span className="text-sm font-medium">Favourites</span>
-          </button>
-
-          {/* Dropdown */}
-          <div
-            className="absolute top-full left-0 sm:left-auto sm:right-0 z-50
+            {/* Dropdown */}
+            <div
+              className="absolute top-full left-0 sm:left-auto sm:right-0 z-50
                 w-64 max-w-[90vw]
                 rounded-2xl border border-gray-100 bg-white p-4 shadow-lg
                 opacity-0 scale-95 pointer-events-none transition-all
                 duration-200 ease-out origin-top-right
                 group-hover:opacity-100 group-hover:scale-100
                 group-hover:pointer-events-auto dark:bg-blue-950"
-          >
-            {favourites.length > 0 ? (
-              <ul className="space-y-2 text-sm">
-                {favourites.map((url) => {
-                  const truncated =
-                    url.length > 70 ? url.slice(0, 60) + "…" : url;
-                  return (
-                    <li key={url}>
-                      <button
-                        onClick={() => goToReports(url)}
-                        className="text-left w-full text-gray-800 text-xs underline hover:text-orange-400 transition break-all dark:text-gray-300"
-                      >
-                        {truncated}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            ) : (
-              <p className="text-gray-800 dark:text-gray-200 text-xs font-semibold">
-                No favourites yet
-              </p>
-            )}
+            >
+              {favourites.length > 0 ? (
+                <ul className="space-y-2 text-sm">
+                  {favourites.map((url) => {
+                    const truncated =
+                      url.length > 70 ? url.slice(0, 60) + "…" : url;
+                    return (
+                      <li key={url}>
+                        <button
+                          onClick={() => goToReports(url)}
+                          className="text-left w-full text-gray-800 text-xs underline hover:text-orange-400 transition break-all dark:text-gray-300"
+                        >
+                          {truncated}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <p className="text-gray-800 dark:text-gray-200 text-xs font-semibold">
+                  No favourites yet
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="flex items-center">
-          {!isLoginPage && <LoginButtons />}
-        </div>
-        {/* themes */}
-        <div>
-          <ThemeToggle />
+          <div className="flex items-center">
+            {!isLoginPage && <LoginButtons />}
+          </div>
+          {/* themes */}
+          <div>
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>
