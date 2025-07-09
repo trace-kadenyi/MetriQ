@@ -48,7 +48,7 @@ const PrimaryHeader = () => {
         {!isLandingPage && <HeaderForm />}
         <div
           className={`flex justify-between items-center ${
-            isLandingPage ? "w-1/2 sm:w-3/4 md:w-1/2" : "w-full"
+            isLandingPage ? "w-1/2 sm:w-3/4 md:w-1/2 gap-5 pl-5 sm:gap-3" : "w-full gap-1"
           }`}
         >
           {/* Favourites */}
