@@ -5,72 +5,78 @@ import {
   useEffect,
   useCallback,
 } from "react";
+import { useAuth } from "./AuthContext";
 import toast from "react-hot-toast";
-
-import { getAnonymousId } from "../utils/getAnonymousId";
 import api from "../api";
-const FavouritesContext = createContext();
+
+const FavouritesContext = createContext(null);
 
 export function FavouritesProvider({ children }) {
-  const [favourites, setFavourites] = useState([]); // Safe default for initial render
+  const { user, loading: authLoading, anonId } = useAuth();
+
+  const [favourites, setFavourites] = useState([]);
   const [loading, setLoading] = useState(false);
+  const isLogged = Boolean(user && (user._id || user.id));
 
-  const anonId = getAnonymousId();
-
-  /** GET /api/favourites */
+  /* ------------- FETCH ----------------- */
   const fetchFavourites = useCallback(async () => {
+    if (authLoading) return; // wait for auth to settle
     setLoading(true);
     try {
       const { data } = await api.get("/api/favourites", {
-        headers: { "x-anon-id": anonId },
+        headers: !isLogged && anonId ? { "x-anon-id": anonId } : {},
       });
-
-      if (Array.isArray(data.favourites)) {
-        setFavourites(data.favourites);
-      } else {
-        console.warn("Unexpected data shape:", data);
-        setFavourites([]); // fallback just in case
-      }
+      setFavourites(Array.isArray(data.favourites) ? data.favourites : []);
     } catch (err) {
-      console.error("Error fetching favourites:", err);
-      toast.error(err.response?.data?.message || "Failed to load favourites");
-      setFavourites([]); // fallback to prevent crashes
+      toast.error("Could not load favourites");
+      setFavourites([]);
     } finally {
       setLoading(false);
     }
-  }, [anonId]);
+  }, [authLoading, isLogged, anonId]);
 
-  /** POST /api/favourites/toggle */
+  /* ------------- TOGGLE ----------------- */
   const toggleFavourite = useCallback(
     async (url) => {
+      if (authLoading) return;
       try {
         const { data } = await api.post(
           "/api/favourites/toggle",
           { url },
-          { headers: { "x-anon-id": anonId } }
+          { headers: !isLogged && anonId ? { "x-anon-id": anonId } : {} }
         );
-
-        if (Array.isArray(data.favourites)) {
-          setFavourites(data.favourites);
-        } else {
-          console.warn("Unexpected toggle response:", data);
-        }
+        setFavourites(Array.isArray(data.favourites) ? data.favourites : []);
       } catch (err) {
-        console.error("Error toggling favourite:", err);
         toast.error(
-          err.response?.data?.message || "Failed to update favourites"
+          err.response?.data?.message || "Failed to toggle favourite"
         );
       }
     },
-    [anonId]
+    [authLoading, isLogged, anonId]
   );
 
-  /** Check if a URL is in favourites (guarded) */
   const isFavourite = useCallback(
     (url) => favourites.includes(url),
     [favourites]
   );
 
+  /* ------------- CLAIM anon list after login --------------- */
+  useEffect(() => {
+    if (isLogged && anonId) {
+      (async () => {
+        try {
+          await api.post("/api/favourites/claim", { anonId });
+          localStorage.removeItem("anonymousUserId");
+        } catch (_) {
+          /* ignore: maybe already claimed */
+        } finally {
+          fetchFavourites(); // refresh list from owner
+        }
+      })();
+    }
+  }, [isLogged, anonId, fetchFavourites]);
+
+  /* initial load + on auth change */
   useEffect(() => {
     fetchFavourites();
   }, [fetchFavourites]);
@@ -92,8 +98,7 @@ export function FavouritesProvider({ children }) {
 
 export function useFavourites() {
   const ctx = useContext(FavouritesContext);
-  if (!ctx) {
-    throw new Error("useFavourites must be used inside <FavouritesProvider>");
-  }
+  if (!ctx)
+    throw new Error("useFavourites must be inside <FavouritesProvider>");
   return ctx;
 }

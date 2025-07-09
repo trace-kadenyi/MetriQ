@@ -11,6 +11,7 @@ import { FavouritesProvider } from "./context/FavouritesContext";
 import PrimaryHeader from "./Components/Headers/PrimaryHeader";
 import SecondaryHeader from "./Components/Headers/SecondaryHeader";
 import Footer from "./Components/Footer/Footer";
+import Login from "./Pages/Login";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <SecondaryHeader />
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/report" element={<Report />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/charts" element={<Charts />} />

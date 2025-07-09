@@ -64,7 +64,7 @@ const Reports = () => {
 
   return (
     <main
-      className="min-h-screen bg-gray-50 relative pt-[302px] sm:pt-[142px] md:pt-[112px] dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pb-4"
+      className="min-h-screen bg-gray-50 relative pt-[302px] sm:pt-[242px] md:pt-[112px] dark:bg-gradient-to-b dark:from-blue-950 dark:to-gray-950 pb-4"
       role="main"
     >
       {/* error message */}
