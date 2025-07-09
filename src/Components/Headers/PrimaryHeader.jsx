@@ -41,14 +41,16 @@ const PrimaryHeader = () => {
             alt="Zyntra Logo"
             className="w-4 h-4 sm:w-5 h-5 object-contain"
           />
-          <span className="text-md sm:text-xl pr-4 font-bold tracking-tight">
-            Zyntra
-          </span>
+          <span className="text-xl pr-4 font-bold tracking-tight">Zyntra</span>
         </div>
 
         {/* Search Form */}
         {!isLandingPage && <HeaderForm />}
-        <div className="flex justify-between w-full items-center">
+        <div
+          className={`flex justify-between items-center ${
+            isLandingPage ? "w-1/2 sm:w-3/4 md:w-1/2" : "w-full"
+          }`}
+        >
           {/* Favourites */}
           <div className="relative group inline-block">
             {/* Trigger */}
