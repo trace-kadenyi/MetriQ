@@ -50,7 +50,7 @@ const PrimaryHeader = () => {
         {/* Favourites */}
         <div className="relative group inline-block">
           {/* Trigger */}
-          <button className="flex items-center gap-2 px-4 py-2 transition cursor-pointer">
+          <button className="flex items-center gap-2 p-2 transition cursor-pointer">
             <span role="img" aria-label="heart">
               <Star className="text-orange-500 fill-orange-400 w-3 h-3" />
             </span>
