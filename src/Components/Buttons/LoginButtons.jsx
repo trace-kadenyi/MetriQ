@@ -16,6 +16,12 @@ export default function LoginButtons({ variant = "header" }) {
     );
   }
 
+  // handle logout
+  const handleLogout = async () => {
+    await logout();
+    navigate("/", { replace: true });
+  };
+
   // ───────── Providers Only (Login Page) ─────────
   if (variant === "providers") {
     return (
@@ -97,8 +103,8 @@ export default function LoginButtons({ variant = "header" }) {
           {user.name}
         </span>
         <button
-          onClick={logout}
-          className="group flex items-center gap-1 hover:text-red-500 transition"
+          onClick={handleLogout}
+          className="group flex items-center gap-1 hover:text-red-500 transition cursor-pointer"
         >
           <svg
             stroke="currentColor"
