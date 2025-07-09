@@ -10,14 +10,16 @@ export default function LoginButtons({ variant = "header" }) {
 
   if (loading) {
     return (
-      <div className="text-xs text-gray-500 dark:text-gray-400">Loading…</div>
+      <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
+        Loading…
+      </div>
     );
   }
 
   // ───────── Providers Only (Login Page) ─────────
   if (variant === "providers") {
     return (
-      <div className="flex flex-col gap-4 w-full sm:w-80">
+      <div className="flex flex-col mx-auto gap-4 w-full sm:w-80">
         {/* Google */}
         <a
           href={`${BACKEND}/api/auth/google`}
