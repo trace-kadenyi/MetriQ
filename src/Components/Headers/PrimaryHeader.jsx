@@ -27,7 +27,7 @@ const PrimaryHeader = () => {
         className={`max-w-7xl mx-auto flex justify-between gap-4 p-3 ${
           isLandingPage
             ? "flex-col sm:flex-row"
-            : "flex-col items-center justify-between md:flex-row"
+            : "flex-col md:flex-row md:items-center md:justify-between"
         }
         `}
       >
