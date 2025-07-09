@@ -24,7 +24,7 @@ export function FavouritesProvider({ children }) {
     setLoading(true);
     try {
       const { data } = await api.get("/api/favourites", {
-        headers: isLogged ? {} : { "x-anon-id": anonId },
+        headers: !isLogged && anonId ? { "x-anon-id": anonId } : {},
       });
       setFavourites(Array.isArray(data.favourites) ? data.favourites : []);
     } catch (err) {
@@ -43,7 +43,7 @@ export function FavouritesProvider({ children }) {
         const { data } = await api.post(
           "/api/favourites/toggle",
           { url },
-          { headers: isLogged ? {} : { "x-anon-id": anonId } }
+          { headers: !isLogged && anonId ? { "x-anon-id": anonId } : {} }
         );
         setFavourites(Array.isArray(data.favourites) ? data.favourites : []);
       } catch (err) {
