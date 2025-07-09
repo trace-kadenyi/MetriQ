@@ -93,7 +93,9 @@ const PrimaryHeader = () => {
             )}
           </div>
         </div>
-        <div>{!isLoginPage && <LoginButtons />}</div>
+        <div className="flex items-center">
+          {!isLoginPage && <LoginButtons />}
+        </div>
         {/* themes */}
         <div>
           <ThemeToggle />
