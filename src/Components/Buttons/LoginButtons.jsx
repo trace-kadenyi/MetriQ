@@ -97,11 +97,19 @@ export default function LoginButtons({ variant = "header" }) {
   // ───────── Header Auth Toggle ─────────
   if (user) {
     return (
-      <div className="w-30 sm:w-45 flex items-center gap-3">
-        <img src={user.avatar} alt="avatar" className="w-6 h-6 rounded-full" />
-        <span className="hidden sm:block sm:text-xs font-medium text-white dark:text-gray-200">
+      <div className="w-30 sm:w-45 flex items-center gap-3 overflow-hidden">
+        <img
+          src={user.avatar}
+          alt="avatar"
+          className="w-6 h-6 rounded-full shrink-0"
+        />
+        <span
+          className="hidden sm:block sm:text-xs font-medium text-white dark:text-gray-200 truncate max-w-[100px]"
+          title={user.name}
+        >
           {user.name}
         </span>
+
         <button
           onClick={handleLogout}
           className="group flex items-center gap-1 hover:text-red-500 transition cursor-pointer"
