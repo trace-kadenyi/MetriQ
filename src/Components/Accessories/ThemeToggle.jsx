@@ -16,13 +16,13 @@ const ThemeToggle = () => {
     >
       <button
         onClick={toggleTheme}
-        className="p-2 sm:p-1 md:p-2 rounded-full border border-transparent dark:border-gray-600 cursor-pointer"
+        className="p-2 rounded-full border border-transparent dark:border-gray-600 cursor-pointer"
         aria-label="Toggle theme"
       >
         {theme === "dark" ? (
-          <Sun className="text-yellow-400 w-4 h-4 md:w-4 md:h-4" />
+          <Sun className="text-yellow-400 w-5 h-5 " />
         ) : (
-          <Moon className="text-white w-4 h-4 md:w-5 md:h-5" />
+          <Moon className="text-white w-5 h-5" />
         )}
       </button>
       {/* Hidden paragraph that appears on hover */}
