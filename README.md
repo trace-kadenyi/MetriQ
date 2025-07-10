@@ -102,7 +102,7 @@ npm run lint      # Lint codebase with ESLint
 
 ## 🤝 Integration
 
-This app works best when paired with the [MetriQ API](https://github.com/trace-kadenyi/MetriQ-API).
+This app works in conjunction with [MetriQ API](https://github.com/trace-kadenyi/MetriQ-API.git).
 
 Make sure the backend is running locally at the same time during development.
 
