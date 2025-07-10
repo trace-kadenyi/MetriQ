@@ -200,7 +200,7 @@ const LandingPage = () => {
 
       {/* Testimonials */}
       <ScrollFadeFunc>
-        <section className="bg-slate-50 py-16 border-t border-gray-200 dark:border-none dark:bg-gray-900">
+        <section className="bg-slate-50 pt-20 pb-32 sm:py-26 px-4 border-t border-gray-200 dark:border-none dark:bg-gray-900 min-h-[550px] sm:min-h-[300px]">
           <h2 className="text-3xl font-bold text-center mb-10 text-blue-950 dark:text-gray-100">
             Loved by Early Testers
           </h2>
