@@ -95,7 +95,6 @@ VITE_API_KEY=vite_api_key
 npm run dev       # Start dev server (Vite)
 npm run build     # Build for production
 npm run preview   # Preview production build
-npm run lint      # Lint codebase with ESLint
 ```
 
 ---
@@ -110,7 +109,7 @@ Make sure the backend is running locally at the same time during development.
 
 ## 🧠 Developer Notes
 
-- Tailwind Typography plugin is used to style AI analyses and markdown.
+- Tailwind Typography plugin is used to style AI analyses/summaries and markdown.
 - Axios is preconfigured with cookies enabled for OAuth sessions.
 - Theme and Auth states are managed via React Context.
 
