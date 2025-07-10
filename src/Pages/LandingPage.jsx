@@ -20,6 +20,7 @@ import {
   StepCard,
 } from "../Components/Accessories/FramerMotion";
 import MainForm from "../Components/Forms/MainForm";
+import TestimonialSlider from "../Components/Accessories/TestimonialSlider";
 
 const LandingPage = () => {
   return (
@@ -61,14 +62,28 @@ const LandingPage = () => {
             {[
               {
                 icon: Activity,
-                text: "Fetches Per Web Vitals from PageSpeed insights",
+                text: "Fetches detailed performance scores using Google PageSpeed Insights",
               },
-              { icon: Clock, text: "Tracks performance over time" },
+              {
+                icon: Clock,
+                text: "Maintains a historical log of the last 5 reports per site",
+              },
               {
                 icon: TrendingUp,
-                text: "Smart insights, not just raw numbers",
+                text: "Generates AI-powered summaries that explain what the data means",
               },
-              { icon: Zap, text: "Fast, clean UI for devs and non-devs alike" },
+              {
+                icon: ChartNoAxesCombined,
+                text: "Compares your site with competitors using side-by-side charts",
+              },
+              {
+                icon: SquareKanban,
+                text: "Exports full audit + AI results as professional PDF reports",
+              },
+              {
+                icon: Zap,
+                text: "Clean, responsive UI with OAuth login and persistent theme settings",
+              },
             ].map(({ icon: Icon, text }, i) => (
               <motion.li
                 key={i}
@@ -89,6 +104,7 @@ const LandingPage = () => {
           </ul>
         </section>
       </ScrollFadeFunc>
+
       {/* Process */}
       <ScrollFadeFunc>
         <section className="pt-16 pb-21 text-center px-4 bg-gradient-to-b from-white to-slate-100 dark:from-blue-950 dark:via-gray-800 dark:to-blue-950">
@@ -136,18 +152,33 @@ const LandingPage = () => {
             {[
               {
                 icon: SquareKanban,
-                title: "One Dashboard",
-                desc: "Monitor everything in one place",
+                title: "All-in-One Dashboard",
+                desc: "Track reports, summaries, and comparisons in one place.",
               },
               {
                 icon: Clock,
-                title: "Historical Logs",
-                desc: "Access your old reports anytime",
+                title: "Saved History",
+                desc: "Stores your last 5 performance reports for every URL.",
+              },
+              {
+                icon: TrendingUp,
+                title: "AI Insights",
+                desc: "Smart summaries break down complex performance data.",
+              },
+              {
+                icon: ChartNoAxesCombined,
+                title: "Competitor Comparison",
+                desc: "Visualize how your site stacks up side by side.",
               },
               {
                 icon: Zap,
-                title: "Lightning Fast",
-                desc: "Optimized performance fetches",
+                title: "PDF Reports",
+                desc: "Download complete reports with metrics and AI analyses.",
+              },
+              {
+                icon: Activity,
+                title: "OAuth + Personalization",
+                desc: "Login via Google/GitHub. Your data, your theme, always synced.",
               },
             ].map(({ icon: Icon, title, desc }, i) => (
               <HoverFunc
@@ -166,20 +197,14 @@ const LandingPage = () => {
           </div>
         </section>
       </ScrollFadeFunc>
+
       {/* Testimonials */}
       <ScrollFadeFunc>
-        <section className="bg-slate-50 py-16 border-t border-gray-200 dark:border-none dark:bg-gray-900">
+        <section className="bg-slate-50 pt-20 pb-32 sm:py-26 px-4 border-t border-gray-200 dark:border-none dark:bg-gray-900 min-h-[550px] sm:min-h-[300px]">
           <h2 className="text-3xl font-bold text-center mb-10 text-blue-950 dark:text-gray-100">
             Loved by Early Testers
           </h2>
-          <div className="max-w-3xl mx-auto px-4 text-center italic text-lg text-gray-700 dark:text-gray-300">
-            "MetriQ makes it stupidly easy to track web vitals. The UI is
-            clean and the insights are actually useful."
-            <br />
-            <span className="text-sm not-italic font-seminold text-gray-600 dark:text-gray-400">
-              -Beta User
-            </span>
-          </div>
+          <TestimonialSlider />
         </section>
       </ScrollFadeFunc>
     </main>
