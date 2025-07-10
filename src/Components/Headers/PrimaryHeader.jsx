@@ -3,7 +3,7 @@ import { Star } from "lucide-react";
 
 import { useFavourites } from "../../context/FavouritesContext";
 
-import logo from "../../assets/zyntra_logo.png";
+import logo from "../../assets/metriq_logo.png";
 import ThemeToggle from "../Accessories/ThemeToggle";
 import HeaderForm from "../Forms/HeaderForm";
 import LoginButtons from "../Buttons/LoginButtons";
@@ -38,10 +38,10 @@ const PrimaryHeader = () => {
         >
           <img
             src={logo}
-            alt="Zyntra Logo"
+            alt="Metriq Logo"
             className="w-4 h-4 sm:w-5 h-5 object-contain"
           />
-          <span className="text-xl pr-4 font-bold tracking-tight">Zyntra</span>
+          <span className="text-xl pr-4 font-bold tracking-tight">MetriQ</span>
         </div>
 
         {/* Search Form */}
