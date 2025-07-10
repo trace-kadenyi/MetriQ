@@ -1,5 +1,4 @@
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import ReportPDF from "../PDFBlocks/ReportPDF";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -13,6 +12,7 @@ import {
   EyeOff,
 } from "lucide-react";
 
+import ReportPDF from "../PDFBlocks/ReportPDF";
 import { useFavourites } from "../../context/FavouritesContext";
 
 // AI Analysis button
