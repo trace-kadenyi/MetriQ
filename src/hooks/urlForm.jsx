@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
-import api from "../api";
+import api from "../api.js";
 
 export default function useUrlForm() {
   const [url, setUrl] = useState("");

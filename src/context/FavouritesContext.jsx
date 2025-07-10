@@ -7,7 +7,7 @@ import {
 } from "react";
 import { useAuth } from "./AuthContext";
 import toast from "react-hot-toast";
-import api from "../api";
+import api from "../api.js";
 
 const FavouritesContext = createContext(null);
 
