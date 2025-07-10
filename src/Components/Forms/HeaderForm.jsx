@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { fadeUp } from "../Accessories/FramerMotion";
 import { Search } from "lucide-react";
 
 import Popup from "../Accessories/Popup";
