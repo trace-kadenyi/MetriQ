@@ -15,7 +15,7 @@ export default function LoginPage() {
       >
         {/* Brand + intro */}
         <div className="flex flex-col items-center gap-2 text-center">
-          <img src={logo} alt="Zyntra" className="w-10 h-10" />
+          <img src={logo} alt="MetriQ" className="w-10 h-10" />
           <h1 className="text-2xl font-bold tracking-tight text-blue-900 dark:text-gray-100">
             Welcome
           </h1>
