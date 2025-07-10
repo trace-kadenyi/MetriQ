@@ -204,22 +204,6 @@ const LandingPage = () => {
           <h2 className="text-3xl font-bold text-center mb-10 text-blue-950 dark:text-gray-100">
             Loved by Early Testers
           </h2>
-          <div className="max-w-3xl mx-auto px-4 text-center italic text-lg text-gray-700 dark:text-gray-300">
-            "MetriQ makes it stupidly easy to track web vitals. The UI is clean
-            and the insights are actually useful."
-            <br />
-            <span className="text-sm not-italic font-seminold text-gray-600 dark:text-gray-400">
-              -Beta User
-            </span>
-          </div>
-        </section>
-      </ScrollFadeFunc>
-
-      <ScrollFadeFunc>
-        <section className="bg-slate-50 py-16 border-t border-gray-200 dark:border-none dark:bg-gray-900">
-          <h2 className="text-3xl font-bold text-center mb-10 text-blue-950 dark:text-gray-100">
-            Loved by Early Testers
-          </h2>
           <TestimonialSlider />
         </section>
       </ScrollFadeFunc>
