@@ -1,6 +1,6 @@
-# MetriQ Frontend
+# MetriQ
 
-The frontend for **MetriQ**, a web performance analysis and comparison platform. Built with **React**, **Tailwind CSS**, and **Recharts**, it provides a clean UI for visualizing Google PageSpeed Insights results, generating AI summaries, comparing competitor metrics, and exporting reports.
+The frontend for **MetriQ**, a web performance analysis and comparison platform. Built with **React**, **Tailwind CSS**, and **Recharts**, it provides a clean UI for visualizing Google PageSpeed Insights results, generating AI analyses, comparing competitor metrics, and exporting reports.
 
 ---
 
@@ -12,7 +12,7 @@ The frontend for **MetriQ**, a web performance analysis and comparison platform.
 - **Recharts** for data visualization
 - **Lucide React** icons
 - **@react-pdf/renderer** and **html2pdf.js** for PDF export
-- **OpenRouter + DeepSeek** for AI summaries (via backend)
+- **OpenRouter + DeepSeek** for AI analyses (via backend)
 - Fully integrated with the [MetriQ API backend](https://github.com/trace-kadenyi/MetriQ-API)
 
 ---
