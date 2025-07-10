@@ -74,13 +74,15 @@ const TestimonialSlider = () => {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <p className="italic text-lg text-gray-700 dark:text-gray-300 min-h-[96px]">
-            "{quote}"
-          </p>
-          <br />
-          <span className="text-sm not-italic font-semibold text-gray-600 dark:text-gray-400">
-            {name}
-          </span>
+          <div>
+            <p className="italic text-lg text-gray-700 dark:text-gray-300 min-h-[145px] sm:min-h-[76px]">
+              "{quote}"
+            </p>
+            <br />
+            <span className="block text-sm not-italic font-semibold text-gray-600 dark:text-gray-400 min-h-[50px] sm:min-h-[20px]">
+              {name}
+            </span>
+          </div>
         </motion.div>
       </AnimatePresence>
 
