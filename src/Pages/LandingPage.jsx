@@ -61,14 +61,28 @@ const LandingPage = () => {
             {[
               {
                 icon: Activity,
-                text: "Fetches Per Web Vitals from PageSpeed insights",
+                text: "Fetches detailed performance scores using Google PageSpeed Insights",
               },
-              { icon: Clock, text: "Tracks performance over time" },
+              {
+                icon: Clock,
+                text: "Maintains a historical log of the last 5 reports per site",
+              },
               {
                 icon: TrendingUp,
-                text: "Smart insights, not just raw numbers",
+                text: "Generates AI-powered summaries that explain what the data means",
               },
-              { icon: Zap, text: "Fast, clean UI for devs and non-devs alike" },
+              {
+                icon: ChartNoAxesCombined,
+                text: "Compares your site with competitors using side-by-side charts",
+              },
+              {
+                icon: SquareKanban,
+                text: "Exports full audit + AI results as professional PDF reports",
+              },
+              {
+                icon: Zap,
+                text: "Clean, responsive UI with OAuth login and persistent theme settings",
+              },
             ].map(({ icon: Icon, text }, i) => (
               <motion.li
                 key={i}
@@ -89,6 +103,7 @@ const LandingPage = () => {
           </ul>
         </section>
       </ScrollFadeFunc>
+
       {/* Process */}
       <ScrollFadeFunc>
         <section className="pt-16 pb-21 text-center px-4 bg-gradient-to-b from-white to-slate-100 dark:from-blue-950 dark:via-gray-800 dark:to-blue-950">
@@ -173,8 +188,8 @@ const LandingPage = () => {
             Loved by Early Testers
           </h2>
           <div className="max-w-3xl mx-auto px-4 text-center italic text-lg text-gray-700 dark:text-gray-300">
-            "MetriQ makes it stupidly easy to track web vitals. The UI is
-            clean and the insights are actually useful."
+            "MetriQ makes it stupidly easy to track web vitals. The UI is clean
+            and the insights are actually useful."
             <br />
             <span className="text-sm not-italic font-seminold text-gray-600 dark:text-gray-400">
               -Beta User
