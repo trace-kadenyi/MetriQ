@@ -5,7 +5,7 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import api from "../api";
+import api from "../api.js";
 import { getAnonymousId } from "../utils/getAnonymousId";
 import toast from "react-hot-toast";
 

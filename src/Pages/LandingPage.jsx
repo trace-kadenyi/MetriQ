@@ -51,11 +51,11 @@ const LandingPage = () => {
         </motion.div>
       </section>
 
-      {/* Why Zyntra */}
+      {/* Why MetriQ */}
       <ScrollFadeFunc>
         <section className="text-center bg-white py-16 dark:bg-blue-950">
           <h2 className="text-4xl font-bold my-10 mx-1 leading-snug text-blue-950 dark:text-gray-100">
-            Why Zyntra?
+            Why MetriQ?
           </h2>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto text-left p-3 dark:text-gray-300">
             {[
@@ -173,7 +173,7 @@ const LandingPage = () => {
             Loved by Early Testers
           </h2>
           <div className="max-w-3xl mx-auto px-4 text-center italic text-lg text-gray-700 dark:text-gray-300">
-            "MetricMind makes it stupidly easy to track web vitals. The UI is
+            "MetriQ makes it stupidly easy to track web vitals. The UI is
             clean and the insights are actually useful."
             <br />
             <span className="text-sm not-italic font-seminold text-gray-600 dark:text-gray-400">

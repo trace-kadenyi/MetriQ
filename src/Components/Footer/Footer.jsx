@@ -18,7 +18,7 @@ const Footer = () => {
           Start Analyzing Smarter Today
         </h2>
         <p className="text-xl mb-6">
-          Join developers making better decisions with Zyntra.
+          Join developers making better decisions with MetriQ.
         </p>
 
         {!showForm && (
