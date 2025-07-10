@@ -39,6 +39,7 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem("theme", theme); // ✅ always store locally
   }, [theme]);
 
+  // toggle theme
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
