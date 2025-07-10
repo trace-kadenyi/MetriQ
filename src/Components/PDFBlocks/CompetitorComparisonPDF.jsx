@@ -23,7 +23,7 @@ Font.register({
 });
 
 /* -----------------------------------------------------------
-   Helper to render one score block (mobile / desktop)
+   Helper function to render one score block (mobile / desktop)
    ----------------------------------------------------------- */
 const ScoreBlock = ({ label, scores }) => (
   <View style={styles.scoreBlock}>
