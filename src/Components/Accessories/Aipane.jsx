@@ -1,5 +1,6 @@
 import MarkdownRenderer from "./MarkdownRenderer";
 import { motion } from "framer-motion";
+
 const AiPane = ({ loading, error, markdown }) => {
   // render loading state
   if (loading) {
