@@ -36,7 +36,7 @@ export const EaseOutFunc = ({ children }) => {
 export const HoverFunc = ({ children, className }) => {
   return (
     <motion.div
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.02 }}
       transition={{ type: "spring", stiffness: 300 }}
       className={className}
     >
