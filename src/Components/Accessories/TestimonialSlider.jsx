@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const testimonials = [
   {
@@ -24,96 +25,104 @@ const testimonials = [
   },
 ];
 
+const slideVariants = {
+  enter: (direction) => ({
+    x: direction > 0 ? 300 : -300,
+    opacity: 0,
+    position: "absolute",
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    position: "relative",
+  },
+  exit: (direction) => ({
+    x: direction > 0 ? -300 : 300,
+    opacity: 0,
+    position: "absolute",
+  }),
+};
+
 const TestimonialSlider = () => {
   const [index, setIndex] = useState(0);
-  const [fade, setFade] = useState(true);
+  const [direction, setDirection] = useState(1);
 
-  const handleNext = () => {
-    setFade(false);
-    setTimeout(() => {
-      setIndex((prev) => (prev + 1) % testimonials.length);
-      setFade(true);
-    }, 200); // Match with fade-out timing
-  };
-
-  const handlePrev = () => {
-    setFade(false);
-    setTimeout(() => {
-      setIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
-      setFade(true);
-    }, 200);
+  const paginate = (dir) => {
+    setDirection(dir);
+    setIndex(
+      (prev) => (prev + dir + testimonials.length) % testimonials.length
+    );
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setFade(false);
-      setTimeout(() => {
-        setIndex((prev) => (prev + 1) % testimonials.length);
-        setFade(true);
-      }, 200);
-    }, 7000);
-
+    const interval = setInterval(() => paginate(1), 7000);
     return () => clearInterval(interval);
   }, [index]);
 
   const { quote, name } = testimonials[index];
 
   return (
-    <div className="relative max-w-3xl mx-auto px-6">
-      {/* Main text block with fixed height */}
-      <div
-        className={`transition-opacity duration-500 ease-in-out ${
-          fade ? "opacity-100" : "opacity-0"
-        } text-center h-[180px] flex flex-col items-center justify-center`}
-      >
-        <p className="italic text-lg text-gray-700 dark:text-gray-300 max-w-xl">
-          "{quote}"
-        </p>
-        <br />
-        <span className="text-sm not-italic font-semibold text-gray-600 dark:text-gray-400">
-          {name}
-        </span>
-      </div>
+    <div className="relative max-w-3xl mx-auto px-6 h-[180px]">
+      <AnimatePresence custom={direction}>
+        <motion.div
+          key={index}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <p className="italic text-lg text-gray-700 dark:text-gray-300 min-h-[96px]">
+            "{quote}"
+          </p>
+          <br />
+          <span className="text-sm not-italic font-semibold text-gray-600 dark:text-gray-400">
+            {name}
+          </span>
+        </motion.div>
+      </AnimatePresence>
 
-      {/* Desktop arrows (side-aligned) */}
+      {/* Desktop Arrows */}
       <button
-        onClick={handlePrev}
+        onClick={() => paginate(-1)}
         className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center 
-               p-3 rounded-full bg-white/90 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-               shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300
-               hover:scale-105"
+                 p-3 rounded-full bg-white/90 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
+                 shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300
+                 hover:scale-105"
         aria-label="Previous Testimonial"
       >
         <ChevronLeft className="w-5 h-5 text-green-500 dark:text-green-400" />
       </button>
 
       <button
-        onClick={handleNext}
+        onClick={() => paginate(1)}
         className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center 
-               p-3 rounded-full bg-white/90 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-               shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300
-               hover:scale-105"
+                 p-3 rounded-full bg-white/90 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
+                 shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300
+                 hover:scale-105"
         aria-label="Next Testimonial"
       >
         <ChevronRight className="w-5 h-5 text-green-500 dark:text-green-400" />
       </button>
 
-      {/* Mobile arrows (below content) */}
+      {/* Mobile Arrows */}
       <div className="mt-6 flex justify-center gap-4 md:hidden">
         <button
-          onClick={handlePrev}
+          onClick={() => paginate(-1)}
           className="p-3 rounded-full bg-white/90 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                 shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300 
-                 hover:scale-105"
+                     shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300 
+                     hover:scale-105"
           aria-label="Previous Testimonial"
         >
           <ChevronLeft className="w-5 h-5 text-green-500 dark:text-green-400" />
         </button>
         <button
-          onClick={handleNext}
+          onClick={() => paginate(1)}
           className="p-3 rounded-full bg-white/90 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                 shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300 
-                 hover:scale-105"
+                     shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300 
+                     hover:scale-105"
           aria-label="Next Testimonial"
         >
           <ChevronRight className="w-5 h-5 text-green-500 dark:text-green-400" />
