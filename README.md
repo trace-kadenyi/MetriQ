@@ -13,7 +13,7 @@ The frontend for **MetriQ**, a web performance analysis and comparison platform.
 - **Lucide React** icons
 - **@react-pdf/renderer** and **html2pdf.js** for PDF export
 - **OpenRouter + DeepSeek** for AI analyses (via backend)
-- Fully integrated with the [MetriQ API backend](https://github.com/trace-kadenyi/MetriQ-API)
+- Fully integrated with the [MetriQ API backend](https://github.com/trace-kadenyi/MetriQ-API.git)
 
 ---
 
@@ -22,17 +22,20 @@ The frontend for **MetriQ**, a web performance analysis and comparison platform.
 ```
 /frontend
 │
-├── components/              # Reusable UI elements
-├── context/                 # Auth and Theme providers
-├── hooks/                   # Custom React hooks
-├── pages/                   # Main views/pages
-├── assets/                  # Static files and logos
-├── utils/                   # Helper functions
-├── App.jsx                  # Root component
-├── main.jsx                 # Entry point
-├── index.css                # Tailwind & global styles
-├── vite.config.js
-└── README.md
+├── assets/              # Static files, images, logos
+├── components/          # Reusable UI components
+├── config/              # Configs for routes, constants, etc.
+├── context/             # Theme & Auth context providers
+├── hooks/               # Custom React hooks
+├── pages/               # Page-level components and views
+├── utils/               # Helper functions and formatting
+│
+├── api.js               # Axios instance and API calls
+├── .env                 # Environment variables
+├── README.md            # Project documentation
+├── vite.config.js       # Vite config
+└── vercel.json          # Vercel deployment config
+
 ```
 
 ---
