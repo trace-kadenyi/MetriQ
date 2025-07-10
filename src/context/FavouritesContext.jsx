@@ -55,6 +55,7 @@ export function FavouritesProvider({ children }) {
     [authLoading, isLogged, anonId]
   );
 
+  // initialize isFavourite
   const isFavourite = useCallback(
     (url) => favourites.includes(url),
     [favourites]
@@ -68,7 +69,10 @@ export function FavouritesProvider({ children }) {
       try {
         await api.post("/api/favourites/claim", { anonId });
       } catch (err) {
-        console.warn("Failed to claim anon favourites:", err.response?.data?.message);
+        console.warn(
+          "Failed to claim anon favourites:",
+          err.response?.data?.message
+        );
       } finally {
         localStorage.removeItem("anonymousUserId");
         setAnonId(null);
@@ -99,6 +103,7 @@ export function FavouritesProvider({ children }) {
   );
 }
 
+// useFavourites
 export function useFavourites() {
   const ctx = useContext(FavouritesContext);
   if (!ctx)
