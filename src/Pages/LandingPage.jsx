@@ -20,6 +20,7 @@ import {
   StepCard,
 } from "../Components/Accessories/FramerMotion";
 import MainForm from "../Components/Forms/MainForm";
+import TestimonialSlider from "../Components/Accessories/TestimonialSlider";
 
 const LandingPage = () => {
   return (
@@ -211,6 +212,15 @@ const LandingPage = () => {
               -Beta User
             </span>
           </div>
+        </section>
+      </ScrollFadeFunc>
+
+      <ScrollFadeFunc>
+        <section className="bg-slate-50 py-16 border-t border-gray-200 dark:border-none dark:bg-gray-900">
+          <h2 className="text-3xl font-bold text-center mb-10 text-blue-950 dark:text-gray-100">
+            Loved by Early Testers
+          </h2>
+          <TestimonialSlider />
         </section>
       </ScrollFadeFunc>
     </main>
