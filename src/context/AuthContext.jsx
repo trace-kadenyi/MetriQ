@@ -29,6 +29,7 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  // logout
   const logout = useCallback(async () => {
     await api.post("/api/auth/logout");
     // Start fresh anon session
@@ -56,10 +57,10 @@ export function AuthProvider({ children }) {
   // const value = { user, loading, anonId, logout };
   const value = { user, loading, anonId, logout, setAnonId };
 
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+// useAuth
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be inside <AuthProvider>");
