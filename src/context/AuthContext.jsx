@@ -5,9 +5,10 @@ import {
   useEffect,
   useCallback,
 } from "react";
+import toast from "react-hot-toast";
+
 import api from "../api.js";
 import { getAnonymousId } from "../utils/getAnonymousId";
-import toast from "react-hot-toast";
 
 const AuthContext = createContext(null);
 
@@ -29,6 +30,7 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  // logout
   const logout = useCallback(async () => {
     await api.post("/api/auth/logout");
     // Start fresh anon session
@@ -44,12 +46,22 @@ export function AuthProvider({ children }) {
     fetchMe();
   }, [fetchMe]);
 
+  // Clear anonId on login
+  useEffect(() => {
+    if (user && anonId) {
+      localStorage.removeItem("anonymousUserId");
+      setAnonId(null);
+    }
+  }, [user, anonId]);
+
   /* expose */
-  const value = { user, loading, anonId, logout };
+  // const value = { user, loading, anonId, logout };
+  const value = { user, loading, anonId, logout, setAnonId };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+// useAuth
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be inside <AuthProvider>");

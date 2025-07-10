@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, Font } from "@react-pdf/renderer";
+
 import InterRegular from "../../assets/fonts/Inter-Regular.ttf";
 import InterBold from "../../assets/fonts/Inter-Bold.ttf";
 import InterItalic from "../../assets/fonts/Inter-Italic.ttf";
@@ -23,7 +24,7 @@ Font.register({
 });
 
 /* -----------------------------------------------------------
-   Helper to render one score block (mobile / desktop)
+   Helper function to render one score block (mobile / desktop)
    ----------------------------------------------------------- */
 const ScoreBlock = ({ label, scores }) => (
   <View style={styles.scoreBlock}>

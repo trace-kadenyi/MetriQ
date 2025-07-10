@@ -5,14 +5,15 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import { useAuth } from "./AuthContext";
 import toast from "react-hot-toast";
+
+import { useAuth } from "./AuthContext";
 import api from "../api.js";
 
 const FavouritesContext = createContext(null);
 
 export function FavouritesProvider({ children }) {
-  const { user, loading: authLoading, anonId } = useAuth();
+  const { user, loading: authLoading, anonId, setAnonId } = useAuth();
 
   const [favourites, setFavourites] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -55,6 +56,7 @@ export function FavouritesProvider({ children }) {
     [authLoading, isLogged, anonId]
   );
 
+  // initialize isFavourite
   const isFavourite = useCallback(
     (url) => favourites.includes(url),
     [favourites]
@@ -62,19 +64,25 @@ export function FavouritesProvider({ children }) {
 
   /* ------------- CLAIM anon list after login --------------- */
   useEffect(() => {
-    if (isLogged && anonId) {
-      (async () => {
-        try {
-          await api.post("/api/favourites/claim", { anonId });
-          localStorage.removeItem("anonymousUserId");
-        } catch (_) {
-          /* ignore: maybe already claimed */
-        } finally {
-          fetchFavourites(); // refresh list from owner
-        }
-      })();
-    }
-  }, [isLogged, anonId, fetchFavourites]);
+    if (!isLogged || !anonId) return;
+
+    const claimAndClear = async () => {
+      try {
+        await api.post("/api/favourites/claim", { anonId });
+      } catch (err) {
+        console.warn(
+          "Failed to claim anon favourites:",
+          err.response?.data?.message
+        );
+      } finally {
+        localStorage.removeItem("anonymousUserId");
+        setAnonId(null);
+        fetchFavourites(); // refresh list
+      }
+    };
+
+    claimAndClear();
+  }, [isLogged, anonId, fetchFavourites, setAnonId]);
 
   /* initial load + on auth change */
   useEffect(() => {
@@ -96,6 +104,7 @@ export function FavouritesProvider({ children }) {
   );
 }
 
+// useFavourites
 export function useFavourites() {
   const ctx = useContext(FavouritesContext);
   if (!ctx)

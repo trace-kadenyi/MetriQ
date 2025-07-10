@@ -71,7 +71,7 @@ export const CompetitorChartBtn = ({ url, navigate, comparison }) => (
   </motion.button>
 );
 
-// competitor comparison pdf
+// competitor comparison pdf button
 export const ComparisonPdfBtn = ({ comparison, aiAnalysis }) => (
   <div className="w-3/4 mx-auto sm:w-auto">
     <PDFDownloadLink

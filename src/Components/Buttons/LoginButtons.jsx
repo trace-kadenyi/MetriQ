@@ -1,13 +1,16 @@
 import { useNavigate } from "react-router-dom";
+
 import { useAuth } from "../../context/AuthContext";
 import api from "../../api.js";
 
+// backend url
 const BACKEND = api.defaults.baseURL;
 
 export default function LoginButtons({ variant = "header" }) {
   const navigate = useNavigate();
   const { user, logout, loading } = useAuth();
 
+  // handle loading state
   if (loading) {
     return (
       <div className="text-xs text-gray-500 dark:text-gray-400 text-center">

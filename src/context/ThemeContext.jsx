@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+
 import api from "../api.js";
 import { useAuth } from "./AuthContext";
 
@@ -39,6 +40,7 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem("theme", theme); // ✅ always store locally
   }, [theme]);
 
+  // toggle theme
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
