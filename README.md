@@ -45,8 +45,8 @@ The frontend for **MetriQ**, a web performance analysis and comparison platform.
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/trace-kadenyi/metriq-frontend.git
-cd metriq-frontend
+git clone https://github.com/trace-kadenyi/MetriQ.git
+cd MetriQ
 ```
 
 ### 2. Install dependencies
@@ -70,26 +70,22 @@ Visit [http://localhost:5173](http://localhost:5173) in your browser.
 Create a `.env` file in the root and add:
 
 ```env
-VITE_BACKEND_URL=http://localhost:4000
-```
-
-Optional for production:
-
-```env
-VITE_BACKEND_URL=https://api.yourdomain.com
+VITE_API_KEY=vite_api_key
 ```
 
 ---
 
 ## 📌 Features
 
-- 🔍 Analyze any website using Google PageSpeed Insights
-- 📈 View performance charts (mobile + desktop)
-- 🤖 Generate AI summaries from report data
-- ⚔️ Compare competitors anonymously
-- 💾 Favourite important reports
-- 🎨 Toggle dark/light mode (persisted)
-- 🧾 Export full reports as downloadable PDFs
+- 🔐 **OAuth Login via Google or GitHub** – Seamless sign-in with your preferred account.
+- 🔍 **Analyze Any Website** – Audit any URL using Google PageSpeed Insights (mobile & desktop).
+- 📈 **Visual Performance Charts** – Instantly see speed, accessibility, SEO, and best practices.
+- 🤖 **AI-Powered Summaries** – Generate smart, readable insights from performance data.
+- ⚔️ **Competitor Comparison** – Compare your site against rivals with side-by-side charts.
+- 🧠 **AI Competitor Analysis** – Auto-generate key takeaways comparing you to competitors.
+- 💾 **Favourites** – Save and organize important reports for quick access.
+- 🎨 **Theme Toggle** – Switch between light and dark modes (persisted in user preferences).
+- 🧾 **Downloadable Reports** – Export detailed performance + AI summaries as PDF files.
 
 ---
 
