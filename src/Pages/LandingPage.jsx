@@ -173,7 +173,7 @@ const LandingPage = () => {
             Loved by Early Testers
           </h2>
           <div className="max-w-3xl mx-auto px-4 text-center italic text-lg text-gray-700 dark:text-gray-300">
-            "MetricMind makes it stupidly easy to track web vitals. The UI is
+            "MetriQ makes it stupidly easy to track web vitals. The UI is
             clean and the insights are actually useful."
             <br />
             <span className="text-sm not-italic font-seminold text-gray-600 dark:text-gray-400">
