@@ -151,18 +151,33 @@ const LandingPage = () => {
             {[
               {
                 icon: SquareKanban,
-                title: "One Dashboard",
-                desc: "Monitor everything in one place",
+                title: "All-in-One Dashboard",
+                desc: "Track reports, summaries, and comparisons in one place.",
               },
               {
                 icon: Clock,
-                title: "Historical Logs",
-                desc: "Access your old reports anytime",
+                title: "Saved History",
+                desc: "Stores your last 5 performance reports for every URL.",
+              },
+              {
+                icon: TrendingUp,
+                title: "AI Insights",
+                desc: "Smart summaries break down complex performance data.",
+              },
+              {
+                icon: ChartNoAxesCombined,
+                title: "Competitor Comparison",
+                desc: "Visualize how your site stacks up side by side.",
               },
               {
                 icon: Zap,
-                title: "Lightning Fast",
-                desc: "Optimized performance fetches",
+                title: "PDF Reports",
+                desc: "Download complete reports with metrics and AI analyses.",
+              },
+              {
+                icon: Activity,
+                title: "OAuth + Personalization",
+                desc: "Login via Google/GitHub. Your data, your theme, always synced.",
               },
             ].map(({ icon: Icon, title, desc }, i) => (
               <HoverFunc
@@ -181,6 +196,7 @@ const LandingPage = () => {
           </div>
         </section>
       </ScrollFadeFunc>
+
       {/* Testimonials */}
       <ScrollFadeFunc>
         <section className="bg-slate-50 py-16 border-t border-gray-200 dark:border-none dark:bg-gray-900">
