@@ -1,5 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+
 import api from "../api";
 
 export default function useCompareCompetitors(userSiteUrl = "") {
