@@ -44,6 +44,14 @@ export function AuthProvider({ children }) {
     fetchMe();
   }, [fetchMe]);
 
+  // Clear anonId on login
+  useEffect(() => {
+    if (user && anonId) {
+      localStorage.removeItem("anonymousUserId");
+      setAnonId(null);
+    }
+  }, [user, anonId]);
+
   /* expose */
   const value = { user, loading, anonId, logout };
 
