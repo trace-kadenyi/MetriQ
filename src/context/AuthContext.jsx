@@ -5,9 +5,10 @@ import {
   useEffect,
   useCallback,
 } from "react";
+import toast from "react-hot-toast";
+
 import api from "../api.js";
 import { getAnonymousId } from "../utils/getAnonymousId";
-import toast from "react-hot-toast";
 
 const AuthContext = createContext(null);
 
