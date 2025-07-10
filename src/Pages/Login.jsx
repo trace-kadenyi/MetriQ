@@ -1,5 +1,5 @@
 import LoginButtons from "../Components/Buttons/LoginButtons";
-import logo from "../assets/zyntra_logo.png";
+import logo from "../assets/metriq_logo.png";
 
 export default function LoginPage() {
   return (
