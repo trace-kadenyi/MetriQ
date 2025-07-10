@@ -110,7 +110,7 @@ Make sure the backend is running locally at the same time during development.
 
 ## 🧠 Developer Notes
 
-- Tailwind Typography plugin is used to style AI summaries and markdown.
+- Tailwind Typography plugin is used to style AI analyses and markdown.
 - Axios is preconfigured with cookies enabled for OAuth sessions.
 - Theme and Auth states are managed via React Context.
 
@@ -118,4 +118,4 @@ Make sure the backend is running locally at the same time during development.
 
 ## 📄 License
 
-MIT License. © Trey Kadenyi 2025.
+MIT License. © Tracey Kadenyi 2025.
