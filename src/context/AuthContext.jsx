@@ -53,7 +53,9 @@ export function AuthProvider({ children }) {
   }, [user, anonId]);
 
   /* expose */
-  const value = { user, loading, anonId, logout };
+  // const value = { user, loading, anonId, logout };
+  const value = { user, loading, anonId, logout, setAnonId };
+
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
