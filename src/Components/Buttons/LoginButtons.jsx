@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
 import api from "../../api.js";
-import LogoutIcon from "../../constants/LogoutIcon.jsx";
+import { LogoutIcon, GoogleIcon } from "../../constants/LogIcons.jsx";
 
 // backend url
 const BACKEND = api.defaults.baseURL;
@@ -38,28 +38,7 @@ export default function LoginButtons({ variant = "header" }) {
                      hover:bg-gray-100 active:scale-[.98] focus-visible:outline focus-visible:ring-2 
                      focus-visible:ring-blue-500 dark:bg-white dark:text-gray-900"
         >
-          <svg
-            className="w-5 h-5"
-            viewBox="0 0 533.5 544.3"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="#4285F4"
-              d="M533.5 278.4c0-17.7-1.6-35-4.7-51.5H272.1v97.5h147.3c-6.4 34.7-25.5 64.1-54.4 83.8v69.3h87.8c51.4-47.3 80.7-117.1 80.7-199.1z"
-            />
-            <path
-              fill="#34A853"
-              d="M272.1 544.3c73.9 0 135.9-24.5 181.2-66.7l-87.8-69.3c-24.3 16.3-55.3 26-93.4 26-71.8 0-132.6-48.4-154.3-113.5H28.6v71.3c45.4 90.2 138.3 151.9 243.5 151.9z"
-            />
-            <path
-              fill="#FBBC05"
-              d="M117.8 320.8c-10.1-29.7-10.1-61.6 0-91.3V158.1H28.6c-38.8 77.6-38.8 169 0 246.6l89.2-69.3z"
-            />
-            <path
-              fill="#EA4335"
-              d="M272.1 107.7c39.8 0 75.6 13.7 103.8 40.6l77.6-77.6C407.9 24.5 345.9 0 272.1 0 166.9 0 74 61.7 28.6 151.9l89.2 69.3c21.7-65.1 82.5-113.5 154.3-113.5z"
-            />
-          </svg>
+          {GoogleIcon}
           Continue with Google
         </a>
 
