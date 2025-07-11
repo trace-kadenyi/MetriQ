@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
+// Scroll fade function
 export const ScrollFadeFunc = ({ children }) => {
   const ref = useRef(null);
   const isView = useInView(ref, { once: true });
@@ -16,7 +17,7 @@ export const ScrollFadeFunc = ({ children }) => {
     </motion.div>
   );
 };
-
+// EaseOut function
 export const EaseOutFunc = ({ children }) => {
   const ref = useRef(null);
   const isView = useInView(ref, { once: true });
@@ -33,6 +34,7 @@ export const EaseOutFunc = ({ children }) => {
   );
 };
 
+// hover function
 export const HoverFunc = ({ children, className }) => {
   return (
     <motion.div
@@ -45,6 +47,7 @@ export const HoverFunc = ({ children, className }) => {
   );
 };
 
+// hero variants func
 export const heroVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -59,6 +62,7 @@ export const heroVariants = {
   },
 };
 
+// fadeup function
 export const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: {
