@@ -88,6 +88,7 @@ export default function useUrlForm() {
       if (reportRes.data.success && reportRes.data.report) {
         const report = reportRes.data.report;
         const latestReport = report.reports?.at(-1);
+
         const partial = {
           mobile: {
             performance: latestReport?.scores?.mobile?.performance,
@@ -103,7 +104,17 @@ export default function useUrlForm() {
           },
         };
 
-        setPartialResults(partial); // Save partial results
+        const hasSomeScores =
+          partial.mobile.performance ||
+          partial.desktop.performance ||
+          partial.mobile.seo ||
+          partial.desktop.seo;
+
+        if (hasSomeScores) {
+          setPartialResults(partial);
+        } else {
+          setPartialResults("no-data"); // ⛔ No usable scores
+        }
       } else {
         toast.error("Ooops! Something went wrong.");
         setShowPopup(false);
