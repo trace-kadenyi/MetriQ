@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import testimonials from "../../data/testimonials";
 import slideVariants from "../../constants/slideVariants";
+import TestimonialNavigationButtons from "../Buttons/TestimonialArrowButton";
 
 const TestimonialSlider = () => {
   const [index, setIndex] = useState(0);
@@ -51,50 +52,11 @@ const TestimonialSlider = () => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Desktop Arrows */}
-      <button
-        onClick={() => goToNextSlide(-1)}
-        className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center 
-                 p-3 rounded-full bg-white/90 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                 shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300
-                 hover:scale-105"
-        aria-label="Previous Testimonial"
-      >
-        <ChevronLeft className="w-5 h-5 text-green-500 dark:text-green-400" />
-      </button>
-
-      <button
-        onClick={() => goToNextSlide(1)}
-        className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center 
-                 p-3 rounded-full bg-white/90 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                 shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300
-                 hover:scale-105"
-        aria-label="Next Testimonial"
-      >
-        <ChevronRight className="w-5 h-5 text-green-500 dark:text-green-400" />
-      </button>
-
-      {/* Mobile Arrows */}
-      <div className="mt-6 flex justify-center gap-4 md:hidden">
-        <button
-          onClick={() => goToNextSlide(-1)}
-          className="p-3 rounded-full bg-white/90 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                     shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300 
-                     hover:scale-105"
-          aria-label="Previous Testimonial"
-        >
-          <ChevronLeft className="w-5 h-5 text-green-500 dark:text-green-400" />
-        </button>
-        <button
-          onClick={() => goToNextSlide(1)}
-          className="p-3 rounded-full bg-white/90 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                     shadow-md ring-1 ring-green-400/20 hover:ring-green-400 transition-all duration-300 
-                     hover:scale-105"
-          aria-label="Next Testimonial"
-        >
-          <ChevronRight className="w-5 h-5 text-green-500 dark:text-green-400" />
-        </button>
-      </div>
+      {/* Testimonials Navigation Buttons */}
+      <TestimonialNavigationButtons
+        onPrev={() => goToNextSlide(-1)}
+        onNext={() => goToNextSlide(1)}
+      />
     </div>
   );
 };
