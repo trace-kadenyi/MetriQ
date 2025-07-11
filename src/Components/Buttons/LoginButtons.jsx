@@ -5,7 +5,7 @@ import api from "../../api.js";
 import {
   LogoutIcon,
   GoogleIcon,
-  GitHubIcon,
+  GithubIcon,
 } from "../../constants/LogIcons.jsx";
 
 // backend url
@@ -54,7 +54,7 @@ export default function LoginButtons({ variant = "header" }) {
                      hover:bg-gray-800 active:scale-[.98] focus-visible:outline focus-visible:ring-2 
                      focus-visible:ring-gray-500 dark:bg-gray-800"
         >
-          {GitHubIcon}
+          {GithubIcon}
           Continue with GitHub
         </a>
       </div>
