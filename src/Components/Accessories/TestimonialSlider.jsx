@@ -37,6 +37,7 @@ const TestimonialSlider = () => {
           exit="exit"
           transition={{ duration: 0.5 }}
           className="text-center"
+          aria-live="polite"
         >
           <div>
             <p className="italic text-lg text-gray-700 dark:text-gray-300 min-h-[145px] sm:min-h-[76px]">
