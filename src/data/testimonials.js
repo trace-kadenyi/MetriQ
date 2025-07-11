@@ -21,3 +21,5 @@ const testimonials = [
     name: "– Leo G., Freelance Web Performance Auditor",
   },
 ];
+
+export default testimonials;
