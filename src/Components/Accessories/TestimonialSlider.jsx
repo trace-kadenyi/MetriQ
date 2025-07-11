@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
+// testimonials container
 const testimonials = [
   {
     quote:
@@ -25,6 +26,7 @@ const testimonials = [
   },
 ];
 
+// slidevariants func
 const slideVariants = {
   enter: (direction) => ({
     x: direction > 0 ? 300 : -300,
@@ -54,11 +56,13 @@ const TestimonialSlider = () => {
     );
   };
 
+  // handle pagination
   useEffect(() => {
     const interval = setInterval(() => paginate(1), 7000);
     return () => clearInterval(interval);
   }, [index]);
 
+  // destructure quote and name
   const { quote, name } = testimonials[index];
 
   return (
