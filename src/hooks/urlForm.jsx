@@ -77,19 +77,10 @@ export default function useUrlForm() {
         });
         setUrl("");
       } catch (reportErr) {
-        const message = reportErr.response?.data?.message;
-
-        // Handle sites like facebook.com where PageSpeed has no data
-        if (message === "No PageSpeed data available") {
-          setPartialResults("no-data"); // ⛔ Trigger fallback UI
-        } else {
-          toast.error(
-            message ||
-              "Something went wrong while generating the report. Please try again."
-          );
-          setShowPopup(false);
-        }
-
+        toast.error(
+          "Something went wrong while generating the report. Please try again."
+        );
+        setShowPopup(false);
         clearTimeout(timeoutId.current);
         return;
       }
@@ -97,7 +88,6 @@ export default function useUrlForm() {
       if (reportRes.data.success && reportRes.data.report) {
         const report = reportRes.data.report;
         const latestReport = report.reports?.at(-1);
-
         const partial = {
           mobile: {
             performance: latestReport?.scores?.mobile?.performance,
@@ -113,17 +103,7 @@ export default function useUrlForm() {
           },
         };
 
-        const hasSomeScores =
-          partial.mobile.performance ||
-          partial.desktop.performance ||
-          partial.mobile.seo ||
-          partial.desktop.seo;
-
-        if (hasSomeScores) {
-          setPartialResults(partial);
-        } else {
-          setPartialResults("no-data"); // ⛔ No usable scores
-        }
+        setPartialResults(partial); // Save partial results
       } else {
         toast.error("Ooops! Something went wrong.");
         setShowPopup(false);
