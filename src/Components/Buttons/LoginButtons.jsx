@@ -103,7 +103,7 @@ export default function LoginButtons({ variant = "header" }) {
       <div className="w-30 sm:w-45 flex items-center gap-3 overflow-hidden">
         <img
           src={user.avatar}
-          alt="avatar"
+          alt={user.name || "User avatar"}
           className="w-6 h-6 rounded-full shrink-0"
         />
         <span
