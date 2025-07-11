@@ -1,13 +1,11 @@
 import { motion } from "framer-motion";
-import { CheckCircle, ArrowRightCircle } from "lucide-react";
-import clsx from "clsx";
+import { CheckCircle, ArrowRightCircle, AlertTriangle } from "lucide-react";
 
 import preloaderGif from "../../assets/preloader_gif.gif";
 import {
   scoreColour,
   borderColour,
-  getStatusColor,
-  getScoreStatus,
+  renderScore,
 } from "../../Components/ResultsBlocks/CurrResultsBlock";
 
 const Popup = ({
@@ -18,21 +16,6 @@ const Popup = ({
   showLongWaitMessage,
   navigate,
 }) => {
-  const renderScore = (label, score) => {
-    const status = getScoreStatus(score);
-    const colorClass = getStatusColor(status, "text");
-    const ratingText = status.charAt(0).toUpperCase() + status.slice(1); // e.g. "Good", "Average", "Poor"
-
-    return (
-      <p className="mb-1 font-semibold">
-        {label}:{" "}
-        <span className={clsx(colorClass)}>
-          {score ?? "N/A"}{" "}
-          {score !== undefined && <span className="ml-1">({ratingText})</span>}
-        </span>
-      </p>
-    );
-  };
   return (
     <>
       {/* Faded Background */}
@@ -57,7 +40,27 @@ const Popup = ({
         </button>
 
         {/* Spinner or Results */}
-        {!partialResults ? (
+        {partialResults === "no-data" ? (
+          <>
+            <div className="flex justify-center mb-3">
+              <AlertTriangle className="w-6 h-6 text-red-500 dark:text-red-600" />
+            </div>
+
+            <h3 className="text-xl font-semibold text-red-600 dark:text-red-500 mb-2">
+              No PageSpeed Data Available
+            </h3>
+
+            <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed mb-2">
+              We couldn’t retrieve performance data for this website. This often
+              happens when a site blocks tools like Lighthouse or Googlebot.
+            </p>
+
+            <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+              Try analyzing a different URL or contact us if you believe this is
+              a mistake.
+            </p>
+          </>
+        ) : !partialResults ? (
           <>
             <div className="my-2 mx-auto flex justify-center">
               <img

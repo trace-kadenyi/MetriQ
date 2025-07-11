@@ -154,3 +154,20 @@ export const Loader = ({ src, alt = "Loading...", fullScreen = true }) => (
     <img src={src} alt={alt} />
   </div>
 );
+
+// render score
+export const renderScore = (label, score) => {
+  const status = getScoreStatus(score);
+  const colorClass = getStatusColor(status, "text");
+  const ratingText = status.charAt(0).toUpperCase() + status.slice(1); // e.g. "Good", "Average", "Poor"
+
+  return (
+    <p className="mb-1 font-semibold">
+      {label}:{" "}
+      <span className={clsx(colorClass)}>
+        {score ?? "N/A"}{" "}
+        {score !== undefined && <span className="ml-1">({ratingText})</span>}
+      </span>
+    </p>
+  );
+};
