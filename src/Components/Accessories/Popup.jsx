@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CheckCircle, ArrowRightCircle } from "lucide-react";
+import { CheckCircle, ArrowRightCircle, AlertTriangle } from "lucide-react";
 import clsx from "clsx";
 
 import preloaderGif from "../../assets/preloader_gif.gif";
@@ -59,19 +59,22 @@ const Popup = ({
         {/* Spinner or Results */}
         {partialResults === "no-data" ? (
           <>
-            <h3 className="text-xl font-semibold text-red-600 dark:text-red-400 mb-3">
-              ⚠️ No PageSpeed Data Available
+            <div className="flex justify-center mb-3">
+              <AlertTriangle className="w-6 h-6 text-red-500 dark:text-red-600" />
+            </div>
+
+            <h3 className="text-xl font-semibold text-red-600 dark:text-red-500 mb-2">
+              No PageSpeed Data Available
             </h3>
 
             <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed mb-2">
-              We couldn’t retrieve performance data for this website. This
-              usually occurs when a site blocks tools like Lighthouse or
-              Googlebot from accessing its pages.
+              We couldn’t retrieve performance data for this website. This often
+              happens when a site blocks tools like Lighthouse or Googlebot.
             </p>
 
             <p className="text-sm text-gray-500 dark:text-gray-400 italic">
-              You can try analyzing a different URL, or contact us if you
-              believe this is a mistake.
+              Try analyzing a different URL or contact us if you believe this is
+              a mistake.
             </p>
           </>
         ) : !partialResults ? (
