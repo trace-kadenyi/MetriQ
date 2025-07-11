@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { CheckCircle, ArrowRightCircle, AlertTriangle } from "lucide-react";
-import clsx from "clsx";
 
 import preloaderGif from "../../assets/preloader_gif.gif";
 import {
