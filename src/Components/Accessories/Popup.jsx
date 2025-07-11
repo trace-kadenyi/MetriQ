@@ -57,7 +57,22 @@ const Popup = ({
         </button>
 
         {/* Spinner or Results */}
-        {!partialResults ? (
+        {partialResults === "no-data" ? (
+          <>
+            <h3 className="text-lg font-bold text-red-600 dark:text-red-400 mb-4">
+              Data Not Available
+            </h3>
+            <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">
+              Unfortunately, no PageSpeed data could be retrieved for this site.
+              This often happens when a site blocks performance tools like
+              Lighthouse or Googlebot.
+            </p>
+            <p className="text-sm mt-4 text-gray-500 dark:text-gray-400 italic">
+              Try analyzing another website or contact support if this seems
+              like an error.
+            </p>
+          </>
+        ) : !partialResults ? (
           <>
             <div className="my-2 mx-auto flex justify-center">
               <img
