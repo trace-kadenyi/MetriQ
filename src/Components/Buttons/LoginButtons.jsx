@@ -26,8 +26,12 @@ export default function LoginButtons({ variant = "header" }) {
 
   // handle logout
   const handleLogout = async () => {
-    await logout();
-    navigate("/", { replace: true });
+    try {
+      await logout();
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   };
 
   // ───────── Providers Only (Login Page) ─────────
