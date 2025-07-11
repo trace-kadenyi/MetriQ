@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import testimonials from "../../data/testimonials";
 import slideVariants from "../../constants/slideVariants";
-import TestimonialNavigationButtons from "../Buttons/TestimonialArrowButton";
+import TestimonialNavigationButtons from "../Buttons/TestimonialNavigationButtons";
 
 const TestimonialSlider = () => {
   const [index, setIndex] = useState(0);
