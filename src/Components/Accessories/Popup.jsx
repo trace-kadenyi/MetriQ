@@ -6,9 +6,7 @@ import preloaderGif from "../../assets/preloader_gif.gif";
 import {
   scoreColour,
   borderColour,
-  getStatusColor,
-  getScoreStatus,
-  renderScore
+  renderScore,
 } from "../../Components/ResultsBlocks/CurrResultsBlock";
 
 const Popup = ({
