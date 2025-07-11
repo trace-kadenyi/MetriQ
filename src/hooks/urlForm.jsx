@@ -77,10 +77,19 @@ export default function useUrlForm() {
         });
         setUrl("");
       } catch (reportErr) {
-        toast.error(
-          "Something went wrong while generating the report. Please try again."
-        );
-        setShowPopup(false);
+        const message = reportErr.response?.data?.message;
+
+        // Handle sites like facebook.com where PageSpeed has no data
+        if (message === "No PageSpeed data available") {
+          setPartialResults("no-data"); // ⛔ Trigger fallback UI
+        } else {
+          toast.error(
+            message ||
+              "Something went wrong while generating the report. Please try again."
+          );
+          setShowPopup(false);
+        }
+
         clearTimeout(timeoutId.current);
         return;
       }
