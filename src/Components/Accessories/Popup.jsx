@@ -8,6 +8,7 @@ import {
   borderColour,
   getStatusColor,
   getScoreStatus,
+  renderScore
 } from "../../Components/ResultsBlocks/CurrResultsBlock";
 
 const Popup = ({
@@ -18,21 +19,21 @@ const Popup = ({
   showLongWaitMessage,
   navigate,
 }) => {
-  const renderScore = (label, score) => {
-    const status = getScoreStatus(score);
-    const colorClass = getStatusColor(status, "text");
-    const ratingText = status.charAt(0).toUpperCase() + status.slice(1); // e.g. "Good", "Average", "Poor"
+  // const renderScore = (label, score) => {
+  //   const status = getScoreStatus(score);
+  //   const colorClass = getStatusColor(status, "text");
+  //   const ratingText = status.charAt(0).toUpperCase() + status.slice(1); // e.g. "Good", "Average", "Poor"
 
-    return (
-      <p className="mb-1 font-semibold">
-        {label}:{" "}
-        <span className={clsx(colorClass)}>
-          {score ?? "N/A"}{" "}
-          {score !== undefined && <span className="ml-1">({ratingText})</span>}
-        </span>
-      </p>
-    );
-  };
+  //   return (
+  //     <p className="mb-1 font-semibold">
+  //       {label}:{" "}
+  //       <span className={clsx(colorClass)}>
+  //         {score ?? "N/A"}{" "}
+  //         {score !== undefined && <span className="ml-1">({ratingText})</span>}
+  //       </span>
+  //     </p>
+  //   );
+  // };
   return (
     <>
       {/* Faded Background */}
