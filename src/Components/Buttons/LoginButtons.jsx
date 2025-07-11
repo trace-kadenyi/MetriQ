@@ -116,6 +116,7 @@ export default function LoginButtons({ variant = "header" }) {
         <button
           onClick={handleLogout}
           className="group flex items-center gap-1 hover:text-red-500 transition cursor-pointer"
+          aria-label="Logout"
         >
           <svg
             stroke="currentColor"
@@ -142,6 +143,7 @@ export default function LoginButtons({ variant = "header" }) {
     <button
       onClick={() => navigate("/login")}
       className="w-15 cursor-pointer text-xs bg-gray-50 dark:bg-gray-200 p-1 rounded-md text-gray-800 font-semibold hover:bg-orange-400 hover:text-gray-50"
+      aria-label="Sign In"
     >
       Sign In
     </button>
