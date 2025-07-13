@@ -19,3 +19,9 @@ export const useChartSizing = () => {
   }, []);
   return sizes;
 };
+
+// bar colors func for competitor charts
+export const barColors = {
+  mobile: "#f97316", // orange-500
+  desktop: "#16a34a", // green-500
+};
