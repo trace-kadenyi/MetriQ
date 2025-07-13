@@ -10,11 +10,8 @@ import {
   LabelList,
 } from "recharts";
 
-import { useChartSizing } from "../../hooks/useChartSizing";
-import {
-  formatMetricName,
-  barColors,
-} from "../ResultsBlocks/CompetitorResultsBlock";
+import { useChartSizing, barColors } from "../../hooks/useChartSizing";
+import { formatMetricName } from "../ResultsBlocks/CompetitorResultsBlock";
 
 const metricDescriptions = {
   performance:
