@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import {
   LineChart,
   Line,
@@ -20,11 +20,20 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
     lines.map((line) => line.key)
   );
 
+  // 
   const handleToggle = (key) => {
     setVisibleLines((prev) =>
       prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
+
+  const formatDate = (date) =>
+    date instanceof Date
+      ? date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+      : "";
+
+  const getLabel = (key, lines) =>
+    metricDescriptions[key] || lines.find((l) => l.key === key)?.label || key;
 
   return (
     <div className="my-6 text-sm">
@@ -118,25 +127,11 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
       {/* chart */}
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
-          <XAxis
-            dataKey="date"
-            tickFormatter={(date) =>
-              date instanceof Date
-                ? date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })
-                : ""
-            }
-          />
+          <XAxis dataKey="date" tickFormatter={formatDate} />
+
           <YAxis domain={[0, 100]} />
           <Tooltip
-            formatter={(value, name) => [
-              value,
-              metricDescriptions[name] ||
-                lines.find((l) => l.key === name)?.label ||
-                name,
-            ]}
+            formatter={(value, name) => [value, getLabel(name, lines)]}
             contentStyle={{ fontSize: "0.8rem" }}
           />
 
