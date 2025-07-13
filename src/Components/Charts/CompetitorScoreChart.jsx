@@ -50,6 +50,7 @@ export const CompetitorScoreChart = ({ comparison, metric }) => {
 
   const { barSize, barGap, catGap, labelFont } = useChartSizing();
 
+  // bar colors func
   const barColors = {
     mobile: "#f97316", // orange-500
     desktop: "#16a34a", // green-500
