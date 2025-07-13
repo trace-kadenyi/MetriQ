@@ -20,37 +20,8 @@ import { useChartToggles } from "../../hooks/useChartToggles";
 // import { useChartToggles } from "../../hooks/useChartToggles";
 
 export default function ScoreChartWithToggles({ title, quality, lines, data }) {
-   const { visibleLines, handleToggle, visibleChartLines, setVisibleLines } =
+  const { visibleLines, handleToggle, visibleChartLines, thresholdLines } =
     useChartToggles(lines);
-
-
-    
-// threshold 
-  const thresholdLines = useMemo(
-    () =>
-      lines
-        .filter(({ key }) => visibleLines.includes(key))
-        .map(({ key }) => {
-          const y = scorePoorThresholds[key];
-          if (y === undefined) return null;
-          return (
-            <ReferenceLine
-              key={`threshold-${key}`}
-              y={y}
-              stroke="#dc2626"
-              strokeDasharray="4 4"
-              label={{
-                position: "right",
-                value: `⚠ Threshold: ${y}`,
-                fill: "#dc2626",
-                fontSize: 10,
-              }}
-            />
-          );
-        })
-        .filter(Boolean),
-    [lines, visibleLines]
-  );
 
   return (
     <div className="my-6 text-sm">
