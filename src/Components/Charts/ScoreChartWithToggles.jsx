@@ -55,6 +55,32 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
   [lines, visibleLines]
 );
 
+const thresholdLines = useMemo(
+  () =>
+    lines
+      .filter(({ key }) => visibleLines.includes(key))
+      .map(({ key }) => {
+        const y = scorePoorThresholds[key];
+        if (y === undefined) return null;
+        return (
+          <ReferenceLine
+            key={`threshold-${key}`}
+            y={y}
+            stroke="#dc2626"
+            strokeDasharray="4 4"
+            label={{
+              position: "right",
+              value: `⚠ Threshold: ${y}`,
+              fill: "#dc2626",
+              fontSize: 10,
+            }}
+          />
+        );
+      })
+      .filter(Boolean),
+  [lines, visibleLines]
+);
+
 
   return (
     <div className="my-6 text-sm">
@@ -161,24 +187,7 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
           {visibleChartLines}
 
           {/* Poor threshold marker */}
-          {lines.map(
-            ({ key }) =>
-              visibleLines.includes(key) &&
-              scorePoorThresholds[key] !== undefined && (
-                <ReferenceLine
-                  key={`threshold-${key}`}
-                  y={scorePoorThresholds[key]}
-                  stroke="#dc2626"
-                  strokeDasharray="4 4"
-                  label={{
-                    position: "right",
-                    value: `⚠ Threshold: ${scorePoorThresholds[key]}`,
-                    fill: "#dc2626",
-                    fontSize: 10,
-                  }}
-                />
-              )
-          )}
+          {thresholdLines}
         </LineChart>
       </ResponsiveContainer>
     </div>
