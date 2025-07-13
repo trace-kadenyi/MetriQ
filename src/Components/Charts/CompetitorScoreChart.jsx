@@ -28,6 +28,7 @@ const getChartData = (comparison, metric) => {
 
   const data = [];
 
+  // add row func for user's website
   const addRow = (label, scores) => {
     if (!scores) return;
     data.push({
@@ -39,6 +40,7 @@ const getChartData = (comparison, metric) => {
 
   addRow("Your Site", comparison.userScores);
 
+  // add row func for competitors' sites
   (comparison.competitors || []).forEach((comp, i) => {
     addRow(comp.label || `Competitor ${i + 1}`, comp.scores);
   });
@@ -46,7 +48,7 @@ const getChartData = (comparison, metric) => {
   return data;
 };
 
-export const CompetitorScoreChart = ({ comparison, metric }) => {
+const CompetitorScoreChart = ({ comparison, metric }) => {
   // memoize data
   const data = useMemo(
     () => getChartData(comparison, metric),
@@ -122,3 +124,5 @@ export const CompetitorScoreChart = ({ comparison, metric }) => {
     </div>
   );
 };
+
+export default CompetitorScoreChart;
