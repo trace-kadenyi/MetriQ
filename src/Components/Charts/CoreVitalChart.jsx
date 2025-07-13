@@ -35,11 +35,13 @@ const CoreVitalChart = ({
     );
   };
 
+  // format date func
   const formatDate = (date) =>
     date instanceof Date
       ? date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
       : "";
 
+  // tooltipformatter func
   const tooltipFormatter = (value, name) => [
     unit === "s"
       ? `${value.toFixed(2)}s`
@@ -49,6 +51,7 @@ const CoreVitalChart = ({
     metricDescriptions[name] || name,
   ];
 
+  // visible chart lines func
   const visibleChartLines = useMemo(
     () =>
       lines
@@ -67,6 +70,7 @@ const CoreVitalChart = ({
     [lines, visibleLines]
   );
 
+  // visible reference lines func
   const visibleReferenceLines = useMemo(
     () =>
       lines
@@ -155,12 +159,18 @@ const CoreVitalChart = ({
       {/* Chart */}
       <ResponsiveContainer width="100%" height={260}>
         <LineChart data={data}>
+          {/* tickformatter */}
           <XAxis dataKey="date" tickFormatter={formatDate} />
+
           <YAxis domain={yDomain} />
+
+          {/* tooltip */}
           <Tooltip formatter={tooltipFormatter} />
 
+          {/* visible chart lines */}
           {visibleChartLines}
 
+          {/* visible reference lines */}
           {visibleReferenceLines}
         </LineChart>
       </ResponsiveContainer>
