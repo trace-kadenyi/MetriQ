@@ -1,3 +1,4 @@
+import { useMemo, useCallback } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -9,7 +10,7 @@ import {
   LabelList,
 } from "recharts";
 
-import { useChartSizing } from "../../hooks/useChartSizing";
+import { useChartSizing, barColors } from "../../hooks/useChartSizing";
 import { formatMetricName } from "../ResultsBlocks/CompetitorResultsBlock";
 
 const metricDescriptions = {
@@ -27,6 +28,7 @@ const getChartData = (comparison, metric) => {
 
   const data = [];
 
+  // add row func for user's website
   const addRow = (label, scores) => {
     if (!scores) return;
     data.push({
@@ -38,35 +40,37 @@ const getChartData = (comparison, metric) => {
 
   addRow("Your Site", comparison.userScores);
 
-  comparison.competitors.forEach((comp, i) => {
+  // add row func for competitors' sites
+  (comparison.competitors || []).forEach((comp, i) => {
     addRow(comp.label || `Competitor ${i + 1}`, comp.scores);
   });
 
   return data;
 };
 
-export const CompetitorScoreChart = ({ comparison, metric }) => {
-  const data = getChartData(comparison, metric);
-
+const CompetitorScoreChart = ({ comparison, metric }) => {
+  // memoize data
+  const data = useMemo(
+    () => getChartData(comparison, metric),
+    [comparison, metric]
+  );
+  // use chart sizing
   const { barSize, barGap, catGap, labelFont } = useChartSizing();
 
-  // bar colors func
-  const barColors = {
-    mobile: "#f97316", // orange-500
-    desktop: "#16a34a", // green-500
-  };
-
-  // render label func
-  const renderLabel = ({ x, y, value }) => (
-    <text
-      x={x}
-      y={y - 4}
-      textAnchor="middle"
-      fontSize={labelFont}
-      fill="#374151"
-    >
-      {value}
-    </text>
+  // render label
+  const renderLabel = useCallback(
+    ({ x, y, value }) => (
+      <text
+        x={x}
+        y={y - 4}
+        textAnchor="middle"
+        fontSize={labelFont}
+        fill="#374151"
+      >
+        {value}
+      </text>
+    ),
+    [labelFont]
   );
   return (
     <div className="my-10">
@@ -120,3 +124,5 @@ export const CompetitorScoreChart = ({ comparison, metric }) => {
     </div>
   );
 };
+
+export default CompetitorScoreChart;

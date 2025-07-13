@@ -1,30 +1,22 @@
-import { useState } from "react";
 import {
   LineChart,
-  Line,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  ReferenceLine,
 } from "recharts";
 
-import {
-  metricDescriptions,
-  colors,
-  scorePoorThresholds,
-} from "../../config/chartConfig";
+import { formatDate, getLabel } from "../../config/chartConfig";
+import { useChartToggles } from "../../hooks/useChartToggles";
 
-export default function ScoreChartWithToggles({ title, quality, lines, data }) {
-  const [visibleLines, setVisibleLines] = useState(() =>
-    lines.map((line) => line.key)
-  );
-
-  const handleToggle = (key) => {
-    setVisibleLines((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
-    );
-  };
+const ScoreChartWithToggles = ({ title, quality, lines, data }) => {
+  const {
+    visibleLines,
+    setVisibleLines,
+    handleToggle,
+    visibleChartLines,
+    thresholdLines,
+  } = useChartToggles(lines);
 
   return (
     <div className="my-6 text-sm">
@@ -118,65 +110,24 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
       {/* chart */}
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
-          <XAxis
-            dataKey="date"
-            tickFormatter={(date) =>
-              date instanceof Date
-                ? date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })
-                : ""
-            }
-          />
+          <XAxis dataKey="date" tickFormatter={formatDate} />
+
           <YAxis domain={[0, 100]} />
+
           <Tooltip
-            formatter={(value, name) => [
-              value,
-              metricDescriptions[name] ||
-                lines.find((l) => l.key === name)?.label ||
-                name,
-            ]}
+            formatter={(value, name) => [value, getLabel(name, lines)]}
             contentStyle={{ fontSize: "0.8rem" }}
           />
 
           {/* Chart lines */}
-          {lines.map(
-            ({ key, label, device }) =>
-              visibleLines.includes(key) && (
-                <Line
-                  key={key}
-                  type="monotone"
-                  dataKey={key}
-                  name={`${label} (${device})`}
-                  stroke={colors[device]}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                />
-              )
-          )}
+          {visibleChartLines}
 
           {/* Poor threshold marker */}
-          {lines.map(
-            ({ key }) =>
-              visibleLines.includes(key) &&
-              scorePoorThresholds[key] !== undefined && (
-                <ReferenceLine
-                  key={`threshold-${key}`}
-                  y={scorePoorThresholds[key]}
-                  stroke="#dc2626"
-                  strokeDasharray="4 4"
-                  label={{
-                    position: "right",
-                    value: `⚠ Threshold: ${scorePoorThresholds[key]}`,
-                    fill: "#dc2626",
-                    fontSize: 10,
-                  }}
-                />
-              )
-          )}
+          {thresholdLines}
         </LineChart>
       </ResponsiveContainer>
     </div>
   );
-}
+};
+
+export default ScoreChartWithToggles;

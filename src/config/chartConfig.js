@@ -39,3 +39,13 @@ export const scorePoorThresholds = {
   mobileBP: 50,
   desktopBP: 50,
 };
+
+// format date
+export const formatDate = (date) =>
+  date instanceof Date
+    ? date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+    : "";
+
+// get label func
+export const getLabel = (key, lines) =>
+  metricDescriptions[key] || lines.find((l) => l.key === key)?.label || key;

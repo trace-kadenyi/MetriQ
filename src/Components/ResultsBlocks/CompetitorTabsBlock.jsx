@@ -1,4 +1,4 @@
-import { CompetitorScoreChart } from "../Charts/CompetitorScoreChart";
+import CompetitorScoreChart from "../Charts/CompetitorScoreChart";
 
 // Active results
 export const ActiveResults = ({ comparison, DeviceScores, Unavailable }) => {

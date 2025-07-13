@@ -1,21 +1,15 @@
-import { useState } from "react";
 import {
   LineChart,
-  Line,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  ReferenceLine,
 } from "recharts";
 
-import {
-  benchmarkLines,
-  colors,
-  metricDescriptions,
-} from "../../config/chartConfig";
+import { formatDate } from "../../config/chartConfig";
+import { useChartToggles } from "../../hooks/useChartToggles";
 
-export default function CoreVitalChart({
+const CoreVitalChart = ({
   title,
   description,
   quality,
@@ -23,16 +17,14 @@ export default function CoreVitalChart({
   data,
   yDomain,
   unit,
-}) {
-  const [visibleLines, setVisibleLines] = useState(() =>
-    lines.map((line) => line.key)
-  );
-
-  const handleToggle = (key) => {
-    setVisibleLines((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
-    );
-  };
+}) => {
+  const {
+    visibleLines,
+    handleToggle,
+    visibleChartLines,
+    benchmarkReferenceLines,
+    tooltipFormatter,
+  } = useChartToggles(lines, unit);
 
   return (
     <div className="my-8 text-sm">
@@ -93,69 +85,23 @@ export default function CoreVitalChart({
       {/* Chart */}
       <ResponsiveContainer width="100%" height={260}>
         <LineChart data={data}>
-          <XAxis
-            dataKey="date"
-            tickFormatter={(date) =>
-              date instanceof Date
-                ? date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })
-                : ""
-            }
-          />
+          {/* tickformatter */}
+          <XAxis dataKey="date" tickFormatter={formatDate} />
+
           <YAxis domain={yDomain} />
-          <Tooltip
-            formatter={(value, name) => [
-              unit === "s"
-                ? `${value.toFixed(2)}s`
-                : unit === "ms"
-                ? `${value}ms`
-                : value,
-              metricDescriptions[name] || name,
-            ]}
-          />
 
-          {lines.map(
-            ({ key, label, device }) =>
-              visibleLines.includes(key) && (
-                <Line
-                  key={key}
-                  type="monotone"
-                  dataKey={key}
-                  name={`${label} (${device})`}
-                  stroke={colors[device]}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                />
-              )
-          )}
+          {/* tooltip */}
+          <Tooltip formatter={tooltipFormatter} />
 
-          {lines.map(
-            ({ key }) =>
-              visibleLines.includes(key) &&
-              benchmarkLines[key] !== undefined && (
-                <ReferenceLine
-                  key={`ref-${key}`}
-                  y={benchmarkLines[key]}
-                  stroke="red"
-                  strokeDasharray="4"
-                  label={{
-                    position: "right",
-                    value:
-                      unit === "s"
-                        ? `Benchmark: ${benchmarkLines[key]}s`
-                        : unit === "ms"
-                        ? `Benchmark: ${benchmarkLines[key]}ms`
-                        : `Benchmark: ${benchmarkLines[key]}`,
-                    fill: "#dc2626",
-                    fontSize: 10,
-                  }}
-                />
-              )
-          )}
+          {/* visible chart lines */}
+          {visibleChartLines}
+
+          {/* visible reference lines */}
+          {benchmarkReferenceLines}
         </LineChart>
       </ResponsiveContainer>
     </div>
   );
-}
+};
+
+export default CoreVitalChart;

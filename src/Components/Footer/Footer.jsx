@@ -7,10 +7,6 @@ import MainForm from "../Forms/MainForm";
 const Footer = () => {
   const [showForm, setShowForm] = useState(false);
 
-  const handleClick = (e) => {
-    e.target.classList.add("hidden");
-    setHide(true);
-  };
   return (
     <EaseOutFunc>
       <section className="py-20 bg-blue-950 text-white dark:text-gray-100 text-center">
