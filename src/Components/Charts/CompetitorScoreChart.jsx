@@ -56,6 +56,7 @@ export const CompetitorScoreChart = ({ comparison, metric }) => {
     desktop: "#16a34a", // green-500
   };
 
+  // render label func
   const renderLabel = ({ x, y, value }) => (
     <text
       x={x}
