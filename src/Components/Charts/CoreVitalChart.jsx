@@ -67,6 +67,35 @@ const CoreVitalChart = ({
     [lines, visibleLines]
   );
 
+  const visibleReferenceLines = useMemo(
+    () =>
+      lines
+        .filter(
+          ({ key }) =>
+            visibleLines.includes(key) && benchmarkLines[key] !== undefined
+        )
+        .map(({ key }) => (
+          <ReferenceLine
+            key={`ref-${key}`}
+            y={benchmarkLines[key]}
+            stroke="red"
+            strokeDasharray="4"
+            label={{
+              position: "right",
+              value:
+                unit === "s"
+                  ? `Benchmark: ${benchmarkLines[key]}s`
+                  : unit === "ms"
+                  ? `Benchmark: ${benchmarkLines[key]}ms`
+                  : `Benchmark: ${benchmarkLines[key]}`,
+              fill: "#dc2626",
+              fontSize: 10,
+            }}
+          />
+        )),
+    [lines, visibleLines, unit]
+  );
+
   return (
     <div className="my-8 text-sm">
       <h3 className="font-semibold text-gray-800 dark:text-gray-100 uppercase underline mb-2">
@@ -132,29 +161,7 @@ const CoreVitalChart = ({
 
           {visibleChartLines}
 
-          {lines.map(
-            ({ key }) =>
-              visibleLines.includes(key) &&
-              benchmarkLines[key] !== undefined && (
-                <ReferenceLine
-                  key={`ref-${key}`}
-                  y={benchmarkLines[key]}
-                  stroke="red"
-                  strokeDasharray="4"
-                  label={{
-                    position: "right",
-                    value:
-                      unit === "s"
-                        ? `Benchmark: ${benchmarkLines[key]}s`
-                        : unit === "ms"
-                        ? `Benchmark: ${benchmarkLines[key]}ms`
-                        : `Benchmark: ${benchmarkLines[key]}`,
-                    fill: "#dc2626",
-                    fontSize: 10,
-                  }}
-                />
-              )
-          )}
+          {visibleReferenceLines}
         </LineChart>
       </ResponsiveContainer>
     </div>
