@@ -12,12 +12,14 @@ export function useChartToggles(lines, unit = null) {
     lines.map((line) => line.key)
   );
 
+  //   handle toggle func
   const handleToggle = (key) => {
     setVisibleLines((prev) =>
       prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
 
+  //   visible chart lines func
   const visibleChartLines = useMemo(
     () =>
       lines
@@ -36,6 +38,7 @@ export function useChartToggles(lines, unit = null) {
     [lines, visibleLines]
   );
 
+  //   threshold lines func
   const thresholdLines = useMemo(
     () =>
       lines
@@ -62,6 +65,7 @@ export function useChartToggles(lines, unit = null) {
     [lines, visibleLines]
   );
 
+  //   benchmark reference lines func
   const benchmarkReferenceLines = useMemo(
     () =>
       lines
@@ -91,6 +95,7 @@ export function useChartToggles(lines, unit = null) {
     [lines, visibleLines, unit]
   );
 
+  //   tooltip formatter func
   const tooltipFormatter = useMemo(() => {
     return (value, name) => {
       const line = lines.find((l) => l.key === name);
