@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -46,8 +47,10 @@ const getChartData = (comparison, metric) => {
 };
 
 export const CompetitorScoreChart = ({ comparison, metric }) => {
-  const data = getChartData(comparison, metric);
-
+  const data = useMemo(
+    () => getChartData(comparison, metric),
+    [comparison, metric]
+  );
   const { barSize, barGap, catGap, labelFont } = useChartSizing();
 
   // bar colors func
