@@ -1,8 +1,7 @@
 import { useState, useMemo } from "react";
-import { Line } from "recharts";
-import { colors } from "../config/chartConfig";
+import { Line, ReferenceLine } from "recharts";
+import { colors, scorePoorThresholds } from "../config/chartConfig";
 
-// 👇 Reusable hook for toggling and rendering chart lines
 export function useChartToggles(lines) {
   const [visibleLines, setVisibleLines] = useState(() =>
     lines.map((line) => line.key)
@@ -13,7 +12,7 @@ export function useChartToggles(lines) {
       prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
- 
+
   const visibleChartLines = useMemo(
     () =>
       lines
@@ -32,10 +31,37 @@ export function useChartToggles(lines) {
     [lines, visibleLines]
   );
 
+  const thresholdLines = useMemo(
+    () =>
+      lines
+        .filter(({ key }) => visibleLines.includes(key))
+        .map(({ key }) => {
+          const y = scorePoorThresholds[key];
+          if (y === undefined) return null;
+          return (
+            <ReferenceLine
+              key={`threshold-${key}`}
+              y={y}
+              stroke="#dc2626"
+              strokeDasharray="4 4"
+              label={{
+                position: "right",
+                value: `⚠ Threshold: ${y}`,
+                fill: "#dc2626",
+                fontSize: 10,
+              }}
+            />
+          );
+        })
+        .filter(Boolean),
+    [lines, visibleLines]
+  );
+
   return {
     visibleLines,
+    setVisibleLines,
     handleToggle,
     visibleChartLines,
-    setVisibleLines, // optional if you want to group-toggle
+    thresholdLines,
   };
 }
