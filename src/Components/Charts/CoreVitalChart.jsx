@@ -15,7 +15,7 @@ import {
   metricDescriptions,
 } from "../../config/chartConfig";
 
-export default function CoreVitalChart({
+const CoreVitalChart = ({
   title,
   description,
   quality,
@@ -23,16 +23,22 @@ export default function CoreVitalChart({
   data,
   yDomain,
   unit,
-}) {
+}) => {
   const [visibleLines, setVisibleLines] = useState(() =>
     lines.map((line) => line.key)
   );
 
+  // handle toggle func
   const handleToggle = (key) => {
     setVisibleLines((prev) =>
       prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
+
+  const formatDate = (date) =>
+    date instanceof Date
+      ? date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+      : "";
 
   return (
     <div className="my-8 text-sm">
@@ -93,17 +99,7 @@ export default function CoreVitalChart({
       {/* Chart */}
       <ResponsiveContainer width="100%" height={260}>
         <LineChart data={data}>
-          <XAxis
-            dataKey="date"
-            tickFormatter={(date) =>
-              date instanceof Date
-                ? date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })
-                : ""
-            }
-          />
+          <XAxis dataKey="date" tickFormatter={formatDate} />
           <YAxis domain={yDomain} />
           <Tooltip
             formatter={(value, name) => [
@@ -158,4 +154,6 @@ export default function CoreVitalChart({
       </ResponsiveContainer>
     </div>
   );
-}
+};
+
+export default CoreVitalChart;
