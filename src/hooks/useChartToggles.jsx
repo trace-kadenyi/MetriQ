@@ -13,7 +13,7 @@ export function useChartToggles(lines) {
       prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
-
+ 
   const visibleChartLines = useMemo(
     () =>
       lines
