@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -11,7 +11,10 @@ import {
 } from "recharts";
 
 import { useChartSizing } from "../../hooks/useChartSizing";
-import { formatMetricName } from "../ResultsBlocks/CompetitorResultsBlock";
+import {
+  formatMetricName,
+  barColors,
+} from "../ResultsBlocks/CompetitorResultsBlock";
 
 const metricDescriptions = {
   performance:
@@ -47,29 +50,28 @@ const getChartData = (comparison, metric) => {
 };
 
 export const CompetitorScoreChart = ({ comparison, metric }) => {
+  // memoize data
   const data = useMemo(
     () => getChartData(comparison, metric),
     [comparison, metric]
   );
+  // use chart sizing
   const { barSize, barGap, catGap, labelFont } = useChartSizing();
 
-  // bar colors func
-  const barColors = {
-    mobile: "#f97316", // orange-500
-    desktop: "#16a34a", // green-500
-  };
-
-  // render label func
-  const renderLabel = ({ x, y, value }) => (
-    <text
-      x={x}
-      y={y - 4}
-      textAnchor="middle"
-      fontSize={labelFont}
-      fill="#374151"
-    >
-      {value}
-    </text>
+  // render label
+  const renderLabel = useCallback(
+    ({ x, y, value }) => (
+      <text
+        x={x}
+        y={y - 4}
+        textAnchor="middle"
+        fontSize={labelFont}
+        fill="#374151"
+      >
+        {value}
+      </text>
+    ),
+    [labelFont]
   );
   return (
     <div className="my-10">
