@@ -13,6 +13,7 @@ import {
   benchmarkLines,
   colors,
   metricDescriptions,
+  formatDate,
 } from "../../config/chartConfig";
 
 const CoreVitalChart = ({
@@ -34,12 +35,6 @@ const CoreVitalChart = ({
       prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
-
-  // format date func
-  const formatDate = (date) =>
-    date instanceof Date
-      ? date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
-      : "";
 
   // tooltipformatter func
   const tooltipFormatter = (value, name) => [
