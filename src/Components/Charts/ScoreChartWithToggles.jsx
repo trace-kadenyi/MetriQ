@@ -1,25 +1,15 @@
-import { useState, useMemo, useCallback } from "react";
 import {
   LineChart,
-  Line,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  ReferenceLine,
 } from "recharts";
 
-import {
-  metricDescriptions,
-  colors,
-  scorePoorThresholds,
-  formatDate,
-  getLabel,
-} from "../../config/chartConfig";
+import { formatDate, getLabel } from "../../config/chartConfig";
 import { useChartToggles } from "../../hooks/useChartToggles";
-// import { useChartToggles } from "../../hooks/useChartToggles";
 
-export default function ScoreChartWithToggles({ title, quality, lines, data }) {
+const ScoreChartWithToggles = ({ title, quality, lines, data }) => {
   const { visibleLines, handleToggle, visibleChartLines, thresholdLines } =
     useChartToggles(lines);
 
@@ -133,4 +123,6 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
       </ResponsiveContainer>
     </div>
   );
-}
+};
+
+export default ScoreChartWithToggles;
