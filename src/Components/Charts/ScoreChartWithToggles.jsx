@@ -13,6 +13,8 @@ import {
   metricDescriptions,
   colors,
   scorePoorThresholds,
+  formatDate,
+  getLabel,
 } from "../../config/chartConfig";
 
 export default function ScoreChartWithToggles({ title, quality, lines, data }) {
@@ -27,60 +29,49 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
     );
   };
 
-  // formate date
-  const formatDate = (date) =>
-    date instanceof Date
-      ? date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
-      : "";
-
-  // get label
-  const getLabel = (key, lines) =>
-    metricDescriptions[key] || lines.find((l) => l.key === key)?.label || key;
-
   const visibleChartLines = useMemo(
-  () =>
-    lines
-      .filter(({ key }) => visibleLines.includes(key))
-      .map(({ key, label, device }) => (
-        <Line
-          key={key}
-          type="monotone"
-          dataKey={key}
-          name={`${label} (${device})`}
-          stroke={colors[device]}
-          strokeWidth={2}
-          dot={{ r: 3 }}
-        />
-      )),
-  [lines, visibleLines]
-);
-
-const thresholdLines = useMemo(
-  () =>
-    lines
-      .filter(({ key }) => visibleLines.includes(key))
-      .map(({ key }) => {
-        const y = scorePoorThresholds[key];
-        if (y === undefined) return null;
-        return (
-          <ReferenceLine
-            key={`threshold-${key}`}
-            y={y}
-            stroke="#dc2626"
-            strokeDasharray="4 4"
-            label={{
-              position: "right",
-              value: `⚠ Threshold: ${y}`,
-              fill: "#dc2626",
-              fontSize: 10,
-            }}
+    () =>
+      lines
+        .filter(({ key }) => visibleLines.includes(key))
+        .map(({ key, label, device }) => (
+          <Line
+            key={key}
+            type="monotone"
+            dataKey={key}
+            name={`${label} (${device})`}
+            stroke={colors[device]}
+            strokeWidth={2}
+            dot={{ r: 3 }}
           />
-        );
-      })
-      .filter(Boolean),
-  [lines, visibleLines]
-);
+        )),
+    [lines, visibleLines]
+  );
 
+  const thresholdLines = useMemo(
+    () =>
+      lines
+        .filter(({ key }) => visibleLines.includes(key))
+        .map(({ key }) => {
+          const y = scorePoorThresholds[key];
+          if (y === undefined) return null;
+          return (
+            <ReferenceLine
+              key={`threshold-${key}`}
+              y={y}
+              stroke="#dc2626"
+              strokeDasharray="4 4"
+              label={{
+                position: "right",
+                value: `⚠ Threshold: ${y}`,
+                fill: "#dc2626",
+                fontSize: 10,
+              }}
+            />
+          );
+        })
+        .filter(Boolean),
+    [lines, visibleLines]
+  );
 
   return (
     <div className="my-6 text-sm">
@@ -177,7 +168,7 @@ const thresholdLines = useMemo(
           <XAxis dataKey="date" tickFormatter={formatDate} />
 
           <YAxis domain={[0, 100]} />
-          
+
           <Tooltip
             formatter={(value, name) => [value, getLabel(name, lines)]}
             contentStyle={{ fontSize: "0.8rem" }}
