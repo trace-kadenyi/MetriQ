@@ -10,8 +10,13 @@ import { formatDate, getLabel } from "../../config/chartConfig";
 import { useChartToggles } from "../../hooks/useChartToggles";
 
 const ScoreChartWithToggles = ({ title, quality, lines, data }) => {
-  const { visibleLines, handleToggle, visibleChartLines, thresholdLines } =
-    useChartToggles(lines);
+  const {
+    visibleLines,
+    setVisibleLines,
+    handleToggle,
+    visibleChartLines,
+    thresholdLines,
+  } = useChartToggles(lines);
 
   return (
     <div className="my-6 text-sm">
