@@ -39,7 +39,7 @@ const getChartData = (comparison, metric) => {
 
   addRow("Your Site", comparison.userScores);
 
-  comparison.competitors.forEach((comp, i) => {
+  (comparison.competitors || []).forEach((comp, i) => {
     addRow(comp.label || `Competitor ${i + 1}`, comp.scores);
   });
 
