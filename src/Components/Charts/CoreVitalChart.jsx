@@ -40,6 +40,15 @@ const CoreVitalChart = ({
       ? date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
       : "";
 
+  const tooltipFormatter = (value, name) => [
+    unit === "s"
+      ? `${value.toFixed(2)}s`
+      : unit === "ms"
+      ? `${value}ms`
+      : value,
+    metricDescriptions[name] || name,
+  ];
+
   return (
     <div className="my-8 text-sm">
       <h3 className="font-semibold text-gray-800 dark:text-gray-100 uppercase underline mb-2">
@@ -101,16 +110,7 @@ const CoreVitalChart = ({
         <LineChart data={data}>
           <XAxis dataKey="date" tickFormatter={formatDate} />
           <YAxis domain={yDomain} />
-          <Tooltip
-            formatter={(value, name) => [
-              unit === "s"
-                ? `${value.toFixed(2)}s`
-                : unit === "ms"
-                ? `${value}ms`
-                : value,
-              metricDescriptions[name] || name,
-            ]}
-          />
+          <Tooltip formatter={tooltipFormatter} />
 
           {lines.map(
             ({ key, label, device }) =>
