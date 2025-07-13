@@ -16,37 +16,16 @@ import {
   formatDate,
   getLabel,
 } from "../../config/chartConfig";
+import { useChartToggles } from "../../hooks/useChartToggles";
+// import { useChartToggles } from "../../hooks/useChartToggles";
 
 export default function ScoreChartWithToggles({ title, quality, lines, data }) {
-  const [visibleLines, setVisibleLines] = useState(() =>
-    lines.map((line) => line.key)
-  );
+   const { visibleLines, handleToggle, visibleChartLines, setVisibleLines } =
+    useChartToggles(lines);
 
-  // handle toggle func
-  const handleToggle = (key) => {
-    setVisibleLines((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
-    );
-  };
 
-  const visibleChartLines = useMemo(
-    () =>
-      lines
-        .filter(({ key }) => visibleLines.includes(key))
-        .map(({ key, label, device }) => (
-          <Line
-            key={key}
-            type="monotone"
-            dataKey={key}
-            name={`${label} (${device})`}
-            stroke={colors[device]}
-            strokeWidth={2}
-            dot={{ r: 3 }}
-          />
-        )),
-    [lines, visibleLines]
-  );
-
+    
+// threshold 
   const thresholdLines = useMemo(
     () =>
       lines
