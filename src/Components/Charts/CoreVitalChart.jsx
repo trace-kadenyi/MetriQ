@@ -1,20 +1,13 @@
-import { useState, useMemo } from "react";
 import {
   LineChart,
-  Line,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  ReferenceLine,
 } from "recharts";
 
-import {
-  benchmarkLines,
-  colors,
-  metricDescriptions,
-  formatDate,
-} from "../../config/chartConfig";
+import { formatDate } from "../../config/chartConfig";
+import { useChartToggles } from "../../hooks/useChartToggles";
 
 const CoreVitalChart = ({
   title,
@@ -25,75 +18,13 @@ const CoreVitalChart = ({
   yDomain,
   unit,
 }) => {
-  const [visibleLines, setVisibleLines] = useState(() =>
-    lines.map((line) => line.key)
-  );
-
-  // handle toggle func
-  const handleToggle = (key) => {
-    setVisibleLines((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
-    );
-  };
-
-  // tooltipformatter func
-  const tooltipFormatter = (value, name) => [
-    unit === "s"
-      ? `${value.toFixed(2)}s`
-      : unit === "ms"
-      ? `${value}ms`
-      : value,
-    metricDescriptions[name] || name,
-  ];
-
-  // visible chart lines func
-  const visibleChartLines = useMemo(
-    () =>
-      lines
-        .filter(({ key }) => visibleLines.includes(key))
-        .map(({ key, label, device }) => (
-          <Line
-            key={key}
-            type="monotone"
-            dataKey={key}
-            name={`${label} (${device})`}
-            stroke={colors[device]}
-            strokeWidth={2}
-            dot={{ r: 3 }}
-          />
-        )),
-    [lines, visibleLines]
-  );
-
-  // visible reference lines func
-  const visibleReferenceLines = useMemo(
-    () =>
-      lines
-        .filter(
-          ({ key }) =>
-            visibleLines.includes(key) && benchmarkLines[key] !== undefined
-        )
-        .map(({ key }) => (
-          <ReferenceLine
-            key={`ref-${key}`}
-            y={benchmarkLines[key]}
-            stroke="red"
-            strokeDasharray="4"
-            label={{
-              position: "right",
-              value:
-                unit === "s"
-                  ? `Benchmark: ${benchmarkLines[key]}s`
-                  : unit === "ms"
-                  ? `Benchmark: ${benchmarkLines[key]}ms`
-                  : `Benchmark: ${benchmarkLines[key]}`,
-              fill: "#dc2626",
-              fontSize: 10,
-            }}
-          />
-        )),
-    [lines, visibleLines, unit]
-  );
+  const {
+    visibleLines,
+    handleToggle,
+    visibleChartLines,
+    benchmarkReferenceLines,
+    tooltipFormatter,
+  } = useChartToggles(lines, unit);
 
   return (
     <div className="my-8 text-sm">
@@ -166,7 +97,7 @@ const CoreVitalChart = ({
           {visibleChartLines}
 
           {/* visible reference lines */}
-          {visibleReferenceLines}
+          {benchmarkReferenceLines}
         </LineChart>
       </ResponsiveContainer>
     </div>
