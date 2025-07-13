@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   LineChart,
   Line,
@@ -48,6 +48,24 @@ const CoreVitalChart = ({
       : value,
     metricDescriptions[name] || name,
   ];
+
+  const visibleChartLines = useMemo(
+    () =>
+      lines
+        .filter(({ key }) => visibleLines.includes(key))
+        .map(({ key, label, device }) => (
+          <Line
+            key={key}
+            type="monotone"
+            dataKey={key}
+            name={`${label} (${device})`}
+            stroke={colors[device]}
+            strokeWidth={2}
+            dot={{ r: 3 }}
+          />
+        )),
+    [lines, visibleLines]
+  );
 
   return (
     <div className="my-8 text-sm">
@@ -112,20 +130,7 @@ const CoreVitalChart = ({
           <YAxis domain={yDomain} />
           <Tooltip formatter={tooltipFormatter} />
 
-          {lines.map(
-            ({ key, label, device }) =>
-              visibleLines.includes(key) && (
-                <Line
-                  key={key}
-                  type="monotone"
-                  dataKey={key}
-                  name={`${label} (${device})`}
-                  stroke={colors[device]}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                />
-              )
-          )}
+          {visibleChartLines}
 
           {lines.map(
             ({ key }) =>
