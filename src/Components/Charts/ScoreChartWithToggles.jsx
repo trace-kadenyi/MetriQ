@@ -20,20 +20,41 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
     lines.map((line) => line.key)
   );
 
-  // 
+  // handle toggle func
   const handleToggle = (key) => {
     setVisibleLines((prev) =>
       prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
 
+  // formate date
   const formatDate = (date) =>
     date instanceof Date
       ? date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
       : "";
 
+  // get label
   const getLabel = (key, lines) =>
     metricDescriptions[key] || lines.find((l) => l.key === key)?.label || key;
+
+  const visibleChartLines = useMemo(
+  () =>
+    lines
+      .filter(({ key }) => visibleLines.includes(key))
+      .map(({ key, label, device }) => (
+        <Line
+          key={key}
+          type="monotone"
+          dataKey={key}
+          name={`${label} (${device})`}
+          stroke={colors[device]}
+          strokeWidth={2}
+          dot={{ r: 3 }}
+        />
+      )),
+  [lines, visibleLines]
+);
+
 
   return (
     <div className="my-6 text-sm">
@@ -130,26 +151,14 @@ export default function ScoreChartWithToggles({ title, quality, lines, data }) {
           <XAxis dataKey="date" tickFormatter={formatDate} />
 
           <YAxis domain={[0, 100]} />
+          
           <Tooltip
             formatter={(value, name) => [value, getLabel(name, lines)]}
             contentStyle={{ fontSize: "0.8rem" }}
           />
 
           {/* Chart lines */}
-          {lines.map(
-            ({ key, label, device }) =>
-              visibleLines.includes(key) && (
-                <Line
-                  key={key}
-                  type="monotone"
-                  dataKey={key}
-                  name={`${label} (${device})`}
-                  stroke={colors[device]}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                />
-              )
-          )}
+          {visibleChartLines}
 
           {/* Poor threshold marker */}
           {lines.map(
