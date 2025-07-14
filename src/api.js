@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000", // ✅ Base path
+  baseURL: "https://metri-q-api.vercel.app", // ✅ Base path
   withCredentials: true, 
   headers: {
     "Content-Type": "application/json",
