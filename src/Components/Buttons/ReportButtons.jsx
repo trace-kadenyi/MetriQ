@@ -128,7 +128,7 @@ export const PdfDownloadBtn = ({ url, reports, aiSummary }) => (
   >
     <PDFDownloadLink
       document={<ReportPDF url={url} reports={reports} aiSummary={aiSummary} />}
-      fileName="performance_report.pdf"
+      fileName="Overall_Performance_Report.pdf"
       className="inline-flex w-full sm:w-[14rem] md:min-w-[16rem]
                  bg-gradient-to-r from-green-500 to-blue-600 text-white
                  px-4 py-2 rounded shadow hover:opacity-90
