@@ -27,7 +27,7 @@ const TestimonialSlider = () => {
   const { quote, name } = testimonials[index];
 
   return (
-    <div className="relative max-w-3xl mx-auto px-6 h-[180px]">
+    <div className="relative max-w-3xl mx-auto px-6 h-[300px] sm:h-[200px] overflow-hidden">
       <AnimatePresence custom={direction}>
         <motion.div
           key={index}
@@ -37,7 +37,8 @@ const TestimonialSlider = () => {
           animate="center"
           exit="exit"
           transition={{ duration: 0.5 }}
-          className="text-center"
+          layout="position"
+          className="text-center will-change-transform"
           aria-live="polite"
         >
           <div>
