@@ -81,7 +81,7 @@ export const ComparisonPdfBtn = ({ comparison, aiAnalysis }) => (
           aiAnalysis={aiAnalysis}
         />
       }
-      fileName="competitor_comparison.pdf"
+      fileName="Competitor_Comparison.pdf"
       className="inline-flex bg-gradient-to-r from-green-600 to-orange-600 dark:from-green-800 dark:to-orange-800
                  text-white px-4 py-2 rounded shadow hover:opacity-90
                  disabled:opacity-60 items-center gap-2 justify-center w-full"
