@@ -9,6 +9,7 @@ import {
   ChartNoAxesCombined,
   ChevronsLeftRightEllipsis,
   TrendingUpDown,
+  ArrowDown,
 } from "lucide-react";
 import { easeOut, motion } from "framer-motion";
 
@@ -46,6 +47,14 @@ const LandingPage = () => {
           >
             Get real-time and historical Core Web Vitals in one beautiful
             dashboard.
+          </motion.p>
+
+          <motion.p
+            variants={fadeUp}
+            className="text-base md:text-lg p-2 mt-2 text-slate-200 dark:text-slate-300 flex items-center gap-2"
+          >
+            Get started for free — enter your URL below
+            <ArrowDown className="w-5 h-5 animate-bounce mt-1 text-slate-300 dark:text-slate-400" />
           </motion.p>
           {/* Form */}
           <MainForm />
