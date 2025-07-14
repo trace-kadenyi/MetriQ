@@ -13,14 +13,14 @@ const TestimonialNavigationButtons = ({ onPrev, onNext }) => {
       {/* Desktop buttons */}
       <button
         onClick={onPrev}
-        className={`absolute left-0 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center ${baseStyles}`}
+        className={`absolute left-0 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center sm:mx-1 ${baseStyles}`}
         aria-label="Previous Testimonial"
       >
         <ChevronLeft className={iconStyles} />
       </button>
       <button
         onClick={onNext}
-        className={`absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center ${baseStyles}`}
+        className={`absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center sm:mx-1 ${baseStyles}`}
         aria-label="Next Testimonial"
       >
         <ChevronRight className={iconStyles} />
