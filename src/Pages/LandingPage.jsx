@@ -27,7 +27,7 @@ const LandingPage = () => {
   return (
     <main className="bg-white dark:bg-blue-950">
       {/* hero section */}
-      <section className="hero_sect h-screen w-full flex justify-center flex-col overflow-x-hidden pt-20">
+      <section className="hero_sect h-screen w-full flex justify-center flex-col overflow-x-hidden pt-20 sm:pt-0">
         <motion.div
           variants={heroVariants}
           initial="hidden"
