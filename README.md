@@ -20,11 +20,11 @@ The frontend for **MetriQ**, a web performance analysis and comparison platform.
 ## 🌐 Preview
 
 <p float="left">
-  <img src="public/screenshots/landingD.png" width="48%" />
-  <img src="public/screenshots/report.png" width="48%" />
-  <img src="public/screenshots/reportsD.png" width="48%" />
-  <img src="public/screenshots/competitorsD.png" width="48%" />
-  <img src="public/screenshots/competitorsDD.png" width="48%" />
+  <img src="public/screenshots/landingD.png" width="20%" />
+  <img src="public/screenshots/report.png" width="20%" />
+  <img src="public/screenshots/reportsD.png" width="20%" />
+  <img src="public/screenshots/competitorsD.png" width="20%" />
+  <img src="public/screenshots/competitorsDD.png" width="20%" />
 </p>
 
 <p float="left">
