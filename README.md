@@ -86,7 +86,7 @@ Visit [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## 🔐 Environment Variables
 
-Create a `.env` file in the root and add:
+Create a `.env` file in the root (add it to gitignore) and add:
 
 ```env
 VITE_API_KEY=vite_api_key
