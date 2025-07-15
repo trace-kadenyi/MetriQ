@@ -9,7 +9,7 @@ const Footer = () => {
 
   return (
     <EaseOutFunc>
-      <section className="py-20 bg-blue-950 text-white dark:text-gray-100 text-center">
+      <section className="py-20 px-1 bg-blue-950 text-white dark:text-gray-100 text-center">
         <h2 className="text-4xl font-bold mb-6">
           Start Analyzing Smarter Today
         </h2>
