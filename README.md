@@ -20,18 +20,18 @@ The frontend for **MetriQ**, a web performance analysis and comparison platform.
 ## 🌐 Preview
 
 <p float="left">
-  <img src="public/screenshots/landingD" width="48%" />
-  <img src="screenshots/report" width="48%" />
-  <img src="screenshots/reportsD" width="48%" />
-  <img src="screenshots/competitorsD" width="48%" />
-  <img src="screenshots/competitorsDD" width="48%" />
+  <img src="public/screenshots/landingD.png" width="48%" />
+  <img src="screenshots/report.png" width="48%" />
+  <img src="screenshots/reportsD.png" width="48%" />
+  <img src="screenshots/competitorsD.png" width="48%" />
+  <img src="screenshots/competitorsDD.png" width="48%" />
 </p>
 
 <p float="left">
-  <img src="screenshots/landingM" width="48%" />
-  <img src="screenshots/reportsM" width="48%" />
-  <img src="screenshots/competitorsM" width="48%" />
-  <img src="screenshots/competitorsM1" width="48%" />
+  <img src="screenshots/landingM.png" width="48%" />
+  <img src="screenshots/reportsM.png" width="48%" />
+  <img src="screenshots/competitorsM.png" width="48%" />
+  <img src="screenshots/competitorsM1.png" width="48%" />
 </p>
 
 ---
