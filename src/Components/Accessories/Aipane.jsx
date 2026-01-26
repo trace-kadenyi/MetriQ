@@ -17,6 +17,36 @@ const AiPane = ({ loading, error, markdown }) => {
 
   // render ai error
   if (error) {
+    // Determine the user-friendly message
+    let userMessage = error;
+    let helpText =
+      "If you've exceeded your daily limit, please check back tomorrow.";
+
+    if (error === "RATE_LIMIT" || error === "QUOTA_EXCEEDED") {
+      userMessage = "📊 Daily AI analysis limit reached";
+      helpText =
+        "You've used all your free AI credits for today. Try again tomorrow.";
+    } else if (error === "TIMEOUT") {
+      userMessage = "⏳ AI analysis is taking too long";
+      helpText =
+        "The analysis is taking longer than expected. Try with fewer competitors or try again later.";
+    } else if (
+      error.includes("API") ||
+      error.includes("key") ||
+      error === "INVALID_API_KEY"
+    ) {
+      userMessage = "🔑 AI service configuration issue";
+      helpText =
+        "There's a problem with the AI service setup. This has been reported to our team.";
+    } else if (
+      error.includes("Failed to generate") ||
+      error === "AI_COMPARISON_FAILED"
+    ) {
+      userMessage = "🤖 AI insights temporarily unavailable";
+      helpText =
+        "The AI service is having issues. Please try again in a few moments.";
+    }
+
     return (
       <div className="flex flex-col items-center justify-center gap-3 px-6 py-6 bg-red-50 dark:bg-red-900/10 border-l-4 border-red-500 rounded-xl shadow-sm">
         <svg
@@ -34,11 +64,10 @@ const AiPane = ({ loading, error, markdown }) => {
           />
         </svg>
         <p className="text-center text-red-600 dark:text-red-400 font-semibold">
-          {error}
+          {userMessage}
         </p>
         <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-          If you’ve exceeded your daily limit, please check back tomorrow or
-          upgrade your plan.
+          {helpText}
         </p>
       </div>
     );
