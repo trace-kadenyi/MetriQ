@@ -22,6 +22,8 @@ export const useAISummary = () => {
     }
 
     setGeneratingSummary(true);
+    setAiError(false);
+
     try {
       const inputText = generateSummaryInput(reportsArr);
 
@@ -33,8 +35,18 @@ export const useAISummary = () => {
       setShowSummary(true);
     } catch (err) {
       setAiError(true);
-      console.error("AI analysis failed:", err);
-      toast.error("Failed to generate AI analysis.");
+      console.error("AI analysis failed:", err.response?.data || err.message);
+
+      // Show specific error messages
+      if (err.response?.data?.error === "QUOTA_EXCEEDED") {
+        toast.error("Daily AI limit reached. Try again tomorrow.");
+      } else if (err.response?.data?.error === "TIMEOUT") {
+        toast.error("AI is taking too long. Try with less data.");
+      } else if (err.response?.data?.error === "INVALID_API_KEY") {
+        toast.error("AI service configuration error.");
+      } else {
+        toast.error("Failed to generate AI analysis.");
+      }
     } finally {
       setGeneratingSummary(false);
     }
