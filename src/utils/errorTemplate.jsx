@@ -20,7 +20,7 @@ const ErrorTemplate = ({ error }) => {
       </p>
       <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
         You've reached the daily limit for AI analysis. Please try again
-        tomorrow, or upgrade for unlimited access.
+        tomorrow.
       </p>
     </div>
   );
