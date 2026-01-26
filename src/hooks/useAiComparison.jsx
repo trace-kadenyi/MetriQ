@@ -48,10 +48,47 @@ const useAiComparison = (comparison) => {
         sessionStorage.setItem(storageKey, JSON.stringify({ analysis }));
         fetchedKeyRef.current = key;
       } catch (err) {
-        const msg = "Failed to generate AI insights";
-        setAiError(msg);
-        console.error(err);
-        sessionStorage.setItem(storageKey, JSON.stringify({ error: msg }));
+        const backendError = err.response?.data?.error;
+        const backendMessage = err.response?.data?.message || err.message;
+
+        let errorType;
+
+        if (
+          backendError === "RATE_LIMIT" ||
+          backendError === "QUOTA_EXCEEDED"
+        ) {
+          errorType = "RATE_LIMIT";
+        } else if (backendError === "TIMEOUT") {
+          errorType = "TIMEOUT";
+        } else if (
+          backendMessage?.includes("quota") ||
+          backendMessage?.includes("limit")
+        ) {
+          errorType = "RATE_LIMIT";
+        } else if (
+          backendMessage?.includes("timeout") ||
+          err.code === "ECONNABORTED"
+        ) {
+          errorType = "TIMEOUT";
+        } else if (
+          backendMessage?.includes("API key") ||
+          backendMessage?.includes("authentication")
+        ) {
+          errorType = "INVALID_API_KEY";
+        } else {
+          errorType = "Failed to generate AI insights";
+        }
+
+        setAiError(errorType);
+        console.error("AI competitor analysis failed:", backendMessage);
+
+        sessionStorage.setItem(
+          storageKey,
+          JSON.stringify({
+            error: errorType,
+            details: backendMessage,
+          }),
+        );
       } finally {
         setAiLoading(false);
       }
