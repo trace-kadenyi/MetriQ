@@ -45,7 +45,7 @@ const LandingPage = () => {
             variants={fadeUp}
             className="text-xl md:text-2xl p-2 leading-10 md:w-3/4 xl:w-1/2"
           >
-            Get real-time and historical Core Web Vitals in one beautiful
+            Get real-time and historical Core Web Vitals in one efficient
             dashboard.
           </motion.p>
 
