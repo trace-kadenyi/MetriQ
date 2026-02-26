@@ -136,4 +136,4 @@ Make sure the backend is running locally at the same time during development.
 
 ## 📄 License
 
-MIT License. © Tracey Kadenyi 2025.
+MIT License. © Tracey Kadenyi 2026.
