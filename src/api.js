@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://metri-q-api.vercel.app",
+  baseURL: "https://api.metriq.traceykadenyi.com",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
